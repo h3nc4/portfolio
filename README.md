@@ -1,6 +1,14 @@
 # Portfolio
 
-portfolio
+My personal portfolio website.
+
+## Live
+
+This website is live at: [https://h3nc4.com](https://h3nc4.com) _via Cloudflare_
+
+Or at [https://gh.h3nc4.com](https://gh.h3nc4.com) _via GitHub Pages_
+
+Also available as a hidden service at: `h3nc4cd73utflolf2uxgws3j6rmgzotlwndukabzgzawpzk5fejws5id.onion`
 
 ## License
 
