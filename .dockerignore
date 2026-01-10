@@ -1,0 +1,12 @@
+# Node
+dist/
+node_modules/
+
+# Coverage reports
+coverage-*.*
+
+# Docker
+.gitignore
+.github/
+Dockerfile*
+.dockerignore

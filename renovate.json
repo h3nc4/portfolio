@@ -1,0 +1,108 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices"],
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 0,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "schedule": ["before 4am"]
+  },
+  "packageRules": [
+    {
+      "groupName": "radix-ui",
+      "matchPackageNames": ["/^@radix-ui/", "/^radix-ui/"]
+    },
+    {
+      "groupName": "react",
+      "matchPackageNames": ["/^react/", "/^@types/react/"]
+    },
+    {
+      "groupName": "vite-ecosystem",
+      "matchPackageNames": ["/^vite/", "/^vitest/", "/^@vitejs/", "/^@vitest/", "/^playwright/"]
+    },
+    {
+      "groupName": "eslint",
+      "matchPackageNames": ["/^eslint/", "/^typescript-eslint/"]
+    },
+    {
+      "groupName": "tailwind",
+      "matchPackageNames": ["/^tailwindcss/", "/^@tailwindcss/", "/^prettier-plugin-tailwindcss/"]
+    },
+    {
+      "description": "Group SonarQube server and scanner updates",
+      "groupName": "sonarqube",
+      "matchPackageNames": ["sonarqube", "sonarsource/sonar-scanner-cli"]
+    },
+    {
+      "description": "Disable unwanted pinning for SonarQube images",
+      "matchPackageNames": ["sonarqube", "sonarsource/sonar-scanner-cli"],
+      "pinDigests": false
+    },
+    {
+      "description": "Auto-merge all minor, patch, pin, and digest updates",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true,
+      "platformAutomerge": true
+    }
+  ],
+  "customManagers": [
+    {
+      "description": "Update Docker images in sonar script",
+      "customType": "regex",
+      "managerFilePatterns": ["/^scripts/sonar\\.sh$/"],
+      "matchStrings": ["_image=\"(?<depName>.*?):(?<currentValue>.*?)\""],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Update NGINX version in Dockerfile",
+      "customType": "regex",
+      "managerFilePatterns": ["/^Dockerfile$/"],
+      "matchStrings": ["ARG NGINX_VERSION=\"(?<currentValue>.*?)\""],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "nginx/nginx",
+      "extractVersionTemplate": "^release-(?<version>.*)$"
+    },
+    {
+      "description": "Update PCRE2 version in Dockerfile",
+      "customType": "regex",
+      "managerFilePatterns": ["/^Dockerfile$/"],
+      "matchStrings": ["ARG PCRE2_VERSION=\"(?<currentValue>.*?)\""],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "PCRE2Project/pcre2"
+    },
+    {
+      "description": "Update Google Brotli version in Dockerfile",
+      "customType": "regex",
+      "managerFilePatterns": ["/^Dockerfile$/"],
+      "matchStrings": ["ARG BROTLI_VERSION=\"(?<currentValue>.*?)\""],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "google/brotli"
+    },
+    {
+      "description": "Update ngx_brotli commit hash in Dockerfile",
+      "customType": "regex",
+      "managerFilePatterns": ["/^Dockerfile$/"],
+      "matchStrings": ["ARG NGX_BROTLI_COMMIT=\"(?<currentValue>.*?)\""],
+      "datasourceTemplate": "git-refs",
+      "depNameTemplate": "https://github.com/google/ngx_brotli",
+      "versioningTemplate": "git"
+    },
+    {
+      "description": "Update Rust version in CI/Dev Dockerfiles",
+      "customType": "regex",
+      "managerFilePatterns": ["/^ci\\.Dockerfile$/", "/^dev\\.Dockerfile$/"],
+      "matchStrings": ["ARG RUST_VERSION=\"(?<currentValue>.*?)\""],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "rust-lang/rust"
+    },
+    {
+      "description": "Update Node version in CI/Dev Dockerfiles",
+      "customType": "regex",
+      "managerFilePatterns": ["/^ci\\.Dockerfile$/", "/^dev\\.Dockerfile$/"],
+      "matchStrings": ["ARG NODE_VERSION=\"(?<currentValue>.*?)\""],
+      "datasourceTemplate": "node-version",
+      "depNameTemplate": "node"
+    }
+  ]
+}

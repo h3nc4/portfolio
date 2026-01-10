@@ -1,0 +1,73 @@
+{
+  "name": "Portfolio",
+  "image": "h3nc4/portfolio-dev:1.0.0",
+  "runArgs": ["--name=portfolio-devcontainer", "--network=host"],
+  "remoteUser": "portfolio",
+  "workspaceFolder": "/workspaces/portfolio",
+  "overrideCommand": false,
+  "mounts": [
+    "source=${env:HOME},target=/home/portfolio,type=bind",
+    "source=/etc/localtime,target=/etc/localtime,type=bind,readonly",
+    "source=/etc/profile,target=/etc/profile,type=bind,readonly",
+    "source=/etc/bash.bashrc,target=/etc/bash.bashrc,type=bind,readonly",
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "containerEnv": {
+    "DEVCONTAINER": "1",
+    "TERM": "${env:TERM}",
+    "TMUX": "${env:TMUX}",
+    "PORTFOLIO_HOST_ROOT": "${localWorkspaceFolder}"
+  },
+  "remoteEnv": {
+    "PATH": "/workspaces/portfolio/node_modules/.bin:${containerEnv:PATH}"
+  },
+  "userEnvProbe": "interactiveShell",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "timonwong.shellcheck",
+        "DavidAnson.vscode-markdownlint",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "ms-azuretools.vscode-docker",
+        "donjayamanne.githistory",
+        "eamodio.gitlens",
+        "foxundermoon.shell-format",
+        "rust-lang.rust-analyzer",
+        "vadimcn.vscode-lldb",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "SonarSource.sonarlint-vscode",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false,
+        "editor.formatOnSave": true,
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "prettier.enable": true,
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[css]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[html]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "shellcheck.customArgs": ["-o", "all"],
+        "sonarlint.connectedMode.project": {
+          "connectionId": "http-localhost-9000-",
+          "projectKey": "portfolio"
+        }
+      }
+    }
+  }
+}
