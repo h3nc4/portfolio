@@ -44,7 +44,7 @@ export default function App() {
               <h1 className="bg-linear-to-b from-white to-white/60 bg-clip-text text-5xl font-bold tracking-tighter text-transparent sm:text-6xl md:text-7xl">
                 Henrique Almeida
               </h1>
-              <p className="mx-auto text-xl leading-relaxed text-zinc-400 lg:mx-0">
+              <p className="mx-auto text-xl leading-relaxed text-zinc-300 lg:mx-0">
                 Software & DevOps Engineer passionate about free software and the GNU/Linux
                 ecosystem along with the UNIX philosophy.
               </p>
@@ -82,25 +82,25 @@ export default function App() {
 
           {/* Visual Divider */}
           <hr
-            className="h-px w-full border-0 bg-linear-to-r from-transparent via-zinc-800 to-transparent lg:from-zinc-800 lg:via-zinc-800 lg:to-transparent"
+            className="h-px w-full border-0 bg-linear-to-r from-transparent via-zinc-700 to-transparent lg:from-zinc-700 lg:via-zinc-700 lg:to-transparent"
             aria-hidden="true"
           />
 
           {/* Featured Project Section */}
           <section className="space-y-8 text-center lg:text-left">
             <div className="space-y-4">
-              <div className="flex items-center justify-center gap-2 text-zinc-500 lg:justify-start">
-                <span className="h-px w-8 bg-zinc-800" />
+              <div className="flex items-center justify-center gap-2 text-zinc-400 lg:justify-start">
+                <span className="h-px w-8 bg-zinc-700" />
                 <span className="text-sm font-medium tracking-wider uppercase">
                   Featured Project
                 </span>
-                <span className="hidden h-px w-8 bg-zinc-800" />
+                <span className="hidden h-px w-8 bg-zinc-700" />
               </div>
 
               <h2 className="text-3xl font-bold text-zinc-100">WASudoku</h2>
-              <p className="text-zinc-500">Vite • Rust • TS • PWA</p>
+              <p className="text-zinc-400">Vite • Rust • TS • PWA</p>
 
-              <p className="mx-auto text-lg leading-relaxed text-zinc-400 lg:mx-0">
+              <p className="mx-auto text-lg leading-relaxed text-zinc-300 lg:mx-0">
                 A high-performance Sudoku solver and generator running entirely in the browser using
                 WebAssembly and Rust. Features a hybrid solving engine (logic + backtracking),
                 step-by-step visualization, and a responsive PWA interface.
@@ -132,7 +132,7 @@ export default function App() {
           </section>
 
           {/* Footer */}
-          <footer className="pt-8 text-center text-sm text-zinc-600 lg:text-left">
+          <footer className="pt-8 text-center text-sm text-zinc-400 lg:text-left">
             <p>© 2026 Henrique Almeida.</p>
           </footer>
         </main>
