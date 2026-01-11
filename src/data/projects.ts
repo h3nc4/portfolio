@@ -19,6 +19,10 @@
 import type { IconType } from 'react-icons'
 import { SiGithub } from 'react-icons/si'
 
+import type { TerminalStep } from '@/components/TerminalDemo'
+
+import rawProjects from './projects.json'
+
 export interface ProjectLink {
   name: string
   url: string
@@ -30,30 +34,40 @@ export interface Project {
   description: string
   tags: string[]
   links: ProjectLink[]
+  demo?: TerminalStep[]
+}
+
+const ICON_MAP: Record<string, IconType> = {
+  SiGithub,
+}
+
+type RawProject = (typeof rawProjects)[number]
+
+/**
+ * Transforms raw JSON project data into a fully typed Project object.
+ * Maps string icon names to actual React components.
+ */
+export function hydrateProject(project: RawProject): Project {
+  return {
+    title: project.title,
+    description: project.description,
+    tags: project.tags,
+    links: project.links.map((link) => ({
+      name: link.name,
+      url: link.url,
+      // Fallback to SiGithub if the icon key is not found in the map
+      icon: ICON_MAP[link.icon] ?? SiGithub,
+    })),
+    demo: project.demo?.map((step) => ({
+      text: step.text,
+      type: step.type as 'command' | 'output',
+      delay: step.delay,
+    })),
+  }
 }
 
 /**
  * List of minor or secondary projects to be displayed in the grid section.
+ * Data is loaded from projects.json and hydrated with React icons.
  */
-export const MINOR_PROJECTS: Project[] = [
-  {
-    title: 'yt-dlp-slim',
-    description: 'A Distroless Docker container for yt-dlp with JavaScript and FFmpeg support.',
-    tags: ['Docker', 'Actions'],
-    links: [{ name: 'Source', url: 'https://github.com/h3nc4/yt-dlp-slim', icon: SiGithub }],
-  },
-  {
-    title: 'tor-slim',
-    description:
-      'A single binary Docker container for Tor, built with static binaries and no OS layer.',
-    tags: ['Docker', 'Actions'],
-    links: [{ name: 'Source', url: 'https://github.com/h3nc4/tor-slim', icon: SiGithub }],
-  },
-  {
-    title: 'nginx-slim',
-    description:
-      'A single binary NGINX Docker container, built with static binaries and no OS layer.',
-    tags: ['Docker', 'Actions'],
-    links: [{ name: 'Source', url: 'https://github.com/h3nc4/nginx-slim', icon: SiGithub }],
-  },
-]
+export const MINOR_PROJECTS: Project[] = rawProjects.map(hydrateProject)

@@ -1,0 +1,78 @@
+[
+  {
+    "title": "yt-dlp-slim",
+    "description": "A Distroless Docker container for yt-dlp with JavaScript and FFmpeg support.",
+    "tags": ["Docker", "Actions"],
+    "links": [
+      {
+        "name": "Source",
+        "url": "https://github.com/h3nc4/yt-dlp-slim",
+        "icon": "SiGithub"
+      }
+    ],
+    "demo": [
+      { "text": "docker run h3nc4/yt-dlp-slim \\", "type": "command" },
+      { "text": "  youtu.be/dQw4w9WgXcQ", "type": "command" },
+      { "text": "[youtube] Extracting URL...", "type": "output", "delay": 500 },
+      { "text": "[jsc:deno] Solving JS challenges using deno", "type": "output", "delay": 1000 },
+      { "text": "[download] Destination: Rick Astley.mp4", "type": "output", "delay": 200 },
+      { "text": "[download] 100% of 229.20MiB in 00:00:05", "type": "output", "delay": 1500 },
+      { "text": "[Merger] Merging formats into mp4", "type": "output", "delay": 500 }
+    ]
+  },
+  {
+    "title": "tor-slim",
+    "description": "A single binary Docker container for Tor, built with static binaries and no OS layer (scratch). Optimized for minimal footprint.",
+    "tags": ["Docker", "Actions"],
+    "links": [
+      {
+        "name": "Source",
+        "url": "https://github.com/h3nc4/tor-slim",
+        "icon": "SiGithub"
+      }
+    ],
+    "demo": [
+      { "text": "docker run -p 9050:9050 \\", "type": "command" },
+      { "text": "  h3nc4/tor-slim", "type": "command" },
+      { "text": "[notice] Tor 0.4.8.9 running...", "type": "output", "delay": 500 },
+      { "text": "[notice] Opening Socks port...", "type": "output", "delay": 200 },
+      { "text": "[notice] Socks listener open on 9050", "type": "output", "delay": 100 },
+      { "text": "[notice] Bootstrapped 0%: Starting", "type": "output", "delay": 100 },
+      { "text": "[notice] Bootstrapped 5%: Connecting to a relay", "type": "output", "delay": 500 },
+      {
+        "text": "[notice] Bootstrapped 14%: Handshaking with a relay",
+        "type": "output",
+        "delay": 500
+      },
+      {
+        "text": "[notice] Bootstrapped 95%: Establishing a circuit",
+        "type": "output",
+        "delay": 1000
+      },
+      { "text": "[notice] Bootstrapped 100%: Done", "type": "output", "delay": 1500 }
+    ]
+  },
+  {
+    "title": "nginx-slim",
+    "description": "A single binary NGINX Docker container, built with static binaries. Includes Brotli support and runs on a scratch filesystem.",
+    "tags": ["Docker", "Actions"],
+    "links": [
+      {
+        "name": "Source",
+        "url": "https://github.com/h3nc4/nginx-slim",
+        "icon": "SiGithub"
+      }
+    ],
+    "demo": [
+      { "text": "docker run -p 80:80 \\", "type": "command" },
+      { "text": "  h3nc4/nginx-slim", "type": "command" },
+      { "text": "[notice] 1#1: nginx/1.25.3", "type": "output", "delay": 500 },
+      { "text": "[notice] 1#1: built by gcc (Alpine)", "type": "output", "delay": 200 },
+      { "text": "[notice] 1#1: OS: Linux", "type": "output", "delay": 100 },
+      { "text": "[notice] 1#1: starting workers", "type": "output", "delay": 1000 },
+      { "text": "[notice] 1#1: start worker process 1", "type": "output", "delay": 200 },
+      { "text": "[notice] 1#1: start worker process 2", "type": "output", "delay": 200 },
+      { "text": "[notice] 1#1: start worker process 3", "type": "output", "delay": 200 }
+    ]
+  }
+]

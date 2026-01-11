@@ -17,6 +17,7 @@
  */
 
 import AnimatedContent from '@/components/AnimatedContent'
+import { TerminalDemo } from '@/components/TerminalDemo'
 import { Badge } from '@/components/ui/badge'
 import {
   Card,
@@ -31,6 +32,7 @@ import { MINOR_PROJECTS } from '@/data/projects'
 /**
  * Renders a grid of secondary projects using cards.
  * Loads project data from a static configuration.
+ * Includes terminal simulations for CLI tools.
  */
 export function MinorProjects() {
   return (
@@ -43,7 +45,7 @@ export function MinorProjects() {
         </div>
       </AnimatedContent>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {MINOR_PROJECTS.map((project, index) => (
           <AnimatedContent
             key={project.title}
@@ -53,10 +55,19 @@ export function MinorProjects() {
             threshold={0.1}
             className="h-full"
           >
-            <Card className="flex h-full flex-col border-zinc-800 bg-zinc-900/40 text-zinc-100 transition-colors hover:border-zinc-600">
+            <Card className="flex h-full flex-col overflow-hidden border-zinc-800 bg-zinc-900/40 text-zinc-100 transition-colors hover:border-zinc-600">
+              {/* Terminal Demo Section (Top) */}
+              {project.demo && (
+                <div className="border-b border-zinc-800 bg-black/20 p-4">
+                  <TerminalDemo script={project.demo} />
+                </div>
+              )}
+
               <CardHeader>
-                <CardTitle className="flex items-center justify-between">{project.title}</CardTitle>
-                <div className="mt-2 flex flex-wrap gap-2">
+                <CardTitle className="flex items-center justify-between text-lg">
+                  {project.title}
+                </CardTitle>
+                <div className="mt-3 flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <Badge
                       key={tag}
@@ -69,11 +80,11 @@ export function MinorProjects() {
                 </div>
               </CardHeader>
               <CardContent className="flex-1">
-                <CardDescription className="text-base text-zinc-400">
+                <CardDescription className="text-sm leading-relaxed text-zinc-400">
                   {project.description}
                 </CardDescription>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="pt-2">
                 <div className="flex gap-4">
                   {project.links.map((link) => (
                     <a
@@ -81,9 +92,9 @@ export function MinorProjects() {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-white"
+                      className="flex items-center gap-2 text-xs font-medium tracking-wider text-zinc-500 uppercase transition-colors hover:text-white"
                     >
-                      <link.icon className="h-4 w-4" />
+                      <link.icon className="h-3.5 w-3.5" />
                       {link.name}
                     </a>
                   ))}
