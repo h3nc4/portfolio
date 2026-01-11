@@ -32,6 +32,11 @@ describe('DeviceFrame', () => {
     expect(iframe).toHaveAttribute('src', src)
   })
 
+  it('renders the interactive badge', () => {
+    render(<DeviceFrame src="https://example.com" title="Test" />)
+    expect(screen.getByText('Live Interactive Preview')).toBeInTheDocument()
+  })
+
   it('renders with correct default attributes', () => {
     render(<DeviceFrame src="https://example.com" title="Test" />)
     const iframe = screen.getByTitle('Test')
@@ -46,8 +51,7 @@ describe('DeviceFrame', () => {
 
   it('applies custom className to container', () => {
     render(<DeviceFrame src="https://example.com" title="Test" className="custom-class" />)
-    const iframe = screen.getByTitle('Test')
-    const container = iframe.closest('div.relative')
+    const container = screen.getByTestId('device-frame-container')
     expect(container).toHaveClass('custom-class')
   })
 

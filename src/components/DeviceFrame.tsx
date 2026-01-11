@@ -16,6 +16,7 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
 interface DeviceFrameProps {
@@ -45,27 +46,40 @@ export function DeviceFrame({ src, title, className, zoom = 0.85 }: DeviceFrameP
 
   return (
     <div
-      className={cn(
-        // Mobile Portrait aspect ratio (9/19)
-        // Fixed max-width to simulate a phone size even on desktop
-        'relative mx-auto aspect-9/19 w-full max-w-90 overflow-hidden rounded-[2.5rem] border-8 border-zinc-800 bg-zinc-950 shadow-2xl md:border-10',
-        className,
-      )}
+      className={cn('relative mx-auto w-full max-w-90', className)}
+      data-testid="device-frame-container"
     >
-      <iframe
-        src={src}
-        title={title}
-        className="border-0 bg-zinc-950"
-        style={{
-          width: `${dimensionScale}%`,
-          height: `${dimensionScale}%`,
-          transform: `scale(${zoom})`,
-          transformOrigin: '0 0',
-        }}
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
+      {/* Live Badge Indicator */}
+      <div className="absolute -top-12 right-0 left-0 z-20 flex justify-center">
+        <Badge
+          variant="outline"
+          className="gap-2 border-zinc-800 bg-zinc-950/80 py-1.5 text-zinc-300 shadow-xl backdrop-blur-md"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+          </span>
+          <span>Live Interactive Preview</span>
+        </Badge>
+      </div>
+
+      {/* Device Frame */}
+      <div className="relative aspect-9/19 w-full overflow-hidden rounded-[2.5rem] border-8 border-zinc-800 bg-zinc-950 shadow-2xl md:border-10">
+        <iframe
+          src={src}
+          title={title}
+          className="border-0 bg-zinc-950"
+          style={{
+            width: `${dimensionScale}%`,
+            height: `${dimensionScale}%`,
+            transform: `scale(${zoom})`,
+            transformOrigin: '0 0',
+          }}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
     </div>
   )
 }
