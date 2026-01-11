@@ -19,7 +19,7 @@
 
 ################################################################################
 # Build stage
-FROM h3nc4/portfolio-dev:latest AS portfolio-builder
+FROM h3nc4/portfolio-dev:latest@sha256:5db18a6db2f053350ef8200bd5f1849c0344a3a4ee2ca9440f06543b7501489a AS portfolio-builder
 
 USER 0:0
 WORKDIR /app
@@ -46,9 +46,9 @@ RUN find /rootfs/static -type f \
 
 ################################################################################
 # Nginx builder stage
-FROM busybox:musl AS nginx-builder
+FROM busybox:musl@sha256:03db190ed4c1ceb1c55d179a0940e2d71d42130636a780272629735893292223 AS nginx-builder
 
-COPY --from=h3nc4/nginx-slim / /rootfs/
+COPY --from=h3nc4/nginx-slim@sha256:a874e1da43660237b04b471bc63dc4dbe3c67b150d2cd272e672a0093b5d4c84 / /rootfs/
 
 # Copy and minify nginx config
 COPY "nginx.conf" "/rootfs/nginx.conf"
