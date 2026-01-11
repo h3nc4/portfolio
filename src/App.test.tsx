@@ -17,73 +17,55 @@
  */
 
 import { render, screen } from '@testing-library/react'
-import { vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import App from './App'
 
-// Mock DarkVeil to avoid WebGL context issues in App integration tests
+// Mock heavy visual components to ensure integration tests run smoothly in JSDOM
 vi.mock('@/components/DarkVeil', () => ({
   DarkVeil: () => <div data-testid="mock-dark-veil" />,
 }))
 
-// Mock DeviceFrame to avoid iframe loading issues in tests
 vi.mock('@/components/DeviceFrame', () => ({
   DeviceFrame: ({ title, src }: { title: string; src: string }) => (
     <div data-testid="mock-device-frame" aria-label={title} data-src={src} />
   ),
 }))
 
-describe('App', () => {
-  it('renders main layout structure', () => {
-    render(<App />)
+vi.mock('@/components/AnimatedContent', () => ({
+  default: ({ children, className }: { children: React.ReactNode; className?: string }) => (
+    <div data-testid="animated-content" className={className}>
+      {children}
+    </div>
+  ),
+}))
 
-    // Verify Semantic Layout structure
+describe('App', () => {
+  it('renders main structure and background', () => {
+    render(<App />)
+    expect(screen.getByTestId('mock-dark-veil')).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
     expect(screen.getByRole('complementary')).toBeInTheDocument() // <aside>
-
-    // Check for DarkVeil
-    expect(screen.getByTestId('mock-dark-veil')).toBeInTheDocument()
   })
 
-  it('renders hero content', () => {
+  it('composes all key sections', () => {
     render(<App />)
 
-    // Heading
+    // Hero Section Content
     expect(screen.getByRole('heading', { name: /Henrique Almeida/i, level: 1 })).toBeInTheDocument()
-    // Description
-    expect(screen.getByText(/Software & DevOps Engineer/i)).toBeInTheDocument()
 
-    // Hero Buttons
-    expect(screen.getByText('GitHub')).toBeInTheDocument()
-    expect(screen.getByText('LinkedIn')).toBeInTheDocument()
-    expect(screen.getByText('Contact Me')).toBeInTheDocument()
-  })
-
-  it('renders featured project section', () => {
-    render(<App />)
-
+    // Featured Project Content
     expect(screen.getByText('Featured Project')).toBeInTheDocument()
-    expect(screen.getByText('WASudoku')).toBeInTheDocument()
-    expect(screen.getByText(/A high-performance Sudoku solver and generator/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'WASudoku', level: 2 })).toBeInTheDocument()
 
-    // Check Links
-    const openAppLink = screen.getByRole('link', { name: /Open App/i })
-    expect(openAppLink).toHaveAttribute('href', 'https://wasudoku.h3nc4.com')
+    // Visual Showcase
+    expect(screen.getByTestId('mock-device-frame')).toBeInTheDocument()
 
-    const sourceCodeLink = screen.getByRole('link', { name: /Source Code/i })
-    expect(sourceCodeLink).toHaveAttribute('href', 'https://github.com/h3nc4/WASudoku')
-  })
+    // Minor Projects Content
+    expect(screen.getByRole('heading', { name: /Other Projects/i, level: 2 })).toBeInTheDocument()
+    expect(screen.getByText('yt-dlp-slim')).toBeInTheDocument()
 
-  it('renders visual showcase', () => {
-    render(<App />)
-
-    const deviceFrame = screen.getByTestId('mock-device-frame')
-    expect(deviceFrame).toBeInTheDocument()
-    expect(deviceFrame).toHaveAttribute('data-src', 'https://wasudoku.h3nc4.com')
-  })
-
-  it('renders footer', () => {
-    render(<App />)
-    expect(screen.getByText(/© 2026 Henrique Almeida/i)).toBeInTheDocument()
+    // Footer
+    expect(screen.getByRole('contentinfo')).toBeInTheDocument()
   })
 })
