@@ -19,6 +19,7 @@
 import type { IconType } from 'react-icons'
 import { SiGithub } from 'react-icons/si'
 
+import { RickRoll } from '@/components/RickRoll'
 import type { TerminalStep } from '@/components/TerminalDemo'
 
 import rawProjects from './projects.json'
@@ -41,12 +42,17 @@ const ICON_MAP: Record<string, IconType> = {
   SiGithub,
 }
 
-type RawProject = (typeof rawProjects)[number]
+const MEDIA_MAP: Record<string, React.ReactNode> = {
+  'rick-roll': <RickRoll />,
+}
+
+export type RawProject = (typeof rawProjects)[number]
 
 /**
  * Transforms raw JSON project data into a fully typed Project object.
  * Maps string icon names to actual React components.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function hydrateProject(project: RawProject): Project {
   return {
     title: project.title,
@@ -58,11 +64,33 @@ export function hydrateProject(project: RawProject): Project {
       // Fallback to SiGithub if the icon key is not found in the map
       icon: ICON_MAP[link.icon] ?? SiGithub,
     })),
-    demo: project.demo?.map((step) => ({
-      text: step.text,
-      type: step.type as 'command' | 'output',
-      delay: step.delay,
-    })),
+    demo: project.demo?.map((step) => {
+      const s = step as {
+        type: string
+        delay?: number
+        text?: string
+        media?: string
+      }
+
+      const base = {
+        type: s.type as 'command' | 'output' | 'custom',
+        delay: s.delay,
+      }
+
+      if (base.type === 'custom' && s.media) {
+        const component = MEDIA_MAP[s.media] ?? null
+
+        return {
+          ...base,
+          component,
+        }
+      }
+
+      return {
+        ...base,
+        text: s.text,
+      }
+    }),
   }
 }
 

@@ -19,7 +19,7 @@
 import { SiGithub } from 'react-icons/si'
 import { describe, expect, it } from 'vitest'
 
-import { hydrateProject, MINOR_PROJECTS, type Project } from './projects'
+import { hydrateProject, MINOR_PROJECTS, type Project, type RawProject } from './projects'
 
 describe('Data Integrity: MINOR_PROJECTS', () => {
   it('should be an array of projects', () => {
@@ -52,8 +52,13 @@ describe('Data Integrity: MINOR_PROJECTS', () => {
       if (project.demo) {
         expect(Array.isArray(project.demo)).toBe(true)
         project.demo.forEach((step) => {
-          expect(step.text).toBeDefined()
-          expect(['command', 'output']).toContain(step.type)
+          expect(['command', 'output', 'custom']).toContain(step.type)
+
+          if (step.type === 'custom') {
+            expect(step.component).not.toBeUndefined()
+          } else {
+            expect(step.text).toBeDefined()
+          }
         })
       }
     })
@@ -74,9 +79,67 @@ describe('hydrateProject', () => {
         },
       ],
       demo: [],
-    }
+    } as unknown as RawProject
 
     const result = hydrateProject(mockRawProject)
     expect(result.links[0].icon).toBe(SiGithub)
+  })
+
+  it('hydrates custom media components', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      demo: [
+        {
+          type: 'custom',
+          media: 'rick-roll',
+          delay: 100,
+        },
+      ],
+    } as unknown as RawProject
+
+    const result = hydrateProject(mockRawProject)
+    expect(result.demo?.[0].component).toBeDefined()
+    expect(result.demo?.[0].component).not.toBeNull()
+  })
+
+  it('returns null component when media key is not found', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      demo: [
+        {
+          type: 'custom',
+          media: 'unknown-key',
+          delay: 100,
+        },
+      ],
+    } as unknown as RawProject
+
+    const result = hydrateProject(mockRawProject)
+    expect(result.demo?.[0].component).toBeNull()
+  })
+
+  it('handles steps without text property gracefully', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      demo: [
+        {
+          type: 'command',
+          delay: 100,
+          // text property is missing
+        },
+      ],
+    } as unknown as RawProject
+
+    const result = hydrateProject(mockRawProject)
+    expect(result.demo?.[0].text).toBeUndefined()
   })
 })

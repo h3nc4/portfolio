@@ -22,8 +22,9 @@ import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 export interface TerminalStep {
-  text: string
-  type: 'command' | 'output'
+  text?: string
+  component?: React.ReactNode
+  type: 'command' | 'output' | 'custom'
   delay?: number
 }
 
@@ -44,8 +45,9 @@ interface TerminalDemoProps {
 
 interface RenderedLine {
   id: number
-  text: string
-  type: 'command' | 'output'
+  text?: string
+  component?: React.ReactNode
+  type: 'command' | 'output' | 'custom'
 }
 
 interface SimulationState {
@@ -132,7 +134,7 @@ async function runScriptStep(
 
   // Access text property here to ensure any getter errors are caught by the loop's try/catch
   // rather than crashing React's render cycle inside the setLines callback.
-  const text = step.text
+  const text = step.text ?? ''
 
   if (step.type === 'command') {
     state.setShowPrompt(true)
@@ -142,6 +144,11 @@ async function runScriptStep(
     state.setLines((prev) => [...prev, { id: Date.now(), text, type: 'command' }])
     state.setCurrentCommand('')
     state.setShowPrompt(false)
+  } else if (step.type === 'custom') {
+    state.setLines((prev) => [
+      ...prev,
+      { id: Date.now(), component: step.component, type: 'custom' },
+    ])
   } else {
     state.setLines((prev) => [...prev, { id: Date.now(), text, type: 'output' }])
   }
@@ -185,6 +192,26 @@ async function runSimulationCycle(
   if (restartDelay > 0) {
     await wait(restartDelay, signal)
   }
+}
+
+/**
+ * Renders a terminal line based on its type.
+ */
+function renderTerminalLine(line: RenderedLine) {
+  if (line.type === 'command') {
+    return (
+      <div className="flex gap-2">
+        <span className="shrink-0 font-bold text-green-400">me@pc $</span>
+        <span className="whitespace-pre-wrap text-zinc-100">{line.text}</span>
+      </div>
+    )
+  }
+
+  if (line.type === 'custom') {
+    return <div className="my-2">{line.component}</div>
+  }
+
+  return <div className="whitespace-pre-wrap text-zinc-400">{line.text}</div>
 }
 
 /**
@@ -268,14 +295,7 @@ export function TerminalDemo(props: TerminalDemoProps) {
       >
         {lines.map((line) => (
           <div key={line.id} className="break-all">
-            {line.type === 'command' ? (
-              <div className="flex gap-2">
-                <span className="shrink-0 font-bold text-green-400">me@pc $</span>
-                <span className="whitespace-pre-wrap text-zinc-100">{line.text}</span>
-              </div>
-            ) : (
-              <div className="whitespace-pre-wrap text-zinc-400">{line.text}</div>
-            )}
+            {renderTerminalLine(line)}
           </div>
         ))}
 

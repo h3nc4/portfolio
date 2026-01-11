@@ -115,6 +115,23 @@ describe('TerminalDemo', () => {
     expect(screen.getByText('Output Line')).toBeInTheDocument()
   })
 
+  it('renders custom component correctly', async () => {
+    const script = [
+      {
+        type: 'custom' as const,
+        component: <div data-testid="custom-element">Custom</div>,
+        delay: 0,
+      },
+    ]
+
+    render(<TerminalDemo script={script} {...TEST_PROPS} />)
+
+    await advanceTimers(10)
+
+    expect(screen.getByTestId('custom-element')).toBeInTheDocument()
+    expect(screen.getByText('Custom')).toBeInTheDocument()
+  })
+
   it('hides prompt while executing multi-step script', async () => {
     const script = [
       { text: 'cmd', type: 'command' as const, delay: 0 },

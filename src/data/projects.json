@@ -17,7 +17,9 @@
       { "text": "[jsc:deno] Solving JS challenges using deno", "type": "output", "delay": 1000 },
       { "text": "[download] Destination: Rick Astley.mp4", "type": "output", "delay": 200 },
       { "text": "[download] 100% of 229.20MiB in 00:00:05", "type": "output", "delay": 1500 },
-      { "text": "[Merger] Merging formats into mp4", "type": "output", "delay": 500 }
+      { "text": "[Merger] Merging formats into mp4", "type": "output", "delay": 500 },
+      { "text": "mpv Rick\\ Astley.mp4", "type": "command", "delay": 500 },
+      { "media": "rick-roll", "type": "custom", "delay": 500 }
     ]
   },
   {
