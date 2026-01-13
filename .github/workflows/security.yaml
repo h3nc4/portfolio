@@ -27,7 +27,7 @@ jobs:
       - name: Run github/codeql-action/init
         uses: github/codeql-action/init@cdefb33c0f6224e58673d9004f47f7cb3e328b89 # v4
         with:
-          languages: ${{ matrix.language }}
+          languages: javascript-typescript
       - name: Run actions/setup-node
         uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6
         with:
