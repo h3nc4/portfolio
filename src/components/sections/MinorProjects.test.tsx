@@ -52,8 +52,13 @@ describe('MinorProjects', () => {
 
   it('renders links for projects', () => {
     render(<MinorProjects />)
-    const links = screen.getAllByRole('link', { name: /Source/i })
-    expect(links.length).toBeGreaterThan(0)
-    expect(links[0]).toHaveAttribute('href', MINOR_PROJECTS[0].links[0].url)
+
+    const sourceLinks = screen.getAllByRole('link', { name: /GitHub/i })
+    expect(sourceLinks.length).toBeGreaterThan(0)
+    expect(sourceLinks[0]).toHaveAttribute('href', MINOR_PROJECTS[0].links[0].url)
+
+    const mirrorLinks = screen.getAllByRole('link', { name: /cgit/i })
+    expect(mirrorLinks.length).toBeGreaterThan(0)
+    expect(mirrorLinks[0]).toHaveAttribute('href', MINOR_PROJECTS[0].links[1].url)
   })
 })

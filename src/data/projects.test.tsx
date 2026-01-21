@@ -16,6 +16,7 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { GitBranch } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
 import { describe, expect, it } from 'vitest'
 
@@ -42,7 +43,7 @@ describe('Data Integrity: MINOR_PROJECTS', () => {
     MINOR_PROJECTS.forEach((project) => {
       project.links.forEach((link) => {
         expect(link.icon).toBeDefined()
-        expect(typeof link.icon).toBe('function') // React component
+        expect(typeof link.icon).toMatch(/function|object/) // React component
       })
     })
   })
@@ -83,6 +84,24 @@ describe('hydrateProject', () => {
 
     const result = hydrateProject(mockRawProject)
     expect(result.links[0].icon).toBe(SiGithub)
+  })
+
+  it('hydrates GitBranch icon correctly', () => {
+    const mockRawProject = {
+      title: 'Test',
+      description: 'Desc',
+      tags: [],
+      links: [
+        {
+          name: 'Mirror',
+          url: 'https://git.example.com',
+          icon: 'GitBranch',
+        },
+      ],
+    } as unknown as RawProject
+
+    const result = hydrateProject(mockRawProject)
+    expect(result.links[0].icon).toBe(GitBranch)
   })
 
   it('hydrates custom media components', () => {

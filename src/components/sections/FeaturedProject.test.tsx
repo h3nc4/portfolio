@@ -39,7 +39,10 @@ describe('FeaturedProject', () => {
     const openAppLink = screen.getByRole('link', { name: /Open App/i })
     expect(openAppLink).toHaveAttribute('href', 'https://wasudoku.h3nc4.com')
 
-    const sourceLink = screen.getByRole('link', { name: /Source Code/i })
+    const sourceLink = screen.getByRole('link', { name: /GitHub/i })
     expect(sourceLink).toHaveAttribute('href', 'https://github.com/h3nc4/WASudoku')
+
+    const mirrorLink = screen.getByRole('link', { name: /cgit/i })
+    expect(mirrorLink).toHaveAttribute('href', 'https://git.h3nc4.com/WASudoku')
   })
 })

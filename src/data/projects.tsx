@@ -16,7 +16,8 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { IconType } from 'react-icons'
+import { GitBranch } from 'lucide-react'
+import type { ElementType } from 'react'
 import { SiGithub } from 'react-icons/si'
 
 import { RickRoll } from '@/components/RickRoll'
@@ -27,7 +28,7 @@ import rawProjects from './projects.json'
 export interface ProjectLink {
   name: string
   url: string
-  icon: IconType
+  icon: ElementType
 }
 
 export interface Project {
@@ -38,8 +39,9 @@ export interface Project {
   demo?: TerminalStep[]
 }
 
-const ICON_MAP: Record<string, IconType> = {
+const ICON_MAP: Record<string, ElementType> = {
   SiGithub,
+  GitBranch,
 }
 
 const MEDIA_MAP: Record<string, React.ReactNode> = {

@@ -45,7 +45,7 @@ export function MinorProjects() {
         </div>
       </AnimatedContent>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="flex flex-wrap justify-center gap-8">
         {MINOR_PROJECTS.map((project, index) => (
           <AnimatedContent
             key={project.title}
@@ -53,7 +53,7 @@ export function MinorProjects() {
             direction="vertical"
             delay={0.1 * index}
             threshold={0.1}
-            className="h-full"
+            className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]"
           >
             <Card className="flex h-full flex-col overflow-hidden border-zinc-800 bg-zinc-900/40 text-zinc-100 transition-colors hover:border-zinc-600">
               {/* Terminal Demo Section (Top) */}

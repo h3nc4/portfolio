@@ -16,7 +16,7 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, GitBranch } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
 
 import AnimatedContent from '@/components/AnimatedContent'
@@ -54,7 +54,7 @@ export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
           </p>
         </div>
 
-        <div className="flex justify-center gap-4 lg:justify-start">
+        <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
           <Button className="gap-2 bg-white text-black hover:bg-zinc-200" asChild>
             <a href="https://wasudoku.h3nc4.com" target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-4 w-4" />
@@ -68,7 +68,17 @@ export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
           >
             <a href="https://github.com/h3nc4/WASudoku" target="_blank" rel="noopener noreferrer">
               <SiGithub className="h-4 w-4" />
-              Source Code
+              GitHub
+            </a>
+          </Button>
+          <Button
+            variant="outline"
+            className="gap-2 border-zinc-800 bg-transparent hover:bg-zinc-900"
+            asChild
+          >
+            <a href="https://git.h3nc4.com/WASudoku" target="_blank" rel="noopener noreferrer">
+              <GitBranch className="h-4 w-4" />
+              cgit
             </a>
           </Button>
         </div>

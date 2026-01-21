@@ -5,9 +5,14 @@
     "tags": ["Docker", "Actions"],
     "links": [
       {
-        "name": "Source",
+        "name": "github",
         "url": "https://github.com/h3nc4/yt-dlp-slim",
         "icon": "SiGithub"
+      },
+      {
+        "name": "cgit",
+        "url": "https://git.h3nc4.com/yt-dlp-slim",
+        "icon": "GitBranch"
       }
     ],
     "demo": [
@@ -28,9 +33,14 @@
     "tags": ["Docker", "Actions"],
     "links": [
       {
-        "name": "Source",
+        "name": "github",
         "url": "https://github.com/h3nc4/tor-slim",
         "icon": "SiGithub"
+      },
+      {
+        "name": "cgit",
+        "url": "https://git.h3nc4.com/tor-slim",
+        "icon": "GitBranch"
       }
     ],
     "demo": [
@@ -60,9 +70,14 @@
     "tags": ["Docker", "Actions"],
     "links": [
       {
-        "name": "Source",
+        "name": "github",
         "url": "https://github.com/h3nc4/nginx-slim",
         "icon": "SiGithub"
+      },
+      {
+        "name": "cgit",
+        "url": "https://git.h3nc4.com/nginx-slim",
+        "icon": "GitBranch"
       }
     ],
     "demo": [
@@ -75,6 +90,58 @@
       { "text": "[notice] 1#1: start worker process 1", "type": "output", "delay": 200 },
       { "text": "[notice] 1#1: start worker process 2", "type": "output", "delay": 200 },
       { "text": "[notice] 1#1: start worker process 3", "type": "output", "delay": 200 }
+    ]
+  },
+  {
+    "title": "cgit-slim",
+    "description": "A scratch-built container featuring cgit, nginx, and a git mirror synchronization daemon.",
+    "tags": ["Docker", "C", "Nginx", "Git"],
+    "links": [
+      {
+        "name": "github",
+        "url": "https://github.com/h3nc4/cgit-slim",
+        "icon": "SiGithub"
+      },
+      {
+        "name": "cgit",
+        "url": "https://git.h3nc4.com/cgit-slim",
+        "icon": "GitBranch"
+      }
+    ],
+    "demo": [
+      { "text": "docker run -p 80:80 \\", "type": "command" },
+      { "text": "  h3nc4/cgit-slim", "type": "command" },
+      { "text": "[init] Spawning services...", "type": "output", "delay": 500 },
+      { "text": "[sync] Starting cgit sync", "type": "output", "delay": 200 },
+      { "text": "[sync] Cloning linux.git", "type": "output", "delay": 800 },
+      { "text": "[nginx] 1#1: starting workers", "type": "output", "delay": 400 },
+      { "text": "[nginx] 1#1: listening on 80", "type": "output", "delay": 200 }
+    ]
+  },
+  {
+    "title": "tddns",
+    "description": "A Tiny DDNS daemon for Cloudflare written in C. Updates A/AAAA records automatically.",
+    "tags": ["C", "Cloudflare", "Docker"],
+    "links": [
+      {
+        "name": "github",
+        "url": "https://github.com/h3nc4/tddns",
+        "icon": "SiGithub"
+      },
+      {
+        "name": "cgit",
+        "url": "https://git.h3nc4.com/tddns",
+        "icon": "GitBranch"
+      }
+    ],
+    "demo": [
+      { "text": "./tddns", "type": "command" },
+      { "text": "[INFO] tddns started.", "type": "output", "delay": 300 },
+      { "text": "[INFO] Domain: sub.example.com", "type": "output", "delay": 100 },
+      { "text": "[INFO] Checking public IP...", "type": "output", "delay": 800 },
+      { "text": "[INFO] IP changed: 1.1.1.1 -> 2.2.2.2", "type": "output", "delay": 400 },
+      { "text": "[INFO] Updating A record...", "type": "output", "delay": 600 },
+      { "text": "[INFO] Success.", "type": "output", "delay": 200 }
     ]
   }
 ]
