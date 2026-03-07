@@ -67,7 +67,6 @@ const COMMAND_EXECUTION_DELAY = 300
  * Safe to use pseudo-random generator here as it is only for visual animation.
  */
 function getRandomDelay(min: number, max: number) {
-  // eslint-disable-next-line sonarjs/pseudo-random
   return min + Math.random() * (max - min)
 }
 

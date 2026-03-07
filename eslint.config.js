@@ -19,7 +19,7 @@
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import reactRefreshPlugin from 'eslint-plugin-react-refresh'
 import { configs as tseslintConfigs } from 'typescript-eslint'
 import reactPlugin from 'eslint-plugin-react'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
@@ -34,6 +34,13 @@ export default [
   { ignores: ['dist', 'coverage'] },
   js.configs.recommended,
   ...tseslintConfigs.recommended,
+  {
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+  },
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
   jsxA11y.flatConfigs.recommended,
@@ -64,7 +71,7 @@ export default [
     },
     plugins: {
       'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      'react-refresh': reactRefreshPlugin,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
     },

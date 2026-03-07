@@ -54,7 +54,6 @@ export type RawProject = (typeof rawProjects)[number]
  * Transforms raw JSON project data into a fully typed Project object.
  * Maps string icon names to actual React components.
  */
-// eslint-disable-next-line react-refresh/only-export-components
 export function hydrateProject(project: RawProject): Project {
   return {
     title: project.title,
