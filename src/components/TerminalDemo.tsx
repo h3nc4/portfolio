@@ -67,7 +67,7 @@ const COMMAND_EXECUTION_DELAY = 300
  * Safe to use pseudo-random generator here as it is only for visual animation.
  */
 function getRandomDelay(min: number, max: number) {
-  return min + Math.random() * (max - min)
+  return min + Math.random() * (max - min) // NOSONAR
 }
 
 /**
