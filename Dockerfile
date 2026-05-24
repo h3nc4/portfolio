@@ -46,7 +46,7 @@ RUN find /rootfs/static -type f \
 
 ################################################################################
 # Nginx builder stage
-FROM busybox:musl@sha256:3b470adc2efc0d9efba49dfba55b0ecd00d7aafad2db3f4e37096e65781216e0 AS nginx-builder
+FROM busybox:musl@sha256:8635836765b0c4c43970660219739baa58b0883c2e429e4b8918f7dd1519455c AS nginx-builder
 
 COPY --from=h3nc4/nginx-slim@sha256:4bb6a4132166cbfb6e06ba4a34f04ed7653d22b963bd13cb8175d82c858dde3a / /rootfs/
 
