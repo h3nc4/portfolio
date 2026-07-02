@@ -48,7 +48,7 @@ RUN find /rootfs/static -type f \
 # Nginx builder stage
 FROM busybox:musl@sha256:8635836765b0c4c43970660219739baa58b0883c2e429e4b8918f7dd1519455c AS nginx-builder
 
-COPY --from=h3nc4/nginx-slim@sha256:caa6b783c42c37ae55bac505f72eda37411447d7bb96ccf5e4351a2215ff54b8 / /rootfs/
+COPY --from=h3nc4/nginx-slim@sha256:bd6c85da974d257dfd5e5565a1f573a15b184565a580f65160cf0b58c9433da0 / /rootfs/
 
 # Copy and minify nginx config
 COPY "nginx.conf" "/rootfs/nginx.conf"
