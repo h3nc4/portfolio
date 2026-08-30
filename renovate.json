@@ -71,7 +71,7 @@
     {
       "description": "Update Rust version in CI/Dev Dockerfiles",
       "customType": "regex",
-      "managerFilePatterns": ["/^ci\\.Dockerfile$/", "/^dev\\.Dockerfile$/"],
+      "managerFilePatterns": ["/^docker/dev\\.Dockerfile$/"],
       "matchStrings": ["ARG RUST_VERSION=\"(?<currentValue>.*?)\""],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "rust-lang/rust"
@@ -79,7 +79,7 @@
     {
       "description": "Update Node version in CI/Dev Dockerfiles",
       "customType": "regex",
-      "managerFilePatterns": ["/^ci\\.Dockerfile$/", "/^dev\\.Dockerfile$/"],
+      "managerFilePatterns": ["/^docker/dev\\.Dockerfile$/"],
       "matchStrings": ["ARG NODE_VERSION=\"(?<currentValue>.*?)\""],
       "datasourceTemplate": "node-version",
       "depNameTemplate": "node"

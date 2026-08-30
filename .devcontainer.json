@@ -1,6 +1,6 @@
 {
   "name": "Portfolio",
-  "image": "h3nc4/portfolio-dev:1.0.0",
+  "image": "h3nc4/portfolio-dev:1",
   "runArgs": ["--name=portfolio-devcontainer", "--network=host"],
   "remoteUser": "portfolio",
   "workspaceFolder": "/workspaces/portfolio",

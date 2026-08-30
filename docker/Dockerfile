@@ -19,7 +19,9 @@
 
 ################################################################################
 # Build stage
-FROM h3nc4/portfolio-dev:latest@sha256:5db18a6db2f053350ef8200bd5f1849c0344a3a4ee2ca9440f06543b7501489a AS portfolio-builder
+ARG DEV_IMAGE="h3nc4/portfolio-dev:latest"
+
+FROM ${DEV_IMAGE} AS portfolio-builder
 
 USER 0:0
 WORKDIR /app
