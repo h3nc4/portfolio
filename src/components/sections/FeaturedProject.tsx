@@ -76,7 +76,7 @@ export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
             className="gap-2 border-zinc-800 bg-transparent hover:bg-zinc-900"
             asChild
           >
-            <a href="https://git.h3nc4.com/WASudoku" target="_blank" rel="noopener noreferrer">
+            <a href="https://cgit.h3nc4.com/WASudoku" target="_blank" rel="noopener noreferrer">
               <GitBranch className="h-4 w-4" />
               cgit
             </a>

@@ -11,7 +11,7 @@
       },
       {
         "name": "cgit",
-        "url": "https://git.h3nc4.com/yt-dlp-slim",
+        "url": "https://cgit.h3nc4.com/yt-dlp-slim",
         "icon": "GitBranch"
       }
     ],
@@ -39,7 +39,7 @@
       },
       {
         "name": "cgit",
-        "url": "https://git.h3nc4.com/tor-slim",
+        "url": "https://cgit.h3nc4.com/tor-slim",
         "icon": "GitBranch"
       }
     ],
@@ -76,7 +76,7 @@
       },
       {
         "name": "cgit",
-        "url": "https://git.h3nc4.com/nginx-slim",
+        "url": "https://cgit.h3nc4.com/nginx-slim",
         "icon": "GitBranch"
       }
     ],
@@ -104,7 +104,7 @@
       },
       {
         "name": "cgit",
-        "url": "https://git.h3nc4.com/cgit-slim",
+        "url": "https://cgit.h3nc4.com/cgit-slim",
         "icon": "GitBranch"
       }
     ],
@@ -130,7 +130,7 @@
       },
       {
         "name": "cgit",
-        "url": "https://git.h3nc4.com/tddns",
+        "url": "https://cgit.h3nc4.com/tddns",
         "icon": "GitBranch"
       }
     ],

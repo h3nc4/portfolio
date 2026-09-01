@@ -94,7 +94,7 @@ describe('hydrateProject', () => {
       links: [
         {
           name: 'Mirror',
-          url: 'https://git.example.com',
+          url: 'https://cgit.example.com',
           icon: 'GitBranch',
         },
       ],

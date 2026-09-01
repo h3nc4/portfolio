@@ -43,6 +43,6 @@ describe('FeaturedProject', () => {
     expect(sourceLink).toHaveAttribute('href', 'https://github.com/h3nc4/WASudoku')
 
     const mirrorLink = screen.getByRole('link', { name: /cgit/i })
-    expect(mirrorLink).toHaveAttribute('href', 'https://git.h3nc4.com/WASudoku')
+    expect(mirrorLink).toHaveAttribute('href', 'https://cgit.h3nc4.com/WASudoku')
   })
 })
