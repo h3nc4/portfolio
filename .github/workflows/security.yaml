@@ -13,6 +13,22 @@ on:
     - cron: '23 3 * * *' # Daily at 03:23 UTC
 
 jobs:
+  audit:
+    name: Dependency Audit
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Run actions/checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Run actions/setup-node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Audit dependencies
+        run: npm run audit
+
   analyze:
     name: CodeQL
     runs-on: ubuntu-latest
