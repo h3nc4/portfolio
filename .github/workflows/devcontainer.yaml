@@ -20,7 +20,7 @@ on:
 
 jobs:
   bump:
-    name: Publish the next dev container and pin it
+    name: Pin the next dev container
     if: >-
       github.event_name == 'pull_request' &&
       github.event.pull_request.head.repo.full_name == github.repository
@@ -53,20 +53,6 @@ jobs:
             echo "IMAGE_REPO=${repo}"
             echo "VERSION=$(( base_id + 1 ))"
           } >>"${GITHUB_ENV}"
-      - name: Run docker/setup-buildx-action
-        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4
-      - name: Run docker/login-action
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
-        with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Run docker/build-push-action
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
-        with:
-          context: .
-          file: ./docker/dev.Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_REPO }}:${{ env.VERSION }}
       - name: Move the pin
         run: |
           sed -i \
@@ -87,11 +73,11 @@ jobs:
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -qm "Bump dev container to ${VERSION}" -- .devcontainer.json
+          git commit -qm "Bump dev container to ${VERSION} [skip ci]" -- .devcontainer.json
           git push origin "HEAD:${HEAD_REF}"
 
   release:
-    name: Promote and tag the pinned dev container
+    name: Publish and tag the pinned dev container
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     concurrency:
@@ -128,24 +114,25 @@ jobs:
             exit 1
           fi
           echo "::notice::${tag} is released and nothing has moved since, so there is nothing to do"
+      - name: Run docker/setup-buildx-action
+        if: env.RELEASE == 'yes'
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4
       - name: Run docker/login-action
         if: env.RELEASE == 'yes'
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Require the pinned image to be published
+      - name: Run docker/build-push-action
         if: env.RELEASE == 'yes'
-        run: |
-          if ! docker buildx imagetools inspect "${IMAGE_REPO}:${VERSION}" >/dev/null 2>&1; then
-            echo "::error::${IMAGE_REPO}:${VERSION} is not published. The bump job publishes" \
-              "it from the pull request's branch, so a pin that reached main any other way" \
-              "has to be built and pushed by hand first."
-            exit 1
-          fi
-      - name: Make the pinned image the default
-        if: env.RELEASE == 'yes'
-        run: docker buildx imagetools create -t "${IMAGE_REPO}:latest" "${IMAGE_REPO}:${VERSION}"
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
+        with:
+          context: .
+          file: ./docker/dev.Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE_REPO }}:${{ env.VERSION }}
+            ${{ env.IMAGE_REPO }}:latest
       - name: Tag the commit that carries the change, the pin and the image
         if: env.RELEASE == 'yes'
         run: |
