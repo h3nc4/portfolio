@@ -116,7 +116,7 @@ RUN apt-get install --no-install-recommends -y -qq \
   docker-cli \
   docker-buildx
 
-# Install compression tools
+# Install compression utilities
 RUN apt-get install --no-install-recommends -y -qq \
   brotli \
   gzip \
