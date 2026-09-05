@@ -11,6 +11,7 @@ on:
       - 'release/*'
   schedule:
     - cron: '23 3 * * *' # Daily at 03:23 UTC
+  workflow_dispatch:
 
 jobs:
   audit:
@@ -18,16 +19,60 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write # pushes the fix branch
+      pull-requests: write # opens the pull request
     steps:
       - name: Run actions/checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - name: Run actions/setup-node
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+      - name: Run h3nc4/dev-image-action
+        uses: h3nc4/dev-image-action@v2
         with:
-          node-version: '24'
+          base-sha: ''
+      - name: Fix what can be fixed
+        id: fix
+        if: github.event_name != 'push'
+        run: |
+          $DEV_RUN -c 'npm audit fix --package-lock-only'
+          if git diff --quiet -- package.json package-lock.json; then
+            echo 'changed=false' >>"${GITHUB_OUTPUT}"
+          else
+            echo 'changed=true' >>"${GITHUB_OUTPUT}"
+          fi
+      - name: Lint, test and build the fixed tree
+        if: steps.fix.outputs.changed == 'true'
+        run: |
+          $DEV_RUN -c '
+            set -e
+            npm ci
+            npm run format:check
+            npm run lint
+            npm run lint:md
+            npm run lint:sh
+            npm run typecheck
+            npm run test
+            npm run build
+          '
+      - name: Open a pull request for the fix
+        if: steps.fix.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FIX_BRANCH: security/audit-fix
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -qB "${FIX_BRANCH}"
+          git commit -qm 'npm audit fix' -- package.json package-lock.json
+          git push -qf origin "${FIX_BRANCH}"
+          url="$(gh pr list --head "${FIX_BRANCH}" --base main --state open \
+            --json url --jq '.[0].url // empty')"
+          if [ -z "${url}" ]; then
+            url="$(gh pr create --head "${FIX_BRANCH}" --base main \
+              --title 'npm audit fix' \
+              --body 'Opened by the nightly audit, with the suite already green on this tree.')"
+          fi
+          echo "::notice::the fix is waiting at ${url}"
       - name: Audit dependencies
-        run: npm run audit
+        run: $DEV_RUN -c 'npm run audit'
 
   analyze:
     name: CodeQL
