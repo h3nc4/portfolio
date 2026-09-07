@@ -16,6 +16,8 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { createRequire } from 'node:module'
+
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -30,6 +32,8 @@ import jestDom from 'eslint-plugin-jest-dom'
 import promise from 'eslint-plugin-promise'
 import unusedImports from 'eslint-plugin-unused-imports'
 
+const reactVersion = createRequire(import.meta.url)('react/package.json').version
+
 export default [
   { ignores: ['dist', 'coverage'] },
   js.configs.recommended,
@@ -37,7 +41,7 @@ export default [
   {
     settings: {
       react: {
-        version: 'detect',
+        version: reactVersion,
       },
     },
   },
@@ -60,7 +64,7 @@ export default [
     },
     settings: {
       react: {
-        version: 'detect',
+        version: reactVersion,
       },
       'import-x/resolver': {
         typescript: {

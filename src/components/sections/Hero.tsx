@@ -17,7 +17,8 @@
  */
 
 import { Mail } from 'lucide-react'
-import { SiGithub, SiLinkedin } from 'react-icons/si'
+import { FaLinkedin } from 'react-icons/fa6'
+import { SiGithub } from 'react-icons/si'
 
 import AnimatedContent from '@/components/AnimatedContent'
 import { Button } from '@/components/ui/button'
@@ -64,7 +65,7 @@ export function Hero({ delay = 0 }: HeroProps) {
             asChild
           >
             <a href="https://linkedin.com/in/h3nc4" target="_blank" rel="noopener noreferrer">
-              <SiLinkedin className="h-4 w-4" />
+              <FaLinkedin className="h-4 w-4" />
               LinkedIn
             </a>
           </Button>
