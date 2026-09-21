@@ -17,7 +17,7 @@
     "DEVCONTAINER": "1",
     "TERM": "${env:TERM}",
     "TMUX": "${env:TMUX}",
-    "PORTFOLIO_HOST_ROOT": "${localWorkspaceFolder}"
+    "HOST_ROOT": "${localWorkspaceFolder}"
   },
   "remoteEnv": {
     "PATH": "/workspaces/portfolio/node_modules/.bin:${containerEnv:PATH}"
