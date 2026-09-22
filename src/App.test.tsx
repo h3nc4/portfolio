@@ -68,7 +68,9 @@ describe('App', () => {
     expect(screen.getByText('Dreamweaver')).toBeInTheDocument()
 
     // Repository Families Content
-    expect(screen.getByRole('heading', { name: /Two Families/i, level: 2 })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /Repository Families/i, level: 2 }),
+    ).toBeInTheDocument()
     expect(screen.getAllByText('nginx-slim').length).toBeGreaterThan(0)
 
     // Footer

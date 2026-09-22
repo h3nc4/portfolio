@@ -33,12 +33,12 @@ export function ProjectFamilies() {
       <AnimatedContent distance={20} direction="vertical" delay={0.2} threshold={0.2}>
         <div className="mb-3 flex items-center gap-4">
           <span className="h-px w-12 bg-zinc-700" />
-          <h2 className="text-2xl font-bold text-zinc-100">Two Families</h2>
+          <h2 className="text-2xl font-bold text-zinc-100">Repository Families</h2>
           <span className="h-px flex-1 bg-zinc-700" />
         </div>
         <p className="mb-8 max-w-prose text-zinc-400">
-          Each family is one idea repeated, so a row per repository would say the same thing six
-          times.
+          Each family is one idea repeated, so a card for every repository would keep saying the
+          same thing.
         </p>
       </AnimatedContent>
 
@@ -61,7 +61,7 @@ export function ProjectFamilies() {
         </div>
       </AnimatedContent>
 
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-11">
+      <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-11">
         {FAMILIES.map((family, index) => (
           <AnimatedContent
             key={family.name}

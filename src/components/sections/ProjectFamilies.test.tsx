@@ -36,7 +36,9 @@ vi.mock('@/components/TerminalDemo', () => ({
 describe('ProjectFamilies', () => {
   it('renders section header and intro', () => {
     render(<ProjectFamilies />)
-    expect(screen.getByRole('heading', { name: /Two Families/i, level: 2 })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /Repository Families/i, level: 2 }),
+    ).toBeInTheDocument()
     expect(screen.getByText(/Each family is one idea repeated/i)).toBeInTheDocument()
   })
 

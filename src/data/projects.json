@@ -211,16 +211,31 @@
           "url": "https://github.com/h3nc4/Life"
         }
       ]
+    },
+    {
+      "name": "Actions",
+      "items": [
+        {
+          "title": "sonar-action",
+          "what": "a SonarQube project per branch",
+          "url": "https://github.com/h3nc4/sonar-action"
+        },
+        {
+          "title": "dev-image-action",
+          "what": "builds the dev image when its inputs move",
+          "url": "https://github.com/h3nc4/dev-image-action"
+        },
+        {
+          "title": "renovate-automerge-action",
+          "what": "automerges Renovate pull requests",
+          "url": "https://github.com/h3nc4/renovate-automerge-action"
+        }
+      ]
     }
   ],
   "extras": [
     { "title": "LUKS_NUKER", "url": "https://github.com/h3nc4/LUKS_NUKER" },
     { "title": "Fill-github-contrib", "url": "https://github.com/h3nc4/Fill-github-contrib" },
-    {
-      "title": "renovate-automerge-action",
-      "url": "https://github.com/h3nc4/renovate-automerge-action"
-    },
-    { "title": "dev-image-action", "url": "https://github.com/h3nc4/dev-image-action" },
     { "title": "dotfiles", "url": "https://github.com/h3nc4/dotfiles" }
   ]
 }
