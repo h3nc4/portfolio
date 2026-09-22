@@ -21,14 +21,15 @@ import { DeviceFrame } from '@/components/DeviceFrame'
 import { FeaturedProject } from '@/components/sections/FeaturedProject'
 import { Footer } from '@/components/sections/Footer'
 import { Hero } from '@/components/sections/Hero'
-import { MinorProjects } from '@/components/sections/MinorProjects'
+import { ProjectFamilies } from '@/components/sections/ProjectFamilies'
+import { SelectedProjects } from '@/components/sections/SelectedProjects'
 
 /**
  * Main application component acting as the layout shell.
  * It orchestrates the positioning of the main sections:
  * - Hero & Featured Project (Left Column)
  * - Device Preview (Right Column, Sticky)
- * - Minor Projects Grid (Bottom)
+ * - Selected Projects and the repository families (Bottom)
  */
 export default function App() {
   return (
@@ -61,7 +62,8 @@ export default function App() {
           </aside>
         </div>
 
-        <MinorProjects />
+        <SelectedProjects />
+        <ProjectFamilies />
         <Footer />
       </div>
     </div>

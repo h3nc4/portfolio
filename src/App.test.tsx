@@ -56,9 +56,17 @@ describe('App', () => {
     // Visual Showcase
     expect(screen.getByTestId('mock-device-frame')).toBeInTheDocument()
 
-    // Minor Projects Content
-    expect(screen.getByRole('heading', { name: /Other Projects/i, level: 2 })).toBeInTheDocument()
-    expect(screen.getByText('yt-dlp-slim')).toBeInTheDocument()
+    // Selected Projects Content
+    expect(
+      screen.getByRole('heading', { name: /Selected Projects/i, level: 2 }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Dreamweaver')).toBeInTheDocument()
+
+    // Repository Families Content
+    expect(
+      screen.getByRole('heading', { name: /Repository Families/i, level: 2 }),
+    ).toBeInTheDocument()
+    expect(screen.getAllByText('nginx-slim').length).toBeGreaterThan(0)
 
     // Footer
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()

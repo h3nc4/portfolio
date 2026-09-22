@@ -20,48 +20,98 @@ import { GitBranch } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
 import { describe, expect, it } from 'vitest'
 
-import { hydrateProject, MINOR_PROJECTS, type Project, type RawProject } from './projects'
+import {
+  DEMO_PROJECTS,
+  EXTRAS,
+  FAMILIES,
+  hydrateProject,
+  type Project,
+  type RawProject,
+  SELECTED_PROJECTS,
+  toDemoProject,
+} from './projects'
 
-describe('Data Integrity: MINOR_PROJECTS', () => {
-  it('should be an array of projects', () => {
-    expect(Array.isArray(MINOR_PROJECTS)).toBe(true)
-    expect(MINOR_PROJECTS.length).toBeGreaterThan(0)
+function expectValidProject(project: Project) {
+  expect(project.title).toBeTruthy()
+  expect(project.language).toBeTruthy()
+  expect(project.description).toBeTruthy()
+  expect(Array.isArray(project.tags)).toBe(true)
+  expect(project.tags.length).toBeGreaterThan(0)
+  expect(Array.isArray(project.links)).toBe(true)
+  expect(project.links.length).toBeGreaterThan(0)
+
+  project.links.forEach((link) => {
+    expect(link.name).toBeTruthy()
+    expect(link.url).toMatch(/^https:\/\//)
+    expect(typeof link.icon).toMatch(/function|object/) // React component
+  })
+}
+
+describe('Data Integrity: SELECTED_PROJECTS', () => {
+  it('should be a non-empty array of valid projects', () => {
+    expect(Array.isArray(SELECTED_PROJECTS)).toBe(true)
+    expect(SELECTED_PROJECTS.length).toBeGreaterThan(0)
+    SELECTED_PROJECTS.forEach(expectValidProject)
   })
 
-  it('should have valid properties for each project', () => {
-    MINOR_PROJECTS.forEach((project: Project) => {
-      expect(project.title).toBeTruthy()
-      expect(project.description).toBeTruthy()
-      expect(Array.isArray(project.tags)).toBe(true)
-      expect(project.tags.length).toBeGreaterThan(0)
-      expect(Array.isArray(project.links)).toBe(true)
-      expect(project.links.length).toBeGreaterThan(0)
+  it('should not carry terminal demos', () => {
+    SELECTED_PROJECTS.forEach((project) => {
+      expect(project.demo).toBeUndefined()
     })
   })
+})
 
-  it('should correctly hydrate icons for links', () => {
-    MINOR_PROJECTS.forEach((project) => {
-      project.links.forEach((link) => {
-        expect(link.icon).toBeDefined()
-        expect(typeof link.icon).toMatch(/function|object/) // React component
-      })
+describe('Data Integrity: DEMO_PROJECTS', () => {
+  it('should provide one demo per section that shows one', () => {
+    expect(DEMO_PROJECTS).toHaveLength(1)
+  })
+
+  it('should be valid projects carrying a populated demo', () => {
+    DEMO_PROJECTS.forEach((project) => {
+      expectValidProject(project)
+      expect(project.demo.length).toBeGreaterThan(0)
     })
   })
 
   it('should format demo steps with correct union types', () => {
-    MINOR_PROJECTS.forEach((project) => {
-      if (project.demo) {
-        expect(Array.isArray(project.demo)).toBe(true)
-        project.demo.forEach((step) => {
-          expect(['command', 'output', 'custom']).toContain(step.type)
+    DEMO_PROJECTS.forEach((project) => {
+      project.demo.forEach((step) => {
+        expect(['command', 'output', 'custom']).toContain(step.type)
 
-          if (step.type === 'custom') {
-            expect(step.component).not.toBeUndefined()
-          } else {
-            expect(step.text).toBeDefined()
-          }
-        })
-      }
+        if (step.type === 'custom') {
+          expect(step.component).not.toBeUndefined()
+        } else {
+          expect(step.text).toBeDefined()
+        }
+      })
+    })
+  })
+})
+
+describe('Data Integrity: FAMILIES', () => {
+  it('should group repositories under a name', () => {
+    expect(FAMILIES.length).toBeGreaterThan(0)
+
+    FAMILIES.forEach((family) => {
+      expect(family.name).toBeTruthy()
+      expect(family.items.length).toBeGreaterThan(0)
+
+      family.items.forEach((item) => {
+        expect(item.title).toBeTruthy()
+        expect(item.what).toBeTruthy()
+        expect(item.url).toMatch(/^https:\/\//)
+      })
+    })
+  })
+})
+
+describe('Data Integrity: EXTRAS', () => {
+  it('should name and link every mention', () => {
+    expect(EXTRAS.length).toBeGreaterThan(0)
+
+    EXTRAS.forEach((extra) => {
+      expect(extra.title).toBeTruthy()
+      expect(extra.url).toMatch(/^https:\/\//)
     })
   })
 })
@@ -70,6 +120,7 @@ describe('hydrateProject', () => {
   it('falls back to SiGithub when icon is not found', () => {
     const mockRawProject = {
       title: 'Test Project',
+      language: 'C',
       description: 'Test Description',
       tags: ['Test'],
       links: [
@@ -89,6 +140,7 @@ describe('hydrateProject', () => {
   it('hydrates GitBranch icon correctly', () => {
     const mockRawProject = {
       title: 'Test',
+      language: 'C',
       description: 'Desc',
       tags: [],
       links: [
@@ -107,6 +159,7 @@ describe('hydrateProject', () => {
   it('hydrates custom media components', () => {
     const mockRawProject = {
       title: 'Test Project',
+      language: 'C',
       description: 'Desc',
       tags: [],
       links: [],
@@ -127,6 +180,7 @@ describe('hydrateProject', () => {
   it('returns null component when media key is not found', () => {
     const mockRawProject = {
       title: 'Test Project',
+      language: 'C',
       description: 'Desc',
       tags: [],
       links: [],
@@ -146,6 +200,7 @@ describe('hydrateProject', () => {
   it('handles steps without text property gracefully', () => {
     const mockRawProject = {
       title: 'Test Project',
+      language: 'C',
       description: 'Desc',
       tags: [],
       links: [],
@@ -160,5 +215,33 @@ describe('hydrateProject', () => {
 
     const result = hydrateProject(mockRawProject)
     expect(result.demo?.[0].text).toBeUndefined()
+  })
+})
+
+describe('toDemoProject', () => {
+  it('keeps the demo it was given', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      language: 'Dockerfile',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      demo: [{ type: 'output', text: 'done' }],
+    } as unknown as RawProject
+
+    expect(toDemoProject(mockRawProject).demo).toHaveLength(1)
+  })
+
+  it('substitutes an empty demo when the raw project has none', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      language: 'Dockerfile',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      // demo property is missing
+    } as unknown as RawProject
+
+    expect(toDemoProject(mockRawProject).demo).toEqual([])
   })
 })
