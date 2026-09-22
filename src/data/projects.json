@@ -110,51 +110,49 @@
         }
       ],
       "demo": [
-        { "text": "docker run h3nc4/yt-dlp-slim \\", "type": "command" },
-        { "text": "  youtu.be/dQw4w9WgXcQ", "type": "command" },
-        { "text": "[youtube] Extracting URL...", "type": "output", "delay": 500 },
-        { "text": "[jsc:deno] Solving JS challenges using deno", "type": "output", "delay": 1000 },
-        { "text": "[download] Destination: video.mp4", "type": "output", "delay": 200 },
-        { "text": "[download] 100% of 229.20MiB in 00:00:05", "type": "output", "delay": 1500 },
-        { "text": "[Merger] Merging formats into mp4", "type": "output", "delay": 500 },
-        { "text": "mpv video.mp4", "type": "command", "delay": 500 },
-        { "media": "rick-roll", "type": "custom", "delay": 500 }
-      ]
-    },
-    {
-      "title": "tor-slim",
-      "language": "Dockerfile",
-      "description": "A single binary Docker container for Tor, built with static binaries and no OS layer (scratch).",
-      "tags": ["Docker", "Actions"],
-      "links": [
         {
-          "name": "github",
-          "url": "https://github.com/h3nc4/tor-slim",
-          "icon": "SiGithub"
+          "text": "docker run h3nc4/yt-dlp-slim \\",
+          "type": "command"
         },
         {
-          "name": "cgit",
-          "url": "https://cgit.h3nc4.com/tor-slim",
-          "icon": "GitBranch"
-        }
-      ],
-      "demo": [
-        { "text": "docker run -p 9050:9050 \\", "type": "command" },
-        { "text": "  h3nc4/tor-slim", "type": "command" },
-        { "text": "[notice] Tor 0.4.8.9 running...", "type": "output", "delay": 500 },
-        { "text": "[notice] Opening Socks port...", "type": "output", "delay": 200 },
-        { "text": "[notice] Socks listener open on 9050", "type": "output", "delay": 100 },
+          "text": "  youtu.be/dQw4w9WgXcQ",
+          "type": "command"
+        },
         {
-          "text": "[notice] Bootstrapped 5%: Connecting to a relay",
+          "text": "[youtube] Extracting URL...",
           "type": "output",
           "delay": 500
         },
         {
-          "text": "[notice] Bootstrapped 95%: Establishing a circuit",
+          "text": "[jsc:deno] Solving JS challenges using deno",
           "type": "output",
           "delay": 1000
         },
-        { "text": "[notice] Bootstrapped 100%: Done", "type": "output", "delay": 1500 }
+        {
+          "text": "[download] Destination: video.mp4",
+          "type": "output",
+          "delay": 200
+        },
+        {
+          "text": "[download] 100% of 229.20MiB in 00:00:05",
+          "type": "output",
+          "delay": 1500
+        },
+        {
+          "text": "[Merger] Merging formats into mp4",
+          "type": "output",
+          "delay": 500
+        },
+        {
+          "text": "mpv video.mp4",
+          "type": "command",
+          "delay": 500
+        },
+        {
+          "media": "rick-roll",
+          "type": "custom",
+          "delay": 500
+        }
       ]
     }
   ],
@@ -202,9 +200,21 @@
           "what": "dynamic window manager",
           "url": "https://github.com/h3nc4/dwm"
         },
-        { "title": "st", "what": "simple terminal", "url": "https://github.com/h3nc4/st" },
-        { "title": "dmenu", "what": "dynamic menu", "url": "https://github.com/h3nc4/dmenu" },
-        { "title": "sxac", "what": "simple auto clicker", "url": "https://github.com/h3nc4/sxac" },
+        {
+          "title": "st",
+          "what": "simple terminal",
+          "url": "https://github.com/h3nc4/st"
+        },
+        {
+          "title": "dmenu",
+          "what": "dynamic menu",
+          "url": "https://github.com/h3nc4/dmenu"
+        },
+        {
+          "title": "sxac",
+          "what": "simple auto clicker",
+          "url": "https://github.com/h3nc4/sxac"
+        },
         {
           "title": "Life",
           "what": "Conway's Game of Life for X",
@@ -234,8 +244,17 @@
     }
   ],
   "extras": [
-    { "title": "LUKS_NUKER", "url": "https://github.com/h3nc4/LUKS_NUKER" },
-    { "title": "Fill-github-contrib", "url": "https://github.com/h3nc4/Fill-github-contrib" },
-    { "title": "dotfiles", "url": "https://github.com/h3nc4/dotfiles" }
+    {
+      "title": "LUKS_NUKER",
+      "url": "https://github.com/h3nc4/LUKS_NUKER"
+    },
+    {
+      "title": "Fill-github-contrib",
+      "url": "https://github.com/h3nc4/Fill-github-contrib"
+    },
+    {
+      "title": "dotfiles",
+      "url": "https://github.com/h3nc4/dotfiles"
+    }
   ]
 }

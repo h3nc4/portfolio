@@ -153,10 +153,7 @@ export function toDemoProject(raw: RawProject): DemoProject {
   return { ...project, demo: project.demo ?? [] }
 }
 
-/**
- * Projects whose terminal output stands for a whole family.
- * The first plays inside the selected rows, the second above the families.
- */
+/** Projects whose terminal output plays as a cell in the selected card grid. */
 export const DEMO_PROJECTS: DemoProject[] = data.demos.map(toDemoProject)
 
 /** Repository groups that share one idea, so listing each one separately would repeat it. */

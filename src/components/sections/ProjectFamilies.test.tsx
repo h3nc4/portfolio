@@ -19,18 +19,12 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import { DEMO_PROJECTS, EXTRAS, FAMILIES } from '@/data/projects'
+import { EXTRAS, FAMILIES } from '@/data/projects'
 
 import { ProjectFamilies } from './ProjectFamilies'
 
 vi.mock('@/components/AnimatedContent', () => ({
   default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-}))
-
-vi.mock('@/components/TerminalDemo', () => ({
-  TerminalDemo: ({ script }: { script: unknown[] }) => (
-    <div data-testid="mock-terminal" data-steps={script.length} />
-  ),
 }))
 
 describe('ProjectFamilies', () => {
@@ -56,26 +50,14 @@ describe('ProjectFamilies', () => {
     FAMILIES.forEach((family) => {
       family.items.forEach((item) => {
         expect(screen.getByText(item.what)).toBeInTheDocument()
-
-        // A title such as tor-slim also names the demo above, so match on the row
-        const row = screen
-          .getAllByText(item.title)
-          .map((node) => node.closest('a'))
-          .find((anchor) => anchor?.getAttribute('href') === item.url)
-
-        expect(row).toBeTruthy()
+        expect(screen.getByText(item.title).closest('a')).toHaveAttribute('href', item.url)
       })
     })
   })
 
-  it('plays the second demo above the columns', () => {
+  it('shows no terminal demo, since no single one covers three families', () => {
     render(<ProjectFamilies />)
-
-    const demo = DEMO_PROJECTS[1]
-    expect(screen.getByTestId('mock-terminal')).toHaveAttribute(
-      'data-steps',
-      String(demo.demo.length),
-    )
+    expect(screen.queryByTestId('mock-terminal')).not.toBeInTheDocument()
   })
 
   it('mentions the smaller repositories and the mirror', () => {

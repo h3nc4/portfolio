@@ -17,17 +17,13 @@
  */
 
 import AnimatedContent from '@/components/AnimatedContent'
-import { TerminalDemo } from '@/components/TerminalDemo'
-import { DEMO_PROJECTS, EXTRAS, FAMILIES } from '@/data/projects'
+import { EXTRAS, FAMILIES } from '@/data/projects'
 
 /**
  * Lists the repository groups that share one idea, compactly.
- * A card each would repeat the same sentence six times, so each family is a
- * column of rows and the terminal demo above them carries the explanation.
+ * A card each would repeat the same sentence. Each family is a column of rows.
  */
 export function ProjectFamilies() {
-  const demo = DEMO_PROJECTS[1]
-
   return (
     <section className="mt-24 lg:mt-32">
       <AnimatedContent distance={20} direction="vertical" delay={0.2} threshold={0.2}>
@@ -40,25 +36,6 @@ export function ProjectFamilies() {
           Each family is one idea repeated, so a card for every repository would keep saying the
           same thing.
         </p>
-      </AnimatedContent>
-
-      <AnimatedContent distance={20} direction="vertical" delay={0.3} threshold={0.1}>
-        <div className="mb-9 rounded-xl border border-zinc-800 bg-black/30 p-4">
-          <div className="mb-3 flex items-center justify-between gap-4">
-            <span className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
-              {demo.title}
-            </span>
-            <a
-              href={demo.links[0].url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-medium tracking-wider text-zinc-400 uppercase transition-colors hover:text-white"
-            >
-              {demo.links[0].name}
-            </a>
-          </div>
-          <TerminalDemo script={demo.demo} />
-        </div>
       </AnimatedContent>
 
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-11">

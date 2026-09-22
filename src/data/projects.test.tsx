@@ -63,7 +63,7 @@ describe('Data Integrity: SELECTED_PROJECTS', () => {
 
 describe('Data Integrity: DEMO_PROJECTS', () => {
   it('should provide one demo per section that shows one', () => {
-    expect(DEMO_PROJECTS).toHaveLength(2)
+    expect(DEMO_PROJECTS).toHaveLength(1)
   })
 
   it('should be valid projects carrying a populated demo', () => {
