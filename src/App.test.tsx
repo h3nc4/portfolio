@@ -22,10 +22,6 @@ import { describe, expect, it, vi } from 'vitest'
 import App from './App'
 
 // Mock heavy visual components to ensure integration tests run smoothly in JSDOM
-vi.mock('@/components/DarkVeil', () => ({
-  DarkVeil: () => <div data-testid="mock-dark-veil" />,
-}))
-
 vi.mock('@/components/DeviceFrame', () => ({
   DeviceFrame: ({ title, src }: { title: string; src: string }) => (
     <div data-testid="mock-device-frame" aria-label={title} data-src={src} />
@@ -41,9 +37,8 @@ vi.mock('@/components/AnimatedContent', () => ({
 }))
 
 describe('App', () => {
-  it('renders main structure and background', () => {
+  it('renders main structure', () => {
     render(<App />)
-    expect(screen.getByTestId('mock-dark-veil')).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
     expect(screen.getByRole('complementary')).toBeInTheDocument() // <aside>
   })

@@ -26,8 +26,15 @@
       'calt' 1;
   }
 
+  /* Fixed radial pools where the WebGL veil used to be, painted by the compositor at no runtime cost. */
   html {
     @apply scroll-smooth bg-zinc-950 text-zinc-50 antialiased;
+    background-image:
+      radial-gradient(1100px 700px at 18% 8%, #141821 0%, transparent 60%),
+      radial-gradient(900px 600px at 82% 42%, #11161c 0%, transparent 62%),
+      radial-gradient(700px 500px at 45% 95%, #121016 0%, transparent 60%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     scrollbar-width: thin;
     scrollbar-color: theme('colors.zinc.800') transparent;
   }

@@ -17,7 +17,6 @@
  */
 
 import AnimatedContent from '@/components/AnimatedContent'
-import { DarkVeil } from '@/components/DarkVeil'
 import { DeviceFrame } from '@/components/DeviceFrame'
 import { FeaturedProject } from '@/components/sections/FeaturedProject'
 import { Footer } from '@/components/sections/Footer'
@@ -34,19 +33,10 @@ import { MinorProjects } from '@/components/sections/MinorProjects'
 export default function App() {
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden font-sans text-white">
-      {/* Background Effect */}
-      <DarkVeil
-        className="pointer-events-none fixed inset-0 -z-10 h-full w-full"
-        speed={0.4}
-        noiseIntensity={0}
-        scanlineFrequency={0.5}
-        scanlineIntensity={0}
-      />
-
       <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20">
-        {/* Top Section: Hero + Featured */}
+        {/* Top section, hero plus featured */}
         <div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:gap-20">
-          {/* Left Column: Content (Hero + Project Info) */}
+          {/* Left column, hero plus project info */}
           <main className="flex flex-col space-y-16 lg:w-1/2 lg:py-10">
             <Hero />
 
@@ -61,7 +51,7 @@ export default function App() {
             <FeaturedProject delay={0.4} />
           </main>
 
-          {/* Right Column: Device Frame */}
+          {/* Right column, device frame */}
           <aside className="relative flex w-full justify-center lg:w-1/2 lg:justify-end">
             <div className="w-full max-w-md lg:sticky lg:top-24">
               <AnimatedContent distance={40} direction="horizontal" delay={0.6}>
