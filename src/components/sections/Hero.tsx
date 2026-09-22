@@ -39,10 +39,10 @@ export function Hero({ delay = 0 }: HeroProps) {
     <AnimatedContent distance={20} direction="vertical" delay={delay}>
       <section className="space-y-8 text-center lg:text-left">
         <div className="space-y-4">
-          <h1 className="bg-linear-to-b from-white to-white/60 bg-clip-text text-5xl font-bold tracking-tighter text-transparent sm:text-6xl md:text-7xl">
+          <h1 className="text-dawn-cream text-5xl font-normal tracking-tight [text-shadow:0_2px_26px_rgb(16_12_9_/_0.9)] sm:text-6xl md:text-7xl">
             Henrique Almeida
           </h1>
-          <p className="mx-auto text-xl leading-relaxed text-zinc-300 lg:mx-0">
+          <p className="text-dawn-sand mx-auto text-xl leading-relaxed font-light [text-shadow:0_1px_16px_rgb(16_12_9_/_0.9)] lg:mx-0">
             Software & DevOps Engineer passionate about free software and the GNU/Linux ecosystem
             along with the UNIX philosophy.
           </p>
@@ -51,7 +51,7 @@ export function Hero({ delay = 0 }: HeroProps) {
         <div className="flex justify-center gap-4 lg:justify-start">
           <Button
             variant="outline"
-            className="gap-2 border-zinc-800 bg-black/50 hover:bg-zinc-900"
+            className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
             asChild
           >
             <a href="https://github.com/h3nc4" target="_blank" rel="noopener noreferrer">
@@ -61,7 +61,7 @@ export function Hero({ delay = 0 }: HeroProps) {
           </Button>
           <Button
             variant="outline"
-            className="gap-2 border-zinc-800 bg-black/50 hover:bg-zinc-900"
+            className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
             asChild
           >
             <a href="https://linkedin.com/in/h3nc4" target="_blank" rel="noopener noreferrer">
@@ -69,7 +69,10 @@ export function Hero({ delay = 0 }: HeroProps) {
               LinkedIn
             </a>
           </Button>
-          <Button className="gap-2 bg-white text-black hover:bg-zinc-200" asChild>
+          <Button
+            className="bg-dawn-accent text-dawn-ground hover:bg-dawn-accent-hi gap-2 font-medium"
+            asChild
+          >
             <a href="mailto:me@h3nc4.com">
               <Mail className="h-4 w-4" />
               Contact Me

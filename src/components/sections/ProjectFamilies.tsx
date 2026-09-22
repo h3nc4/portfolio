@@ -25,14 +25,16 @@ import { EXTRAS, FAMILIES } from '@/data/projects'
  */
 export function ProjectFamilies() {
   return (
-    <section className="mt-24 lg:mt-32">
+    <section>
       <AnimatedContent distance={20} direction="vertical" delay={0.2} threshold={0.2}>
         <div className="mb-3 flex items-center gap-4">
-          <span className="h-px w-12 bg-zinc-700" />
-          <h2 className="text-2xl font-bold text-zinc-100">Repository Families</h2>
-          <span className="h-px flex-1 bg-zinc-700" />
+          <span className="bg-dawn-stone h-px w-12" />
+          <h2 className="text-dawn-cream text-2xl font-medium tracking-tight">
+            Repository Families
+          </h2>
+          <span className="bg-dawn-line h-px flex-1" />
         </div>
-        <p className="mb-8 max-w-prose text-zinc-400">
+        <p className="text-dawn-taupe mb-8 max-w-prose font-light">
           Each family is one idea repeated, so a card for every repository would keep saying the
           same thing.
         </p>
@@ -47,7 +49,7 @@ export function ProjectFamilies() {
             delay={0.1 * index}
             threshold={0.1}
           >
-            <h3 className="mb-3 border-b border-zinc-800 pb-3 text-xs font-semibold tracking-wider text-zinc-500 uppercase">
+            <h3 className="border-dawn-line text-dawn-stone mb-3 border-b pb-3 font-mono text-xs tracking-wider uppercase">
               {family.name}
             </h3>
             {family.items.map((item) => (
@@ -56,10 +58,12 @@ export function ProjectFamilies() {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-baseline justify-between gap-4 py-2.5 text-sm text-zinc-300 transition-colors hover:text-white"
+                className="group flex items-baseline justify-between gap-4 py-2.5 text-sm transition-colors"
               >
-                <span className="font-medium">{item.title}</span>
-                <span className="text-right text-sm text-zinc-500">{item.what}</span>
+                <span className="text-dawn-sand group-hover:text-dawn-accent font-mono text-sm transition-colors">
+                  {item.title}
+                </span>
+                <span className="text-dawn-stone text-right text-sm font-light">{item.what}</span>
               </a>
             ))}
           </AnimatedContent>
@@ -68,7 +72,7 @@ export function ProjectFamilies() {
 
       <AnimatedContent distance={20} direction="vertical" delay={0.2} threshold={0.1}>
         <div className="mt-10 flex flex-wrap items-baseline gap-x-5 gap-y-2">
-          <span className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
+          <span className="text-dawn-stone font-mono text-xs tracking-wider uppercase">
             Smaller things
           </span>
           {EXTRAS.map((extra) => (
@@ -77,7 +81,7 @@ export function ProjectFamilies() {
               href={extra.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-zinc-400 transition-colors hover:text-white"
+              className="text-dawn-taupe hover:text-dawn-accent text-sm font-light transition-colors"
             >
               {extra.title}
             </a>
@@ -86,7 +90,7 @@ export function ProjectFamilies() {
             href="https://cgit.h3nc4.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-zinc-400 transition-colors hover:text-white"
+            className="text-dawn-taupe hover:text-dawn-accent text-sm font-light transition-colors"
           >
             all of it on cgit
           </a>

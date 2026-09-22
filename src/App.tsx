@@ -26,25 +26,23 @@ import { SelectedProjects } from '@/components/sections/SelectedProjects'
 
 /**
  * Main application component acting as the layout shell.
- * It orchestrates the positioning of the main sections:
- * - Hero & Featured Project (Left Column)
- * - Device Preview (Right Column, Sticky)
- * - Selected Projects and the repository families (Bottom)
+ * The hero sits directly on the painting, and every section below it gets a
+ * panel, because content over a photograph needs its own ground to remain legible.
  */
 export default function App() {
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden font-sans text-white">
+    <div className="relative min-h-screen w-full overflow-x-hidden">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20">
         {/* Top section, hero plus featured */}
         <div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:gap-20">
           {/* Left column, hero plus project info */}
-          <main className="flex flex-col space-y-16 lg:w-1/2 lg:py-10">
+          <main className="flex flex-col space-y-14 lg:w-1/2 lg:py-10">
             <Hero />
 
             {/* Visual Divider */}
             <AnimatedContent distance={20} direction="vertical" delay={0.2}>
               <hr
-                className="h-px w-full border-0 bg-linear-to-r from-transparent via-zinc-700 to-transparent lg:from-zinc-700 lg:via-zinc-700 lg:to-transparent"
+                className="via-dawn-stone lg:from-dawn-stone lg:via-dawn-stone h-px w-full border-0 bg-linear-to-r from-transparent to-transparent"
                 aria-hidden="true"
               />
             </AnimatedContent>
@@ -62,8 +60,14 @@ export default function App() {
           </aside>
         </div>
 
-        <SelectedProjects />
-        <ProjectFamilies />
+        <div className="panel mt-24 p-6 sm:p-9 lg:mt-32 lg:p-11">
+          <SelectedProjects />
+        </div>
+
+        <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+          <ProjectFamilies />
+        </div>
+
         <Footer />
       </div>
     </div>

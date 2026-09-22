@@ -30,14 +30,14 @@ export function SelectedProjects() {
   const demo = DEMO_PROJECTS[0]
 
   return (
-    <section className="mt-24 lg:mt-32">
+    <section>
       <AnimatedContent distance={20} direction="vertical" delay={0.2} threshold={0.2}>
         <div className="mb-3 flex items-center gap-4">
-          <span className="h-px w-12 bg-zinc-700" />
-          <h2 className="text-2xl font-bold text-zinc-100">Selected Projects</h2>
-          <span className="h-px flex-1 bg-zinc-700" />
+          <span className="bg-dawn-stone h-px w-12" />
+          <h2 className="text-dawn-cream text-2xl font-medium tracking-tight">Selected Projects</h2>
+          <span className="bg-dawn-line h-px flex-1" />
         </div>
-        <p className="mb-8 max-w-prose text-zinc-400">
+        <p className="text-dawn-taupe mb-8 max-w-prose font-light">
           A distribution, a phone gesture layer, a Go service, a C daemon, and the tooling that
           grades the rest.
         </p>
@@ -57,18 +57,22 @@ export function SelectedProjects() {
               href={project.links[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-full flex-col rounded-xl border border-zinc-800 bg-zinc-900/40 p-6 transition-all hover:-translate-y-0.5 hover:border-zinc-600"
+              className="border-dawn-line bg-dawn-surface hover:border-dawn-accent flex h-full flex-col rounded-xl border p-6 transition-all hover:-translate-y-0.5"
             >
-              <h3 className="text-lg font-semibold text-zinc-100">{project.title}</h3>
-              <p className="mt-1 text-xs font-medium tracking-wider text-zinc-500 uppercase">
+              <h3 className="text-dawn-cream text-lg font-medium">{project.title}</h3>
+              <p className="text-dawn-stone mt-1 font-mono text-xs tracking-wider uppercase">
                 {project.language}
               </p>
-              <p className="mt-4 mb-auto text-sm leading-relaxed text-zinc-400">
+              <p className="text-dawn-taupe mt-4 mb-auto text-sm leading-relaxed font-light">
                 {project.description}
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary" className="bg-zinc-800 text-zinc-300">
+                  <Badge
+                    key={tag}
+                    variant="secondary"
+                    className="bg-dawn-line text-dawn-sand font-mono text-xs font-normal"
+                  >
                     {tag}
                   </Badge>
                 ))}
@@ -84,16 +88,16 @@ export function SelectedProjects() {
           threshold={0.1}
           className="h-full"
         >
-          <div className="flex h-full flex-col rounded-xl border border-zinc-800 bg-black/30 p-4">
+          <div className="border-dawn-line flex h-full flex-col rounded-xl border bg-[#17120e]/80 p-4">
             <div className="mb-3 flex items-center justify-between gap-4">
-              <span className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
+              <span className="text-dawn-stone font-mono text-xs tracking-wider uppercase">
                 {demo.title}
               </span>
               <a
                 href={demo.links[0].url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-medium tracking-wider text-zinc-400 uppercase transition-colors hover:text-white"
+                className="text-dawn-taupe hover:text-dawn-accent font-mono text-xs tracking-wider uppercase transition-colors"
               >
                 {demo.links[0].name}
               </a>

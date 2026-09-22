@@ -114,7 +114,7 @@ async function typeCommand(
 }
 
 /**
- * Executes a single step of the terminal script (command or output).
+ * Executes one step of the terminal script, either a command or its output.
  */
 async function runScriptStep(
   step: TerminalStep,
@@ -200,8 +200,8 @@ function renderTerminalLine(line: RenderedLine) {
   if (line.type === 'command') {
     return (
       <div className="flex gap-2">
-        <span className="shrink-0 font-bold text-green-400">me@pc $</span>
-        <span className="whitespace-pre-wrap text-zinc-100">{line.text}</span>
+        <span className="text-dawn-accent shrink-0 font-medium">me@pc $</span>
+        <span className="text-dawn-sand whitespace-pre-wrap">{line.text}</span>
       </div>
     )
   }
@@ -210,12 +210,12 @@ function renderTerminalLine(line: RenderedLine) {
     return <div className="my-2">{line.component}</div>
   }
 
-  return <div className="whitespace-pre-wrap text-zinc-400">{line.text}</div>
+  return <div className="text-dawn-taupe whitespace-pre-wrap">{line.text}</div>
 }
 
 /**
  * Simulates a terminal window executing a script.
- * Replaces the need for GIFs by rendering code execution dynamically.
+ * Renders the execution as live text, so no GIF is needed.
  */
 export function TerminalDemo(props: TerminalDemoProps) {
   const {
@@ -268,19 +268,19 @@ export function TerminalDemo(props: TerminalDemoProps) {
   return (
     <div
       className={cn(
-        'flex w-full flex-col overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950/90 font-mono text-xs shadow-xl',
+        'border-dawn-line flex w-full flex-col overflow-hidden rounded-lg border bg-[#17120e]/90 font-mono text-xs shadow-xl',
         className,
       )}
       data-testid="terminal-window"
     >
       {/* Title Bar */}
-      <div className="flex items-center justify-between border-b border-zinc-800 bg-zinc-900/50 px-3 py-2">
+      <div className="border-dawn-line bg-dawn-surface/60 flex items-center justify-between border-b px-3 py-2">
         <div className="flex gap-1.5">
           <div className="h-2.5 w-2.5 rounded-full bg-red-500/20" />
           <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/20" />
           <div className="h-2.5 w-2.5 rounded-full bg-green-500/20" />
         </div>
-        <div className="flex items-center gap-1.5 text-zinc-500">
+        <div className="text-dawn-stone flex items-center gap-1.5">
           <Terminal className="h-3 w-3" />
           <span>bash</span>
         </div>
@@ -301,12 +301,12 @@ export function TerminalDemo(props: TerminalDemoProps) {
         {/* Active Prompt */}
         {showPrompt && (
           <div className="flex gap-2" data-testid="active-prompt">
-            <span className="shrink-0 font-bold text-green-400">me@pc $</span>
-            <span className="whitespace-pre-wrap text-zinc-100">
+            <span className="text-dawn-accent shrink-0 font-medium">me@pc $</span>
+            <span className="text-dawn-sand whitespace-pre-wrap">
               {currentCommand}
               <span
                 data-testid="cursor"
-                className="ml-1 inline-block h-3 w-1.5 animate-pulse bg-zinc-400 align-middle"
+                className="bg-dawn-accent ml-1 inline-block h-3 w-1.5 animate-pulse align-middle"
               />
             </span>
           </div>
