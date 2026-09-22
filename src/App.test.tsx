@@ -28,6 +28,10 @@ vi.mock('@/components/DeviceFrame', () => ({
   ),
 }))
 
+vi.mock('@/hooks/useHeroPeek', () => ({
+  useHeroPeek: () => undefined,
+}))
+
 vi.mock('@/components/AnimatedContent', () => ({
   default: ({ children, className }: { children: React.ReactNode; className?: string }) => (
     <div data-testid="animated-content" className={className}>
@@ -61,6 +65,9 @@ describe('App', () => {
       screen.getByRole('heading', { name: /Selected Projects/i, level: 2 }),
     ).toBeInTheDocument()
     expect(screen.getByText('Dreamweaver')).toBeInTheDocument()
+
+    // Containers Content
+    expect(screen.getByRole('heading', { name: /^Containers$/i, level: 2 })).toBeInTheDocument()
 
     // Repository Families Content
     expect(

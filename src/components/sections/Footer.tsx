@@ -23,7 +23,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-dawn-line text-dawn-stone mt-20 border-t pt-8 text-center text-sm font-light">
+    <footer className="border-dawn-line text-dawn-stone mt-20 border-t pt-8 pb-16 text-center text-sm font-light lg:pb-24">
       <a
         href="https://github.com/h3nc4/portfolio"
         target="_blank"

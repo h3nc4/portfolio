@@ -18,55 +18,62 @@
 
 import AnimatedContent from '@/components/AnimatedContent'
 import { DeviceFrame } from '@/components/DeviceFrame'
+import { ContainerPreviews } from '@/components/sections/ContainerPreviews'
 import { FeaturedProject } from '@/components/sections/FeaturedProject'
 import { Footer } from '@/components/sections/Footer'
 import { Hero } from '@/components/sections/Hero'
 import { ProjectFamilies } from '@/components/sections/ProjectFamilies'
 import { SelectedProjects } from '@/components/sections/SelectedProjects'
+import { useHeroPeek } from '@/hooks/useHeroPeek'
 
 /**
  * Main application component acting as the layout shell.
- * The hero sits directly on the painting, and every section below it gets a
- * panel, because content over a photograph needs its own ground to remain legible.
+ * The hero gets a viewport of its own directly on the painting. Everything
+ * below it needs a panel of its own, since content over a photograph has no
+ * ground of its own to remain legible against.
  */
 export default function App() {
+  useHeroPeek()
+
+  // clip, not hidden: hidden on one axis makes the other a scroll container
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden">
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20">
-        {/* Top section, hero plus featured */}
-        <div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:gap-20">
-          {/* Left column, hero plus project info */}
-          <main className="flex flex-col space-y-14 lg:w-1/2 lg:py-10">
+    <div className="relative min-h-screen w-full overflow-x-clip">
+      <div className="mx-auto max-w-7xl px-6">
+        <main>
+          {/* A full viewport, so scrolling to the top shows the painting uncovered */}
+          <section className="flex min-h-dvh items-center py-20">
             <Hero />
+          </section>
 
-            {/* Visual Divider */}
-            <AnimatedContent distance={20} direction="vertical" delay={0.2}>
-              <hr
-                className="via-dawn-stone lg:from-dawn-stone lg:via-dawn-stone h-px w-full border-0 bg-linear-to-r from-transparent to-transparent"
-                aria-hidden="true"
-              />
-            </AnimatedContent>
+          <div className="panel p-6 sm:p-9 lg:p-11">
+            <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+              <div className="lg:w-[52%]">
+                <FeaturedProject />
+              </div>
 
-            <FeaturedProject delay={0.4} />
-          </main>
-
-          {/* Right column, device frame */}
-          <aside className="relative flex w-full justify-center lg:w-1/2 lg:justify-end">
-            <div className="w-full max-w-md lg:sticky lg:top-24">
-              <AnimatedContent distance={40} direction="horizontal" delay={0.6}>
-                <DeviceFrame src="https://wasudoku.h3nc4.com" title="WASudoku Live Preview" />
-              </AnimatedContent>
+              {/* Device frame, beside the project it previews rather than in a rail */}
+              <aside className="relative flex w-full justify-center lg:w-[48%] lg:justify-end">
+                <div className="w-full max-w-md pt-12">
+                  <AnimatedContent distance={40} direction="horizontal" delay={0.4}>
+                    <DeviceFrame src="https://wasudoku.h3nc4.com" title="WASudoku Live Preview" />
+                  </AnimatedContent>
+                </div>
+              </aside>
             </div>
-          </aside>
-        </div>
+          </div>
 
-        <div className="panel mt-24 p-6 sm:p-9 lg:mt-32 lg:p-11">
-          <SelectedProjects />
-        </div>
+          <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <SelectedProjects />
+          </div>
 
-        <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
-          <ProjectFamilies />
-        </div>
+          <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <ContainerPreviews />
+          </div>
+
+          <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <ProjectFamilies />
+          </div>
+        </main>
 
         <Footer />
       </div>

@@ -17,30 +17,32 @@
  */
 
 import AnimatedContent from '@/components/AnimatedContent'
+import { TerminalDemo } from '@/components/TerminalDemo'
 import { Badge } from '@/components/ui/badge'
-import { SELECTED_PROJECTS } from '@/data/projects'
+import { CONTAINER_PROJECTS } from '@/data/projects'
 
 /**
- * Renders the main projects as cards, one per domain.
- * The cards wrap and centre. A short last row appears in the middle.
+ * Renders the slim containers, each above its own terminal output.
+ * These images are only legible from what they print on startup. The
+ * simulation is the content here rather than an ornament on a card.
  */
-export function SelectedProjects() {
+export function ContainerPreviews() {
   return (
     <section>
       <AnimatedContent distance={20} direction="vertical" delay={0.2} threshold={0.2}>
         <div className="mb-3 flex items-center gap-4">
           <span className="bg-dawn-stone h-px w-12" />
-          <h2 className="text-dawn-cream text-2xl font-medium tracking-tight">Selected Projects</h2>
-          <span className="bg-dawn-line h-px flex-1" />
+          <h2 className="text-dawn-cream text-2xl font-medium tracking-tight">Containers</h2>
+          <span className="bg-dawn-cream/15 h-px flex-1" />
         </div>
         <p className="text-dawn-taupe mb-8 max-w-prose font-light">
-          A distribution, a phone gesture layer, a Go service, a C daemon, and the tooling that
-          grades the rest.
+          One static binary on an empty filesystem. Each image drops the distribution its upstream
+          carried but never ran.
         </p>
       </AnimatedContent>
 
       <div className="flex flex-wrap justify-center gap-6">
-        {SELECTED_PROJECTS.map((project, index) => (
+        {CONTAINER_PROJECTS.map((project, index) => (
           <AnimatedContent
             key={project.title}
             distance={20}
@@ -53,25 +55,29 @@ export function SelectedProjects() {
               href={project.links[0].url}
               target="_blank"
               rel="noopener noreferrer"
-              className="border-dawn-cream/15 hover:border-dawn-accent flex h-full flex-col rounded-xl border bg-[#17120e]/55 p-6 transition-all hover:-translate-y-0.5"
+              className="border-dawn-cream/15 hover:border-dawn-accent flex h-full flex-col overflow-hidden rounded-xl border bg-[#17120e]/55 transition-all hover:-translate-y-0.5"
             >
-              <h3 className="text-dawn-cream text-lg font-medium">{project.title}</h3>
-              <p className="text-dawn-stone mt-1 font-mono text-xs tracking-wider uppercase">
-                {project.language}
-              </p>
-              <p className="text-dawn-taupe mt-4 mb-auto text-sm leading-relaxed font-light">
-                {project.description}
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant="secondary"
-                    className="bg-dawn-cream/10 text-dawn-sand font-mono text-xs font-normal"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
+              <div className="border-dawn-cream/15 border-b bg-[#0c0907]/60 p-4">
+                <TerminalDemo script={project.demo} />
+              </div>
+
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className="text-dawn-cream text-lg font-medium">{project.title}</h3>
+                <p className="text-dawn-taupe mt-3 mb-auto text-sm leading-relaxed font-light">
+                  {project.description}
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <Badge
+                      key={tag}
+                      variant="secondary"
+                      className="bg-dawn-cream/10 text-dawn-sand font-mono text-xs font-normal"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
               </div>
             </a>
           </AnimatedContent>

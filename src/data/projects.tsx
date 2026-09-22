@@ -81,7 +81,7 @@ export interface RawProject {
 
 interface RawData {
   selected: RawProject[]
-  demos: RawProject[]
+  containers: RawProject[]
   families: Family[]
   extras: Extra[]
 }
@@ -153,8 +153,8 @@ export function toDemoProject(raw: RawProject): DemoProject {
   return { ...project, demo: project.demo ?? [] }
 }
 
-/** Projects whose terminal output plays as a cell in the selected card grid. */
-export const DEMO_PROJECTS: DemoProject[] = data.demos.map(toDemoProject)
+/** The slim containers, each paired with the output it prints on startup. */
+export const CONTAINER_PROJECTS: DemoProject[] = data.containers.map(toDemoProject)
 
 /** Repository groups that share one idea, so listing each one separately would repeat it. */
 export const FAMILIES: Family[] = data.families

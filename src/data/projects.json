@@ -91,7 +91,7 @@
       ]
     }
   ],
-  "demos": [
+  "containers": [
     {
       "title": "yt-dlp-slim",
       "language": "Dockerfile",
@@ -154,6 +154,218 @@
           "delay": 500
         }
       ]
+    },
+    {
+      "title": "tor-slim",
+      "language": "Dockerfile",
+      "description": "A single binary Docker container for Tor, built with static binaries and no OS layer (scratch).",
+      "tags": ["Docker", "Actions"],
+      "links": [
+        {
+          "name": "github",
+          "url": "https://github.com/h3nc4/tor-slim",
+          "icon": "SiGithub"
+        },
+        {
+          "name": "cgit",
+          "url": "https://cgit.h3nc4.com/tor-slim",
+          "icon": "GitBranch"
+        }
+      ],
+      "demo": [
+        {
+          "text": "docker run -p 9050:9050 \\",
+          "type": "command"
+        },
+        {
+          "text": "  h3nc4/tor-slim",
+          "type": "command"
+        },
+        {
+          "text": "[notice] Tor 0.4.8.9 running...",
+          "type": "output",
+          "delay": 500
+        },
+        {
+          "text": "[notice] Socks listener open on 9050",
+          "type": "output",
+          "delay": 200
+        },
+        {
+          "text": "[notice] Bootstrapped 14%: Handshaking",
+          "type": "output",
+          "delay": 500
+        },
+        {
+          "text": "[notice] Bootstrapped 95%: Establishing a circuit",
+          "type": "output",
+          "delay": 900
+        },
+        {
+          "text": "[notice] Bootstrapped 100%: Done",
+          "type": "output",
+          "delay": 1400
+        }
+      ]
+    },
+    {
+      "title": "nginx-slim",
+      "language": "Dockerfile",
+      "description": "A single binary NGINX Docker container with Brotli support, running on a scratch filesystem.",
+      "tags": ["Docker", "Actions"],
+      "links": [
+        {
+          "name": "github",
+          "url": "https://github.com/h3nc4/nginx-slim",
+          "icon": "SiGithub"
+        },
+        {
+          "name": "cgit",
+          "url": "https://cgit.h3nc4.com/nginx-slim",
+          "icon": "GitBranch"
+        }
+      ],
+      "demo": [
+        {
+          "text": "docker run -p 80:80 \\",
+          "type": "command"
+        },
+        {
+          "text": "  h3nc4/nginx-slim",
+          "type": "command"
+        },
+        {
+          "text": "[notice] 1#1: nginx/1.25.3",
+          "type": "output",
+          "delay": 500
+        },
+        {
+          "text": "[notice] 1#1: OS: Linux",
+          "type": "output",
+          "delay": 200
+        },
+        {
+          "text": "[notice] 1#1: starting workers",
+          "type": "output",
+          "delay": 700
+        },
+        {
+          "text": "[notice] 1#1: start worker process 1",
+          "type": "output",
+          "delay": 200
+        },
+        {
+          "text": "[notice] 1#1: start worker process 2",
+          "type": "output",
+          "delay": 200
+        }
+      ]
+    },
+    {
+      "title": "cgit-slim",
+      "language": "Dockerfile",
+      "description": "A scratch-built container featuring cgit, nginx, and a git mirror synchronization daemon.",
+      "tags": ["Docker", "C", "Nginx"],
+      "links": [
+        {
+          "name": "github",
+          "url": "https://github.com/h3nc4/cgit-slim",
+          "icon": "SiGithub"
+        },
+        {
+          "name": "cgit",
+          "url": "https://cgit.h3nc4.com/cgit-slim",
+          "icon": "GitBranch"
+        }
+      ],
+      "demo": [
+        {
+          "text": "docker run -p 80:80 \\",
+          "type": "command"
+        },
+        {
+          "text": "  h3nc4/cgit-slim",
+          "type": "command"
+        },
+        {
+          "text": "[init] Spawning services...",
+          "type": "output",
+          "delay": 500
+        },
+        {
+          "text": "[sync] Starting cgit sync",
+          "type": "output",
+          "delay": 300
+        },
+        {
+          "text": "[sync] Cloning linux.git",
+          "type": "output",
+          "delay": 900
+        },
+        {
+          "text": "[nginx] 1#1: starting workers",
+          "type": "output",
+          "delay": 400
+        },
+        {
+          "text": "[nginx] 1#1: listening on 80",
+          "type": "output",
+          "delay": 200
+        }
+      ]
+    },
+    {
+      "title": "minecraft-slim",
+      "language": "Dockerfile",
+      "description": "A scratch-built container featuring the Paper Minecraft server.",
+      "tags": ["Docker", "Actions"],
+      "links": [
+        {
+          "name": "github",
+          "url": "https://github.com/h3nc4/minecraft-slim",
+          "icon": "SiGithub"
+        },
+        {
+          "name": "cgit",
+          "url": "https://cgit.h3nc4.com/minecraft-slim",
+          "icon": "GitBranch"
+        }
+      ],
+      "demo": [
+        {
+          "text": "docker run -p 25565:25565 \\",
+          "type": "command"
+        },
+        {
+          "text": "  h3nc4/minecraft-slim",
+          "type": "command"
+        },
+        {
+          "text": "[Server] Loading properties",
+          "type": "output",
+          "delay": 400
+        },
+        {
+          "text": "[Server] Preparing level \"world\"",
+          "type": "output",
+          "delay": 600
+        },
+        {
+          "text": "[Server] Preparing spawn area: 0%",
+          "type": "output",
+          "delay": 500
+        },
+        {
+          "text": "[Server] Preparing spawn area: 83%",
+          "type": "output",
+          "delay": 800
+        },
+        {
+          "text": "[Server] Done (12.418s)! For help, type \"help\"",
+          "type": "output",
+          "delay": 1200
+        }
+      ]
     }
   ],
   "families": [
@@ -184,11 +396,6 @@
           "title": "minecraft-slim",
           "what": "Paper server",
           "url": "https://github.com/h3nc4/minecraft-slim"
-        },
-        {
-          "title": "x11-wayland-dev",
-          "what": "toolchain for the C stack",
-          "url": "https://github.com/h3nc4/x11-wayland-dev"
         }
       ]
     },
@@ -255,6 +462,10 @@
     {
       "title": "dotfiles",
       "url": "https://github.com/h3nc4/dotfiles"
+    },
+    {
+      "title": "x11-wayland-dev",
+      "url": "https://github.com/h3nc4/x11-wayland-dev"
     }
   ]
 }

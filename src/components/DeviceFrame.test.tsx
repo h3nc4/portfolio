@@ -55,29 +55,47 @@ describe('DeviceFrame', () => {
     expect(container).toHaveClass('custom-class')
   })
 
-  it('applies scaling styles based on zoom prop', () => {
-    const zoom = 0.5
-    render(<DeviceFrame src="https://example.com" title="Test" zoom={zoom} />)
+  // The zoom is published as a custom property and the stylesheet turns it into
+  // width, height and scale, so a media query can lower it on small viewports.
+  it('publishes the zoom prop as a custom property', () => {
+    render(<DeviceFrame src="https://example.com" title="Test" zoom={0.5} />)
     const iframe = screen.getByTitle('Test')
 
-    // We check inline styles directly because 'toHaveStyle' relies on computed styles.
-    // In real browsers, percentages resolve to pixels and 'scale()' resolves to 'matrix()',
-    // causing tests to fail when comparing against the input strings.
-    // eslint-disable-next-line jest-dom/prefer-to-have-style
-    expect(iframe.style.width).toBe('200%')
-    // eslint-disable-next-line jest-dom/prefer-to-have-style
-    expect(iframe.style.height).toBe('200%')
-    // eslint-disable-next-line jest-dom/prefer-to-have-style
-    expect(iframe.style.transform).toBe('scale(0.5)')
-    // Browsers may normalize '0 0' to '0px 0px', so we check loosely
-    expect(iframe.style.transformOrigin).toMatch(/^0(px)? 0(px)?/)
+    expect(iframe.style.getPropertyValue('--device-zoom')).toBe('0.5')
   })
 
-  it('uses default zoom of 0.85 if not provided', () => {
+  it('uses default zoom of 0.8 if not provided', () => {
     render(<DeviceFrame src="https://example.com" title="Test" />)
     const iframe = screen.getByTitle('Test')
 
-    // eslint-disable-next-line jest-dom/prefer-to-have-style
-    expect(iframe.style.transform).toBe('scale(0.85)')
+    expect(iframe.style.getPropertyValue('--device-zoom')).toBe('0.8')
+  })
+
+  it('zooms further out below 640px, defaulting to 0.72', () => {
+    render(<DeviceFrame src="https://example.com" title="Test" />)
+    const iframe = screen.getByTitle('Test')
+
+    expect(iframe.style.getPropertyValue('--device-zoom-sm')).toBe('0.72')
+  })
+
+  it('accepts an explicit mobile zoom', () => {
+    render(<DeviceFrame src="https://example.com" title="Test" mobileZoom={0.4} />)
+    const iframe = screen.getByTitle('Test')
+
+    expect(iframe.style.getPropertyValue('--device-zoom-sm')).toBe('0.4')
+  })
+
+  it('matches the desktop zoom from 1024px up, defaulting to 0.8', () => {
+    render(<DeviceFrame src="https://example.com" title="Test" />)
+    const iframe = screen.getByTitle('Test')
+
+    expect(iframe.style.getPropertyValue('--device-zoom-lg')).toBe('0.8')
+  })
+
+  it('accepts an explicit large zoom', () => {
+    render(<DeviceFrame src="https://example.com" title="Test" largeZoom={0.95} />)
+    const iframe = screen.getByTitle('Test')
+
+    expect(iframe.style.getPropertyValue('--device-zoom-lg')).toBe('0.95')
   })
 })

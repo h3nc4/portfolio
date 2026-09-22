@@ -35,8 +35,7 @@ export function ProjectFamilies() {
           <span className="bg-dawn-line h-px flex-1" />
         </div>
         <p className="text-dawn-taupe mb-8 max-w-prose font-light">
-          Each family is one idea repeated, so a card for every repository would keep saying the
-          same thing.
+          Each family is one idea repeated for a different goal.
         </p>
       </AnimatedContent>
 
@@ -49,7 +48,7 @@ export function ProjectFamilies() {
             delay={0.1 * index}
             threshold={0.1}
           >
-            <h3 className="border-dawn-line text-dawn-stone mb-3 border-b pb-3 font-mono text-xs tracking-wider uppercase">
+            <h3 className="border-dawn-cream/15 text-dawn-stone mb-3 border-b pb-3 font-mono text-xs tracking-wider uppercase">
               {family.name}
             </h3>
             {family.items.map((item) => (

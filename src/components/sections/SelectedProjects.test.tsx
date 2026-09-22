@@ -19,18 +19,12 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import { DEMO_PROJECTS, SELECTED_PROJECTS } from '@/data/projects'
+import { SELECTED_PROJECTS } from '@/data/projects'
 
 import { SelectedProjects } from './SelectedProjects'
 
 vi.mock('@/components/AnimatedContent', () => ({
   default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-}))
-
-vi.mock('@/components/TerminalDemo', () => ({
-  TerminalDemo: ({ script }: { script: unknown[] }) => (
-    <div data-testid="mock-terminal" data-steps={script.length} />
-  ),
 }))
 
 describe('SelectedProjects', () => {
@@ -73,15 +67,9 @@ describe('SelectedProjects', () => {
     })
   })
 
-  it('plays the first demo in place of a sixth row', () => {
+  it('renders one card per selected project', () => {
     render(<SelectedProjects />)
 
-    const demo = DEMO_PROJECTS[0]
-    const terminal = screen.getByTestId('mock-terminal')
-    expect(terminal).toHaveAttribute('data-steps', String(demo.demo.length))
-    expect(screen.getByText(demo.title)).toBeInTheDocument()
-
-    const sourceLink = screen.getByRole('link', { name: demo.links[0].name })
-    expect(sourceLink).toHaveAttribute('href', demo.links[0].url)
+    expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(SELECTED_PROJECTS.length)
   })
 })

@@ -21,7 +21,7 @@ import { SiGithub } from 'react-icons/si'
 import { describe, expect, it } from 'vitest'
 
 import {
-  DEMO_PROJECTS,
+  CONTAINER_PROJECTS,
   EXTRAS,
   FAMILIES,
   hydrateProject,
@@ -61,20 +61,20 @@ describe('Data Integrity: SELECTED_PROJECTS', () => {
   })
 })
 
-describe('Data Integrity: DEMO_PROJECTS', () => {
-  it('should provide one demo per section that shows one', () => {
-    expect(DEMO_PROJECTS).toHaveLength(1)
+describe('Data Integrity: CONTAINER_PROJECTS', () => {
+  it('should hold every slim container', () => {
+    expect(CONTAINER_PROJECTS).toHaveLength(5)
   })
 
   it('should be valid projects carrying a populated demo', () => {
-    DEMO_PROJECTS.forEach((project) => {
+    CONTAINER_PROJECTS.forEach((project) => {
       expectValidProject(project)
       expect(project.demo.length).toBeGreaterThan(0)
     })
   })
 
   it('should format demo steps with correct union types', () => {
-    DEMO_PROJECTS.forEach((project) => {
+    CONTAINER_PROJECTS.forEach((project) => {
       project.demo.forEach((step) => {
         expect(['command', 'output', 'custom']).toContain(step.type)
 

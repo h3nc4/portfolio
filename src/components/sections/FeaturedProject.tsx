@@ -36,9 +36,9 @@ interface FeaturedProjectProps {
 export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
   return (
     <AnimatedContent distance={20} direction="vertical" delay={delay}>
-      <section className="space-y-8 text-center lg:text-left">
+      <section className="space-y-8">
         <div className="space-y-4">
-          <div className="text-dawn-accent flex items-center justify-center gap-2 font-mono lg:justify-start">
+          <div className="text-dawn-accent flex items-center gap-2 font-mono">
             <span className="bg-dawn-stone h-px w-8" />
             <span className="text-sm font-medium tracking-wider uppercase">Featured Project</span>
             <span className="bg-dawn-stone hidden h-px w-8" />
@@ -47,14 +47,14 @@ export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
           <h2 className="text-dawn-cream text-3xl font-medium tracking-tight">WASudoku</h2>
           <p className="text-dawn-stone font-mono text-sm tracking-wide">Vite / Rust / TS / PWA</p>
 
-          <p className="text-dawn-taupe mx-auto text-lg leading-relaxed font-light lg:mx-0">
+          <p className="text-dawn-taupe max-w-[52ch] text-lg leading-relaxed font-light">
             A high-performance Sudoku solver and generator running entirely in the browser using
             WebAssembly and Rust. Features a hybrid solving engine (logic + backtracking),
             step-by-step visualization, and a responsive PWA interface.
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
+        <div className="flex flex-wrap gap-4">
           <Button
             className="bg-dawn-accent text-dawn-ground hover:bg-dawn-accent-hi gap-2 font-medium"
             asChild

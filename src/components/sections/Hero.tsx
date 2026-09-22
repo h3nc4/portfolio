@@ -37,18 +37,17 @@ interface HeroProps {
 export function Hero({ delay = 0 }: HeroProps) {
   return (
     <AnimatedContent distance={20} direction="vertical" delay={delay}>
-      <section className="space-y-8 text-center lg:text-left">
+      <section className="space-y-8">
         <div className="space-y-4">
-          <h1 className="text-dawn-cream text-5xl font-normal tracking-tight [text-shadow:0_2px_26px_rgb(16_12_9_/_0.9)] sm:text-6xl md:text-7xl">
+          <h1 className="text-dawn-cream text-[clamp(2.7rem,7vw,5rem)] leading-[1.03] font-normal tracking-tight [text-shadow:0_2px_26px_rgb(16_12_9_/_0.9)]">
             Henrique Almeida
           </h1>
-          <p className="text-dawn-sand mx-auto text-xl leading-relaxed font-light [text-shadow:0_1px_16px_rgb(16_12_9_/_0.9)] lg:mx-0">
-            Software & DevOps Engineer passionate about free software and the GNU/Linux ecosystem
-            along with the UNIX philosophy.
+          <p className="text-dawn-sand max-w-[52ch] text-xl leading-relaxed font-light [text-shadow:0_1px_16px_rgb(16_12_9_/_0.9)]">
+            Software and DevOps engineer. Free software, GNU/Linux, and the UNIX philosophy.
           </p>
         </div>
 
-        <div className="flex justify-center gap-4 lg:justify-start">
+        <div className="flex flex-wrap gap-4">
           <Button
             variant="outline"
             className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
