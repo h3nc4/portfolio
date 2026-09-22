@@ -23,7 +23,7 @@ import { SiGithub } from 'react-icons/si'
 import { RickRoll } from '@/components/RickRoll'
 import type { TerminalStep } from '@/components/TerminalDemo'
 
-import rawProjects from './projects.json'
+import rawData from './projects.json'
 
 export interface ProjectLink {
   name: string
@@ -33,10 +33,57 @@ export interface ProjectLink {
 
 export interface Project {
   title: string
+  language: string
   description: string
   tags: string[]
   links: ProjectLink[]
   demo?: TerminalStep[]
+}
+
+/** One repository inside a family, carrying only enough to name and link it. */
+export interface FamilyItem {
+  title: string
+  what: string
+  url: string
+}
+
+/** A group of repositories that share one idea, listed compactly rather than as cards. */
+export interface Family {
+  name: string
+  items: FamilyItem[]
+}
+
+/** A repository that gets a name and a link. */
+export interface Extra {
+  title: string
+  url: string
+}
+
+/** A project whose demo is known to exist, so consumers do not have to guard it. */
+export interface DemoProject extends Project {
+  demo: TerminalStep[]
+}
+
+export interface RawProjectLink {
+  name: string
+  url: string
+  icon: string
+}
+
+export interface RawProject {
+  title: string
+  language: string
+  description: string
+  tags: string[]
+  links: RawProjectLink[]
+  demo?: unknown[]
+}
+
+interface RawData {
+  selected: RawProject[]
+  containers: RawProject[]
+  families: Family[]
+  extras: Extra[]
 }
 
 const ICON_MAP: Record<string, ElementType> = {
@@ -48,7 +95,7 @@ const MEDIA_MAP: Record<string, React.ReactNode> = {
   'rick-roll': <RickRoll />,
 }
 
-export type RawProject = (typeof rawProjects)[number]
+const data = rawData as RawData
 
 /**
  * Transforms raw JSON project data into a fully typed Project object.
@@ -57,6 +104,7 @@ export type RawProject = (typeof rawProjects)[number]
 export function hydrateProject(project: RawProject): Project {
   return {
     title: project.title,
+    language: project.language,
     description: project.description,
     tags: project.tags,
     links: project.links.map((link) => ({
@@ -95,8 +143,21 @@ export function hydrateProject(project: RawProject): Project {
   }
 }
 
-/**
- * List of minor or secondary projects to be displayed in the grid section.
- * Data is loaded from projects.json and hydrated with React icons.
- */
-export const MINOR_PROJECTS: Project[] = rawProjects.map(hydrateProject)
+/** Projects that each get their own row, one per domain rather than one per repository. */
+export const SELECTED_PROJECTS: Project[] = data.selected.map(hydrateProject)
+
+/** Hydrates a project and guarantees its demo, so consumers do not have to guard it. */
+export function toDemoProject(raw: RawProject): DemoProject {
+  const project = hydrateProject(raw)
+
+  return { ...project, demo: project.demo ?? [] }
+}
+
+/** The slim containers, each paired with the output it prints on startup. */
+export const CONTAINER_PROJECTS: DemoProject[] = data.containers.map(toDemoProject)
+
+/** Repository groups that share one idea, so listing each one separately would repeat it. */
+export const FAMILIES: Family[] = data.families
+
+/** Repositories that get a name and a link. */
+export const EXTRAS: Extra[] = data.extras

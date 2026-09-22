@@ -17,61 +17,64 @@
  */
 
 import AnimatedContent from '@/components/AnimatedContent'
-import { DarkVeil } from '@/components/DarkVeil'
 import { DeviceFrame } from '@/components/DeviceFrame'
+import { ContainerPreviews } from '@/components/sections/ContainerPreviews'
 import { FeaturedProject } from '@/components/sections/FeaturedProject'
 import { Footer } from '@/components/sections/Footer'
 import { Hero } from '@/components/sections/Hero'
-import { MinorProjects } from '@/components/sections/MinorProjects'
+import { ProjectFamilies } from '@/components/sections/ProjectFamilies'
+import { SelectedProjects } from '@/components/sections/SelectedProjects'
+import { useHeroPeek } from '@/hooks/useHeroPeek'
 
 /**
  * Main application component acting as the layout shell.
- * It orchestrates the positioning of the main sections:
- * - Hero & Featured Project (Left Column)
- * - Device Preview (Right Column, Sticky)
- * - Minor Projects Grid (Bottom)
+ * The hero gets a viewport of its own directly on the painting. Everything
+ * below it needs a panel of its own, since content over a photograph has no
+ * ground of its own to remain legible against.
  */
 export default function App() {
+  useHeroPeek()
+
+  // clip, not hidden: hidden on one axis makes the other a scroll container
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden font-sans text-white">
-      {/* Background Effect */}
-      <DarkVeil
-        className="pointer-events-none fixed inset-0 -z-10 h-full w-full"
-        speed={0.4}
-        noiseIntensity={0}
-        scanlineFrequency={0.5}
-        scanlineIntensity={0}
-      />
-
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20">
-        {/* Top Section: Hero + Featured */}
-        <div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:gap-20">
-          {/* Left Column: Content (Hero + Project Info) */}
-          <main className="flex flex-col space-y-16 lg:w-1/2 lg:py-10">
+    <div className="relative min-h-screen w-full overflow-x-clip">
+      <div className="mx-auto max-w-7xl px-6">
+        <main>
+          {/* A full viewport, so scrolling to the top shows the painting uncovered */}
+          <section className="flex min-h-dvh items-center py-20">
             <Hero />
+          </section>
 
-            {/* Visual Divider */}
-            <AnimatedContent distance={20} direction="vertical" delay={0.2}>
-              <hr
-                className="h-px w-full border-0 bg-linear-to-r from-transparent via-zinc-700 to-transparent lg:from-zinc-700 lg:via-zinc-700 lg:to-transparent"
-                aria-hidden="true"
-              />
-            </AnimatedContent>
+          <div className="panel p-6 sm:p-9 lg:p-11">
+            <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+              <div className="lg:w-[52%]">
+                <FeaturedProject />
+              </div>
 
-            <FeaturedProject delay={0.4} />
-          </main>
-
-          {/* Right Column: Device Frame */}
-          <aside className="relative flex w-full justify-center lg:w-1/2 lg:justify-end">
-            <div className="w-full max-w-md lg:sticky lg:top-24">
-              <AnimatedContent distance={40} direction="horizontal" delay={0.6}>
-                <DeviceFrame src="https://wasudoku.h3nc4.com" title="WASudoku Live Preview" />
-              </AnimatedContent>
+              {/* Device frame, beside the project it previews rather than in a rail */}
+              <aside className="relative flex w-full justify-center lg:w-[48%] lg:justify-end">
+                <div className="w-full max-w-md pt-12">
+                  <AnimatedContent distance={40} direction="horizontal" delay={0.4}>
+                    <DeviceFrame src="https://wasudoku.h3nc4.com" title="WASudoku Live Preview" />
+                  </AnimatedContent>
+                </div>
+              </aside>
             </div>
-          </aside>
-        </div>
+          </div>
 
-        <MinorProjects />
+          <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <SelectedProjects />
+          </div>
+
+          <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <ContainerPreviews />
+          </div>
+
+          <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <ProjectFamilies />
+          </div>
+        </main>
+
         <Footer />
       </div>
     </div>

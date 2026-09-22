@@ -55,29 +55,35 @@ describe('DeviceFrame', () => {
     expect(container).toHaveClass('custom-class')
   })
 
-  it('applies scaling styles based on zoom prop', () => {
-    const zoom = 0.5
-    render(<DeviceFrame src="https://example.com" title="Test" zoom={zoom} />)
-    const iframe = screen.getByTitle('Test')
+  // The zoom is published as a custom property and the stylesheet turns it into
+  // width, height and scale, so a media query can lower it on small viewports.
+  const zoomCases: {
+    label: string
+    props: Partial<{ zoom: number; mobileZoom: number; largeZoom: number }>
+    property: string
+    value: string
+  }[] = [
+    { label: 'the desktop default', props: {}, property: '--device-zoom', value: '0.8' },
+    { label: 'the mobile default', props: {}, property: '--device-zoom-sm', value: '0.72' },
+    { label: 'the large default', props: {}, property: '--device-zoom-lg', value: '0.8' },
+    { label: 'an explicit zoom', props: { zoom: 0.5 }, property: '--device-zoom', value: '0.5' },
+    {
+      label: 'an explicit mobile zoom',
+      props: { mobileZoom: 0.4 },
+      property: '--device-zoom-sm',
+      value: '0.4',
+    },
+    {
+      label: 'an explicit large zoom',
+      props: { largeZoom: 0.95 },
+      property: '--device-zoom-lg',
+      value: '0.95',
+    },
+  ]
 
-    // We check inline styles directly because 'toHaveStyle' relies on computed styles.
-    // In real browsers, percentages resolve to pixels and 'scale()' resolves to 'matrix()',
-    // causing tests to fail when comparing against the input strings.
-    // eslint-disable-next-line jest-dom/prefer-to-have-style
-    expect(iframe.style.width).toBe('200%')
-    // eslint-disable-next-line jest-dom/prefer-to-have-style
-    expect(iframe.style.height).toBe('200%')
-    // eslint-disable-next-line jest-dom/prefer-to-have-style
-    expect(iframe.style.transform).toBe('scale(0.5)')
-    // Browsers may normalize '0 0' to '0px 0px', so we check loosely
-    expect(iframe.style.transformOrigin).toMatch(/^0(px)? 0(px)?/)
-  })
+  it.each(zoomCases)('publishes $label as a custom property', ({ props, property, value }) => {
+    render(<DeviceFrame src="https://example.com" title="Test" {...props} />)
 
-  it('uses default zoom of 0.85 if not provided', () => {
-    render(<DeviceFrame src="https://example.com" title="Test" />)
-    const iframe = screen.getByTitle('Test')
-
-    // eslint-disable-next-line jest-dom/prefer-to-have-style
-    expect(iframe.style.transform).toBe('scale(0.85)')
+    expect(screen.getByTitle('Test').style.getPropertyValue(property)).toBe(value)
   })
 })

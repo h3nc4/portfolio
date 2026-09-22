@@ -30,7 +30,7 @@ describe('FeaturedProject', () => {
     render(<FeaturedProject />)
     expect(screen.getByText('Featured Project')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'WASudoku', level: 2 })).toBeInTheDocument()
-    expect(screen.getByText(/Vite • Rust • TS • PWA/i)).toBeInTheDocument()
+    expect(screen.getByText('Vite / Rust / TS / PWA')).toBeInTheDocument()
   })
 
   it('renders project links', () => {

@@ -17,6 +17,27 @@
  */
 
 @import 'tailwindcss';
+@import '@fontsource/spectral/latin-300.css';
+@import '@fontsource/spectral/latin-400.css';
+@import '@fontsource/spectral/latin-500.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
+
+/* Colours here come out of public/landscape.webp, the Dreamweaver wallpaper. */
+@theme {
+  --color-dawn-cream: #f2ebe0;
+  --color-dawn-sand: #decdb7;
+  --color-dawn-taupe: #a0917c;
+  --color-dawn-stone: #6b6457;
+  --color-dawn-line: #382f26;
+  --color-dawn-surface: #241e18;
+  --color-dawn-ground: #1b1611;
+  --color-dawn-accent: #c7ab7b;
+  --color-dawn-accent-hi: #d8be92;
+
+  --font-serif: 'Spectral', Charter, Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
 
 @layer base {
   :root {
@@ -26,14 +47,40 @@
       'calt' 1;
   }
 
+  /* The painting is attached to the root. The page scrolls over it rather than moving it. */
   html {
-    @apply scroll-smooth bg-zinc-950 text-zinc-50 antialiased;
+    @apply scroll-smooth antialiased;
+    background-color: var(--color-dawn-ground);
+    background-image: url('/landscape.webp');
+    background-size: cover;
+    background-position: 50% 35%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     scrollbar-width: thin;
-    scrollbar-color: theme('colors.zinc.800') transparent;
+    scrollbar-color: var(--color-dawn-line) transparent;
   }
 
   body {
-    @apply min-h-screen w-full selection:bg-white/20;
+    @apply text-dawn-cream selection:bg-dawn-accent/25 min-h-screen w-full;
+    font-family: var(--font-serif);
+  }
+
+  /*
+   * The scrim is the price of a full-bleed painting: the sky reads 213 of 255
+   * and the marsh 62, so nothing is legible over both without it.
+   */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgb(27 22 17 / 0.42) 0%,
+      rgb(27 22 17 / 0.62) 38%,
+      rgb(27 22 17 / 0.86) 100%
+    );
   }
 
   ::-webkit-scrollbar {
@@ -46,14 +93,59 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply rounded-full border-2 border-solid border-transparent bg-zinc-700 bg-clip-content transition-colors;
+    @apply bg-dawn-line rounded-full border-2 border-solid border-transparent bg-clip-content transition-colors;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-zinc-600;
+    @apply bg-dawn-stone;
   }
 
   ::-webkit-scrollbar-corner {
     background: transparent;
+  }
+}
+
+@layer components {
+  /* Content over a photograph needs its own ground to remain legible. */
+  .panel {
+    background: rgb(23 18 14 / 0.72);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgb(228 216 200 / 0.14);
+    border-radius: 16px;
+  }
+
+  /* Browsers may decline the blur, so fall back to an opaque panel. */
+  @media (prefers-reduced-transparency: reduce) {
+    .panel {
+      background: #17120e;
+      backdrop-filter: none;
+    }
+  }
+
+  /*
+   * The screen zoom is resolved here rather than inline, which lets the media
+   * query below lower it. A smaller zoom hands the iframe a wider virtual
+   * viewport, and its content is drawn smaller to fit.
+   */
+  .device-screen > iframe {
+    --z: var(--device-zoom, 0.8);
+    width: calc(100% / var(--z));
+    height: calc(100% / var(--z));
+    transform: scale(var(--z));
+    transform-origin: 0 0;
+  }
+
+  /* A phone-width frame is too narrow for the app at desktop zoom. */
+  @media (max-width: 639px) {
+    .device-screen > iframe {
+      --z: var(--device-zoom-sm, 0.72);
+    }
+  }
+
+  /* Past 1024px the frame reaches its full width and can carry a higher zoom. */
+  @media (min-width: 1024px) {
+    .device-screen > iframe {
+      --z: var(--device-zoom-lg, 0.8);
+    }
   }
 }

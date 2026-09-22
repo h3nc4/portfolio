@@ -36,26 +36,29 @@ interface FeaturedProjectProps {
 export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
   return (
     <AnimatedContent distance={20} direction="vertical" delay={delay}>
-      <section className="space-y-8 text-center lg:text-left">
+      <section className="space-y-8">
         <div className="space-y-4">
-          <div className="flex items-center justify-center gap-2 text-zinc-100 lg:justify-start">
-            <span className="h-px w-8 bg-zinc-700" />
+          <div className="text-dawn-accent flex items-center gap-2 font-mono">
+            <span className="bg-dawn-stone h-px w-8" />
             <span className="text-sm font-medium tracking-wider uppercase">Featured Project</span>
-            <span className="hidden h-px w-8 bg-zinc-700" />
+            <span className="bg-dawn-stone hidden h-px w-8" />
           </div>
 
-          <h2 className="text-3xl font-bold text-zinc-100">WASudoku</h2>
-          <p className="text-zinc-400">Vite • Rust • TS • PWA</p>
+          <h2 className="text-dawn-cream text-3xl font-medium tracking-tight">WASudoku</h2>
+          <p className="text-dawn-stone font-mono text-sm tracking-wide">Vite / Rust / TS / PWA</p>
 
-          <p className="mx-auto text-lg leading-relaxed text-zinc-300 lg:mx-0">
+          <p className="text-dawn-taupe max-w-[52ch] text-lg leading-relaxed font-light">
             A high-performance Sudoku solver and generator running entirely in the browser using
             WebAssembly and Rust. Features a hybrid solving engine (logic + backtracking),
             step-by-step visualization, and a responsive PWA interface.
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 lg:justify-start">
-          <Button className="gap-2 bg-white text-black hover:bg-zinc-200" asChild>
+        <div className="flex flex-wrap gap-4">
+          <Button
+            className="bg-dawn-accent text-dawn-ground hover:bg-dawn-accent-hi gap-2 font-medium"
+            asChild
+          >
             <a href="https://wasudoku.h3nc4.com" target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-4 w-4" />
               Open App
@@ -63,7 +66,7 @@ export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
           </Button>
           <Button
             variant="outline"
-            className="gap-2 border-zinc-800 bg-transparent hover:bg-zinc-900"
+            className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
             asChild
           >
             <a href="https://github.com/h3nc4/WASudoku" target="_blank" rel="noopener noreferrer">
@@ -73,7 +76,7 @@ export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
           </Button>
           <Button
             variant="outline"
-            className="gap-2 border-zinc-800 bg-transparent hover:bg-zinc-900"
+            className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
             asChild
           >
             <a href="https://cgit.h3nc4.com/WASudoku" target="_blank" rel="noopener noreferrer">

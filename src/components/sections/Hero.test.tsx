@@ -30,7 +30,7 @@ describe('Hero', () => {
   it('renders heading and description', () => {
     render(<Hero />)
     expect(screen.getByRole('heading', { name: /Henrique Almeida/i, level: 1 })).toBeInTheDocument()
-    expect(screen.getByText(/Software & DevOps Engineer/i)).toBeInTheDocument()
+    expect(screen.getByText(/Software and DevOps engineer/i)).toBeInTheDocument()
   })
 
   it('renders social and contact buttons', () => {

@@ -22,14 +22,14 @@ import { describe, expect, it, vi } from 'vitest'
 import App from './App'
 
 // Mock heavy visual components to ensure integration tests run smoothly in JSDOM
-vi.mock('@/components/DarkVeil', () => ({
-  DarkVeil: () => <div data-testid="mock-dark-veil" />,
-}))
-
 vi.mock('@/components/DeviceFrame', () => ({
   DeviceFrame: ({ title, src }: { title: string; src: string }) => (
     <div data-testid="mock-device-frame" aria-label={title} data-src={src} />
   ),
+}))
+
+vi.mock('@/hooks/useHeroPeek', () => ({
+  useHeroPeek: () => undefined,
 }))
 
 vi.mock('@/components/AnimatedContent', () => ({
@@ -41,9 +41,8 @@ vi.mock('@/components/AnimatedContent', () => ({
 }))
 
 describe('App', () => {
-  it('renders main structure and background', () => {
+  it('renders main structure', () => {
     render(<App />)
-    expect(screen.getByTestId('mock-dark-veil')).toBeInTheDocument()
     expect(screen.getByRole('main')).toBeInTheDocument()
     expect(screen.getByRole('complementary')).toBeInTheDocument() // <aside>
   })
@@ -61,9 +60,20 @@ describe('App', () => {
     // Visual Showcase
     expect(screen.getByTestId('mock-device-frame')).toBeInTheDocument()
 
-    // Minor Projects Content
-    expect(screen.getByRole('heading', { name: /Other Projects/i, level: 2 })).toBeInTheDocument()
-    expect(screen.getByText('yt-dlp-slim')).toBeInTheDocument()
+    // Selected Projects Content
+    expect(
+      screen.getByRole('heading', { name: /Selected Projects/i, level: 2 }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Dreamweaver')).toBeInTheDocument()
+
+    // Containers Content
+    expect(screen.getByRole('heading', { name: /^Containers$/i, level: 2 })).toBeInTheDocument()
+
+    // Repository Families Content
+    expect(
+      screen.getByRole('heading', { name: /Repository Families/i, level: 2 }),
+    ).toBeInTheDocument()
+    expect(screen.getAllByText('nginx-slim').length).toBeGreaterThan(0)
 
     // Footer
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
