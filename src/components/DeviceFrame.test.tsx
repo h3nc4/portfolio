@@ -57,45 +57,33 @@ describe('DeviceFrame', () => {
 
   // The zoom is published as a custom property and the stylesheet turns it into
   // width, height and scale, so a media query can lower it on small viewports.
-  it('publishes the zoom prop as a custom property', () => {
-    render(<DeviceFrame src="https://example.com" title="Test" zoom={0.5} />)
-    const iframe = screen.getByTitle('Test')
+  const zoomCases: {
+    label: string
+    props: Partial<{ zoom: number; mobileZoom: number; largeZoom: number }>
+    property: string
+    value: string
+  }[] = [
+    { label: 'the desktop default', props: {}, property: '--device-zoom', value: '0.8' },
+    { label: 'the mobile default', props: {}, property: '--device-zoom-sm', value: '0.72' },
+    { label: 'the large default', props: {}, property: '--device-zoom-lg', value: '0.8' },
+    { label: 'an explicit zoom', props: { zoom: 0.5 }, property: '--device-zoom', value: '0.5' },
+    {
+      label: 'an explicit mobile zoom',
+      props: { mobileZoom: 0.4 },
+      property: '--device-zoom-sm',
+      value: '0.4',
+    },
+    {
+      label: 'an explicit large zoom',
+      props: { largeZoom: 0.95 },
+      property: '--device-zoom-lg',
+      value: '0.95',
+    },
+  ]
 
-    expect(iframe.style.getPropertyValue('--device-zoom')).toBe('0.5')
-  })
+  it.each(zoomCases)('publishes $label as a custom property', ({ props, property, value }) => {
+    render(<DeviceFrame src="https://example.com" title="Test" {...props} />)
 
-  it('uses default zoom of 0.8 if not provided', () => {
-    render(<DeviceFrame src="https://example.com" title="Test" />)
-    const iframe = screen.getByTitle('Test')
-
-    expect(iframe.style.getPropertyValue('--device-zoom')).toBe('0.8')
-  })
-
-  it('zooms further out below 640px, defaulting to 0.72', () => {
-    render(<DeviceFrame src="https://example.com" title="Test" />)
-    const iframe = screen.getByTitle('Test')
-
-    expect(iframe.style.getPropertyValue('--device-zoom-sm')).toBe('0.72')
-  })
-
-  it('accepts an explicit mobile zoom', () => {
-    render(<DeviceFrame src="https://example.com" title="Test" mobileZoom={0.4} />)
-    const iframe = screen.getByTitle('Test')
-
-    expect(iframe.style.getPropertyValue('--device-zoom-sm')).toBe('0.4')
-  })
-
-  it('matches the desktop zoom from 1024px up, defaulting to 0.8', () => {
-    render(<DeviceFrame src="https://example.com" title="Test" />)
-    const iframe = screen.getByTitle('Test')
-
-    expect(iframe.style.getPropertyValue('--device-zoom-lg')).toBe('0.8')
-  })
-
-  it('accepts an explicit large zoom', () => {
-    render(<DeviceFrame src="https://example.com" title="Test" largeZoom={0.95} />)
-    const iframe = screen.getByTitle('Test')
-
-    expect(iframe.style.getPropertyValue('--device-zoom-lg')).toBe('0.95')
+    expect(screen.getByTitle('Test').style.getPropertyValue(property)).toBe(value)
   })
 })
