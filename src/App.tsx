@@ -22,14 +22,15 @@ import { DeviceFrame } from '@/components/DeviceFrame'
 import { FeaturedProject } from '@/components/sections/FeaturedProject'
 import { Footer } from '@/components/sections/Footer'
 import { Hero } from '@/components/sections/Hero'
-import { MinorProjects } from '@/components/sections/MinorProjects'
+import { ProjectFamilies } from '@/components/sections/ProjectFamilies'
+import { SelectedProjects } from '@/components/sections/SelectedProjects'
 
 /**
  * Main application component acting as the layout shell.
  * It orchestrates the positioning of the main sections:
  * - Hero & Featured Project (Left Column)
  * - Device Preview (Right Column, Sticky)
- * - Minor Projects Grid (Bottom)
+ * - Selected Projects and the repository families (Bottom)
  */
 export default function App() {
   return (
@@ -44,9 +45,9 @@ export default function App() {
       />
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20">
-        {/* Top Section: Hero + Featured */}
+        {/* Top section, hero plus featured */}
         <div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:gap-20">
-          {/* Left Column: Content (Hero + Project Info) */}
+          {/* Left column, hero plus project info */}
           <main className="flex flex-col space-y-16 lg:w-1/2 lg:py-10">
             <Hero />
 
@@ -61,7 +62,7 @@ export default function App() {
             <FeaturedProject delay={0.4} />
           </main>
 
-          {/* Right Column: Device Frame */}
+          {/* Right column, device frame */}
           <aside className="relative flex w-full justify-center lg:w-1/2 lg:justify-end">
             <div className="w-full max-w-md lg:sticky lg:top-24">
               <AnimatedContent distance={40} direction="horizontal" delay={0.6}>
@@ -71,7 +72,8 @@ export default function App() {
           </aside>
         </div>
 
-        <MinorProjects />
+        <SelectedProjects />
+        <ProjectFamilies />
         <Footer />
       </div>
     </div>
