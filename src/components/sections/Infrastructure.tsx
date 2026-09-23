@@ -29,7 +29,7 @@ import { SERVICE_COUNT } from '@/lib/inventory'
  */
 
 /** One figure and what it counts. */
-function Stat({ value, label }: { value: string; label: string }) {
+function Stat({ value, label }: Readonly<{ value: string; label: string }>) {
   return (
     <div>
       <p className="text-dawn-accent-hi font-mono text-3xl leading-none tracking-tight">{value}</p>
