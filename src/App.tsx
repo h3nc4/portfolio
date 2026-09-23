@@ -46,7 +46,7 @@ export default function App() {
           </section>
 
           <div className="hero-sheet">
-            <div className="panel p-6 sm:p-9 lg:p-11">
+            <div id="featured" className="panel scroll-mt-8 p-6 sm:p-9 lg:p-11">
               <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
                 <div className="lg:w-[52%]">
                   <FeaturedProject />
@@ -61,19 +61,19 @@ export default function App() {
               </div>
             </div>
 
-            <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <div id="selected-projects" className="panel mt-8 scroll-mt-8 p-6 sm:p-9 lg:p-11">
               <SelectedProjects />
             </div>
 
-            <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <div id="containers" className="panel mt-8 scroll-mt-8 p-6 sm:p-9 lg:p-11">
               <ContainerPreviews />
             </div>
 
-            <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <div id="infrastructure" className="panel mt-8 scroll-mt-8 p-6 sm:p-9 lg:p-11">
               <Infrastructure />
             </div>
 
-            <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+            <div id="repository-families" className="panel mt-8 scroll-mt-8 p-6 sm:p-9 lg:p-11">
               <ProjectFamilies />
             </div>
           </div>
