@@ -41,7 +41,7 @@ describe('DeviceFrame', () => {
     render(<DeviceFrame src="https://example.com" title="Test" />)
     const iframe = screen.getByTitle('Test')
 
-    expect(iframe).toHaveAttribute('loading', 'lazy')
+    expect(iframe).toHaveAttribute('loading', 'eager')
     expect(iframe).toHaveAttribute('allowFullScreen')
     expect(iframe).toHaveAttribute(
       'allow',
