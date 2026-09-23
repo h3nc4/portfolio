@@ -53,18 +53,20 @@ export function Infrastructure() {
       </AnimatedContent>
 
       <AnimatedContent distance={20} direction="vertical" delay={0.3} threshold={0.1}>
-        <div className="border-dawn-cream/15 mb-10 grid grid-cols-3 gap-6 border-y py-6">
+        <div className="border-dawn-cream/15 grid grid-cols-3 gap-6 border-y py-6">
           <Stat value={String(SERVICE_COUNT)} label="services running" />
           <Stat value={String(PUBLIC_WEB_COUNT)} label="websites served" />
           <Stat value={String(TOPOLOGY_EDGES.length)} label="links between services" />
         </div>
+        <p className="text-dawn-taupe mt-3 mb-10 max-w-prose text-xs font-light">
+          A link is one service that dials another.
+        </p>
       </AnimatedContent>
 
       <AnimatedContent distance={20} direction="vertical" delay={0.2} threshold={0.1}>
         <h3 className="text-dawn-cream mb-1 text-lg font-medium tracking-tight">Public services</h3>
         <p className="text-dawn-taupe mb-4 max-w-prose text-sm font-light">
-          Reachable from anywhere. Most arrive on a connection cloudflared made outward, so they
-          answer on no open port at all.
+          Anyone can reach these. Each answers on its own name over HTTPS.
         </p>
         <HostList reach="public" />
       </AnimatedContent>
@@ -75,8 +77,7 @@ export function Infrastructure() {
             Private services
           </h3>
           <p className="text-dawn-taupe mb-4 max-w-prose text-sm font-light">
-            The same treatment on the LAN, behind a proxy that answers over TLS. These names resolve
-            for nobody outside it.
+            The same names on the LAN, and they resolve for nobody outside it.
           </p>
           <HostList reach="lan" />
         </div>
