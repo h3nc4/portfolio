@@ -16,7 +16,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
-import { PUBLIC_PORT_COUNT } from '@/data/exposure'
 import { PUBLIC_WEB_COUNT } from '@/data/sites'
 import { TOPOLOGY_EDGES } from '@/data/topology'
 import { SERVICE_COUNT } from '@/lib/inventory'
@@ -41,15 +40,15 @@ describe('Infrastructure', () => {
     expect(screen.getByText(String(SERVICE_COUNT))).toBeInTheDocument()
     expect(screen.getByText(String(PUBLIC_WEB_COUNT))).toBeInTheDocument()
     expect(screen.getByText('websites served')).toBeInTheDocument()
-    expect(screen.getByText(String(PUBLIC_PORT_COUNT))).toBeInTheDocument()
     expect(screen.getByText(String(TOPOLOGY_EDGES.length))).toBeInTheDocument()
   })
 
-  it('states that no inbound IPv4 arrives', () => {
+  it('leaves the firewall and address-family detail off the page', () => {
     render(<Infrastructure />)
 
-    expect(screen.getByText('0')).toBeInTheDocument()
-    expect(screen.getByText(/behind the carrier's NAT/)).toBeInTheDocument()
+    expect(screen.queryByText(/ports open to the internet/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/IPv6/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/carrier's NAT/)).not.toBeInTheDocument()
   })
 
   it('carries the two host lists and the rest of what runs', () => {

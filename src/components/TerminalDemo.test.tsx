@@ -349,4 +349,70 @@ describe('TerminalDemo', () => {
     expect(consoleSpy).toHaveBeenCalledWith('Terminal simulation error:', expect.any(Error))
     consoleSpy.mockRestore()
   })
+
+  describe('while off screen', () => {
+    const script: TerminalStep[] = [{ type: 'command', text: 'whoami' }]
+    let report: ((ratio: number) => void) | undefined
+
+    beforeEach(() => {
+      report = undefined
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          observe = vi.fn()
+          unobserve = vi.fn()
+          disconnect = vi.fn()
+
+          constructor(callback: (entries: IntersectionObserverEntry[]) => void) {
+            report = (ratio) => {
+              callback([{ intersectionRatio: ratio } as IntersectionObserverEntry])
+            }
+          }
+        },
+      )
+    })
+
+    afterEach(() => {
+      vi.unstubAllGlobals()
+    })
+
+    it('types nothing until the terminal reaches the screen', async () => {
+      render(<TerminalDemo script={script} startDelay={0} />)
+
+      await advanceTimers(600)
+
+      // the bare prompt is there, and the script has typed nothing
+      expect(screen.getByTestId('active-prompt')).toBeInTheDocument()
+      expect(screen.queryByText(/whoami/)).not.toBeInTheDocument()
+    })
+
+    it('starts from the first keystroke once it arrives', async () => {
+      render(<TerminalDemo script={script} startDelay={0} />)
+      await advanceTimers(600)
+
+      await act(async () => {
+        report?.(0.5)
+      })
+      await advanceTimers(400)
+
+      expect(screen.getByText(/whoami/)).toBeInTheDocument()
+    })
+
+    it('goes back to a bare prompt after it leaves', async () => {
+      render(<TerminalDemo script={script} startDelay={0} />)
+      await act(async () => {
+        report?.(0.5)
+      })
+      await advanceTimers(400)
+      expect(screen.getByText(/whoami/)).toBeInTheDocument()
+
+      await act(async () => {
+        report?.(0)
+      })
+      await advanceTimers(10)
+
+      expect(screen.queryByText(/whoami/)).not.toBeInTheDocument()
+      expect(screen.getByTestId('active-prompt')).toBeInTheDocument()
+    })
+  })
 })

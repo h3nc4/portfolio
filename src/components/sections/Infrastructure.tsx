@@ -16,7 +16,6 @@
 import AnimatedContent from '@/components/AnimatedContent'
 import { AlsoRunning } from '@/components/infra/AlsoRunning'
 import { HostList } from '@/components/infra/HostList'
-import { PUBLIC_PORT_COUNT } from '@/data/exposure'
 import { PUBLIC_WEB_COUNT } from '@/data/sites'
 import { TOPOLOGY_EDGES } from '@/data/topology'
 import { SERVICE_COUNT } from '@/lib/inventory'
@@ -54,11 +53,9 @@ export function Infrastructure() {
       </AnimatedContent>
 
       <AnimatedContent distance={20} direction="vertical" delay={0.3} threshold={0.1}>
-        <div className="border-dawn-cream/15 mb-10 grid grid-cols-2 gap-6 border-y py-6 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="border-dawn-cream/15 mb-10 grid grid-cols-3 gap-6 border-y py-6">
           <Stat value={String(SERVICE_COUNT)} label="services running" />
           <Stat value={String(PUBLIC_WEB_COUNT)} label="websites served" />
-          <Stat value={String(PUBLIC_PORT_COUNT)} label="ports open to the internet, all IPv6" />
-          <Stat value="0" label="inbound IPv4, behind the carrier's NAT" />
           <Stat value={String(TOPOLOGY_EDGES.length)} label="links between services" />
         </div>
       </AnimatedContent>
