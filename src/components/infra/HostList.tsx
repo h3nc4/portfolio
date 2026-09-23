@@ -23,7 +23,7 @@ import { isBrowsable, type Site, type SiteReach, sitesReaching, siteUrl } from '
 const ROW = 'flex flex-wrap items-baseline gap-x-2 border-b border-dawn-cream/10 py-2'
 
 /** What answers the hostname, and one sentence on what it does. */
-function Detail({ site }: { site: Site }) {
+function Detail({ site }: Readonly<{ site: Site }>) {
   return (
     <>
       <span className="text-dawn-sand ml-auto font-mono text-[10px] tracking-wide">
@@ -36,7 +36,7 @@ function Detail({ site }: { site: Site }) {
   )
 }
 
-export function HostList({ reach }: { reach: SiteReach }) {
+export function HostList({ reach }: Readonly<{ reach: SiteReach }>) {
   return (
     <ul
       data-testid={`hosts-${reach}`}
