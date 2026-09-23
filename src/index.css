@@ -23,7 +23,7 @@
 @import '@fontsource/ibm-plex-mono/latin-400.css';
 @import '@fontsource/ibm-plex-mono/latin-500.css';
 
-/* Colours here come out of public/landscape.webp, the Dreamweaver wallpaper. */
+/* Warm tokens picked to sit against the background rather than sampled out of it. */
 @theme {
   --color-dawn-cream: #f2ebe0;
   --color-dawn-sand: #decdb7;
@@ -47,13 +47,21 @@
       'calt' 1;
   }
 
-  /* The painting is attached to the root. The page scrolls over it rather than moving it. */
+  /*
+   * The background is Jan van Goyen, River Landscape with a Church in the
+   * Distance, a seventeenth-century work in the public domain. It comes from
+   * Wikimedia Commons, file
+   * Jan_van_Goyen_-_River_Landscape_with_a_Church_in_the_Distance_-_Google_Art_Project.jpg
+   *
+   * The painting is attached to the root. The page scrolls over it rather than
+   * moving it.
+   */
   html {
     @apply scroll-smooth antialiased;
     background-color: var(--color-dawn-ground);
     background-image: url('/landscape.webp');
     background-size: cover;
-    background-position: 50% 35%;
+    background-position: 75% 85%;
     background-repeat: no-repeat;
     background-attachment: fixed;
     scrollbar-width: thin;
@@ -66,8 +74,8 @@
   }
 
   /*
-   * The scrim is the price of a full-bleed painting: the sky reads 213 of 255
-   * and the marsh 62, so nothing is legible over both without it.
+   * The scrim is the price of a full-bleed painting. This sky reads 188 of 255
+   * and the near water 91, so light text needs the ground darkened a little.
    */
   body::before {
     content: '';
@@ -77,10 +85,25 @@
     pointer-events: none;
     background: linear-gradient(
       to bottom,
-      rgb(27 22 17 / 0.42) 0%,
-      rgb(27 22 17 / 0.62) 38%,
-      rgb(27 22 17 / 0.86) 100%
+      rgb(27 22 17 / 0.18) 0%,
+      rgb(27 22 17 / 0.42) 38%,
+      rgb(27 22 17 / 0.6) 100%
     );
+  }
+
+  /*
+   * A shade at the foot of the viewport gives the footer a darker ground. The
+   * dim stone colour measured 3.18 against 1 there, under the 4.5 that body
+   * text needs.
+   */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: auto 0 0 0;
+    height: 22vh;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(to top, rgb(23 18 14 / 0.8), rgb(23 18 14 / 0));
   }
 
   ::-webkit-scrollbar {
@@ -106,6 +129,29 @@
 }
 
 @layer components {
+  /*
+   * The hero holds at the top of the viewport while the panels ride up over
+   * it, which uncovers the painting behind them as it shrinks away.
+   */
+  .hero-pin {
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    z-index: 0;
+  }
+
+  /* The scroll-driven shrink applies here. An off-centre origin keeps the type in place. */
+  .hero-body {
+    transform-origin: 18% 50%;
+    will-change: transform, opacity, filter;
+  }
+
+  /* The panels stack above the hero. The overlap then reads as depth rather than a cut. */
+  .hero-sheet {
+    position: relative;
+    z-index: 1;
+  }
+
   /* Content over a photograph needs its own ground to remain legible. */
   .panel {
     background: rgb(23 18 14 / 0.72);
@@ -139,6 +185,16 @@
   @media (max-width: 639px) {
     .device-screen > iframe {
       --z: var(--device-zoom-sm, 0.72);
+    }
+  }
+
+  /*
+   * Under 430px the frame stops reaching its 360px cap, so it loses height and
+   * the app inside it starts to scroll. Zooming out further buys that height back.
+   */
+  @media (max-width: 429px) {
+    .device-screen > iframe {
+      --z: var(--device-zoom-xs, 0.62);
     }
   }
 

@@ -30,6 +30,11 @@ vi.mock('@/components/DeviceFrame', () => ({
 
 vi.mock('@/hooks/useHeroPeek', () => ({
   useHeroPeek: () => undefined,
+  HERO_PEEK: 0.14,
+}))
+
+vi.mock('@/hooks/useHeroPin', () => ({
+  useHeroPin: () => undefined,
 }))
 
 vi.mock('@/components/AnimatedContent', () => ({

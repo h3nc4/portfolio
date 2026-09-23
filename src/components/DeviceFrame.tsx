@@ -41,6 +41,11 @@ interface DeviceFrameProps {
    * Default: 0.8
    */
   readonly largeZoom?: number
+  /**
+   * The same, under 430px, where the frame no longer reaches its 360px cap.
+   * Default: 0.62
+   */
+  readonly smallPhoneZoom?: number
 }
 
 /**
@@ -55,6 +60,7 @@ export function DeviceFrame({
   zoom = 0.8,
   mobileZoom = 0.72,
   largeZoom = 0.8,
+  smallPhoneZoom = 0.62,
 }: DeviceFrameProps) {
   return (
     <div
@@ -98,6 +104,7 @@ export function DeviceFrame({
                   '--device-zoom': zoom,
                   '--device-zoom-sm': mobileZoom,
                   '--device-zoom-lg': largeZoom,
+                  '--device-zoom-xs': smallPhoneZoom,
                 } as CSSProperties
               }
               loading="lazy"

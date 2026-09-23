@@ -1,0 +1,114 @@
+{
+  "rules": [
+    {
+      "id": "wg",
+      "ports": ["51820"],
+      "proto": "udp",
+      "family": "IPv6",
+      "reach": "internet",
+      "service": "lan.gem.onhost.wg",
+      "listens": "wireguard",
+      "purpose": "Remote access to the LAN over WireGuard."
+    },
+    {
+      "id": "mail",
+      "ports": ["25", "587", "993"],
+      "proto": "tcp",
+      "family": "IPv6",
+      "reach": "internet",
+      "service": "lan.gem.docker.bridged.maddy",
+      "listens": "maddy",
+      "purpose": "Mail for h3nc4.com. SMTP on 25, submission on 587, IMAPS on 993."
+    },
+    {
+      "id": "snowflake",
+      "ports": ["40000-40040"],
+      "proto": "udp",
+      "family": "IPv6",
+      "reach": "internet",
+      "service": "lan.gem.docker.netns.snow",
+      "listens": "snowflake-proxy",
+      "purpose": "A Tor Snowflake proxy, relaying for clients in censored networks."
+    },
+    {
+      "id": "web",
+      "ports": [],
+      "proto": "tcp",
+      "family": "none",
+      "reach": "tunnel",
+      "service": "lan.gem.docker.quiet.cfd",
+      "listens": "cloudflared",
+      "purpose": "Serves h3nc4.com, wasudoku and cgit through an outbound Cloudflare tunnel."
+    },
+    {
+      "id": "onion",
+      "ports": [],
+      "proto": "tcp",
+      "family": "none",
+      "reach": "tunnel",
+      "service": "lan.gem.docker.bridged.tor",
+      "listens": "tor",
+      "purpose": "The same sites again, as a Tor hidden service."
+    },
+    {
+      "id": "ssh",
+      "ports": ["22"],
+      "proto": "tcp",
+      "family": "IPv4",
+      "reach": "lan",
+      "service": "lan.gem.onhost.sshd",
+      "listens": "sshd",
+      "purpose": "Host administration."
+    },
+    {
+      "id": "sync",
+      "ports": ["22000", "21027"],
+      "proto": "tcp and udp",
+      "family": "IPv4",
+      "reach": "lan",
+      "service": "lan.gem.docker.netns.sync",
+      "listens": "syncthing",
+      "purpose": "Syncthing, paired with gems. The sync protocol and LAN discovery."
+    },
+    {
+      "id": "lanui",
+      "ports": ["8384", "51821"],
+      "proto": "tcp",
+      "family": "IPv4",
+      "reach": "bridge",
+      "service": "lan.gem.docker.bridged.proxy",
+      "listens": "syncthing GUI, wg-easy UI",
+      "purpose": "The Syncthing and wg-easy web interfaces, which lan-proxy serves over TLS."
+    },
+    {
+      "id": "dns",
+      "ports": ["53"],
+      "proto": "tcp and udp",
+      "family": "IPv4",
+      "reach": "bridge",
+      "service": "lan.gem.docker.bridged.dns",
+      "listens": "CoreDNS",
+      "purpose": "DNS for containers."
+    },
+    {
+      "id": "dhcp",
+      "ports": ["53", "67"],
+      "proto": "tcp and udp",
+      "family": "IPv4",
+      "reach": "vm",
+      "service": "lan.gem.vm.dnsmasq",
+      "listens": "dnsmasq",
+      "purpose": "DHCP and DNS for the CI guest."
+    },
+    {
+      "id": "socks",
+      "ports": ["9050"],
+      "proto": "tcp",
+      "family": "IPv4",
+      "reach": "loopback",
+      "service": "lan.gem.docker.bridged.tor",
+      "listens": "tor SOCKS",
+      "purpose": "A SOCKS proxy for outbound requests over Tor."
+    }
+  ]
+}

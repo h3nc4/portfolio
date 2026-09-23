@@ -17,11 +17,13 @@
  */
 
 import { Mail } from 'lucide-react'
+import { useRef } from 'react'
 import { FaLinkedin } from 'react-icons/fa6'
 import { SiGithub } from 'react-icons/si'
 
 import AnimatedContent from '@/components/AnimatedContent'
 import { Button } from '@/components/ui/button'
+import { useHeroPin } from '@/hooks/useHeroPin'
 
 interface HeroProps {
   /**
@@ -35,9 +37,12 @@ interface HeroProps {
  * Hero section displaying the introduction, role, and social action buttons.
  */
 export function Hero({ delay = 0 }: HeroProps) {
+  const body = useRef<HTMLElement>(null)
+  useHeroPin(body)
+
   return (
     <AnimatedContent distance={20} direction="vertical" delay={delay}>
-      <section className="space-y-8">
+      <section ref={body} className="hero-body space-y-8">
         <div className="space-y-4">
           <h1 className="text-dawn-cream text-[clamp(2.7rem,7vw,5rem)] leading-[1.03] font-normal tracking-tight [text-shadow:0_2px_26px_rgb(16_12_9_/_0.9)]">
             Henrique Almeida
@@ -53,8 +58,13 @@ export function Hero({ delay = 0 }: HeroProps) {
             className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
             asChild
           >
-            <a href="https://github.com/h3nc4" target="_blank" rel="noopener noreferrer">
-              <SiGithub className="h-4 w-4" />
+            <a
+              href="https://github.com/h3nc4"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub profile"
+            >
+              <SiGithub className="h-4 w-4" aria-hidden="true" />
               GitHub
             </a>
           </Button>
@@ -64,7 +74,7 @@ export function Hero({ delay = 0 }: HeroProps) {
             asChild
           >
             <a href="https://linkedin.com/in/h3nc4" target="_blank" rel="noopener noreferrer">
-              <FaLinkedin className="h-4 w-4" />
+              <FaLinkedin className="h-4 w-4" aria-hidden="true" />
               LinkedIn
             </a>
           </Button>

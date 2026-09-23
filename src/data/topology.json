@@ -1,0 +1,815 @@
+{
+  "nodes": [
+    {
+      "id": "internet",
+      "kind": "zone",
+      "label": "Internet",
+      "col": 0,
+      "children": [
+        {
+          "id": "internet.visitor",
+          "kind": "service",
+          "label": "web visitor"
+        },
+        {
+          "id": "internet.mta",
+          "kind": "service",
+          "label": "sending MTA"
+        },
+        {
+          "id": "internet.peer",
+          "kind": "service",
+          "label": "WireGuard peer",
+          "note": "remote"
+        },
+        {
+          "id": "internet.censored",
+          "kind": "service",
+          "label": "Tor client",
+          "note": "censored"
+        },
+        {
+          "id": "internet.hidden",
+          "kind": "group",
+          "label": "Hidden internet",
+          "children": [
+            {
+              "id": "internet.hidden.user",
+              "kind": "service",
+              "label": "Tor user"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cf",
+      "kind": "zone",
+      "label": "Cloudflare",
+      "col": 1,
+      "children": [
+        {
+          "id": "cf.edge",
+          "kind": "service",
+          "label": "edge + WAF"
+        }
+      ]
+    },
+    {
+      "id": "router",
+      "kind": "device",
+      "label": "router",
+      "col": 1
+    },
+    {
+      "id": "lan",
+      "kind": "zone",
+      "label": "LAN",
+      "col": 2,
+      "children": [
+        {
+          "id": "lan.gem",
+          "kind": "machine",
+          "label": "gem server",
+          "children": [
+            {
+              "id": "lan.gem.onhost",
+              "kind": "runtime",
+              "label": "on the host",
+              "children": [
+                {
+                  "id": "lan.gem.onhost.sshd",
+                  "kind": "service",
+                  "label": "sshd",
+                  "ports": ["22"]
+                },
+                {
+                  "id": "lan.gem.onhost.wg",
+                  "kind": "service",
+                  "label": "wireguard",
+                  "note": "kernel",
+                  "ports": ["51820"]
+                },
+                {
+                  "id": "lan.gem.onhost.ops",
+                  "kind": "service",
+                  "label": "nftables",
+                  "items": ["cron", "ntpd"]
+                }
+              ]
+            },
+            {
+              "id": "lan.gem.docker",
+              "kind": "runtime",
+              "label": "Docker",
+              "addr": "lanhost",
+              "children": [
+                {
+                  "id": "lan.gem.docker.netns",
+                  "kind": "group",
+                  "label": "host network",
+                  "children": [
+                    {
+                      "id": "lan.gem.docker.netns.wgui",
+                      "kind": "service",
+                      "label": "wg-easy UI",
+                      "note": "br-lanhost",
+                      "ports": ["51821"]
+                    },
+                    {
+                      "id": "lan.gem.docker.netns.sync",
+                      "kind": "service",
+                      "label": "syncthing",
+                      "note": "br-lanhost",
+                      "ports": ["22000", "21027", "8384"]
+                    },
+                    {
+                      "id": "lan.gem.docker.netns.snow",
+                      "kind": "service",
+                      "label": "snowflake-proxy",
+                      "ports": ["40000-40040"]
+                    },
+                    {
+                      "id": "lan.gem.docker.netns.tddns",
+                      "kind": "service",
+                      "label": "tddns"
+                    }
+                  ]
+                },
+                {
+                  "id": "lan.gem.docker.bridged",
+                  "kind": "group",
+                  "label": "published by docker-proxy",
+                  "children": [
+                    {
+                      "id": "lan.gem.docker.bridged.proxy",
+                      "kind": "service",
+                      "label": "lan-proxy",
+                      "ports": ["443"]
+                    },
+                    {
+                      "id": "lan.gem.docker.bridged.maddy",
+                      "kind": "service",
+                      "label": "maddy",
+                      "ports": ["25", "587", "993"]
+                    },
+                    {
+                      "id": "lan.gem.docker.bridged.dns",
+                      "kind": "service",
+                      "label": "CoreDNS",
+                      "note": "DoT on 853",
+                      "ports": ["53", "853"]
+                    },
+                    {
+                      "id": "lan.gem.docker.bridged.forgejo",
+                      "kind": "service",
+                      "label": "forgejo",
+                      "note": "ssh",
+                      "ports": ["2222"]
+                    },
+                    {
+                      "id": "lan.gem.docker.bridged.tor",
+                      "kind": "service",
+                      "label": "tor",
+                      "note": "SOCKS, hidden service",
+                      "ports": ["9050"]
+                    },
+                    {
+                      "id": "lan.gem.docker.bridged.mc",
+                      "kind": "service",
+                      "label": "minecraft",
+                      "ports": ["25565"]
+                    }
+                  ]
+                },
+                {
+                  "id": "lan.gem.docker.quiet",
+                  "kind": "group",
+                  "label": "no published port",
+                  "children": [
+                    {
+                      "id": "lan.gem.docker.quiet.cfd",
+                      "kind": "service",
+                      "label": "cloudflared"
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.torrp",
+                      "kind": "service",
+                      "label": "tor-reverse-proxy"
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.web",
+                      "kind": "service",
+                      "label": "h3nc4",
+                      "items": ["wasudoku"]
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.pub",
+                      "kind": "service",
+                      "label": "cgit",
+                      "items": ["http-static"]
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.none",
+                      "kind": "service",
+                      "label": "forgejo-db",
+                      "items": ["renovate", "restic"]
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.bolao",
+                      "kind": "service",
+                      "label": "private service",
+                      "hidden": true
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.rgems",
+                      "kind": "service",
+                      "label": "restic-gems",
+                      "note": "copy to gems"
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.offs",
+                      "kind": "service",
+                      "label": "media-offsite",
+                      "note": "encrypted, to the offsite mesh"
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.ptail",
+                      "kind": "service",
+                      "label": "promtail",
+                      "note": "push to gems"
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.runner",
+                      "kind": "service",
+                      "label": "forgejo-runner",
+                      "note": "docker socket"
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.nodeexp",
+                      "kind": "service",
+                      "label": "node-exporter"
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.cadv",
+                      "kind": "service",
+                      "label": "cadvisor"
+                    },
+                    {
+                      "id": "lan.gem.docker.quiet.sonar",
+                      "kind": "service",
+                      "label": "sonarqube",
+                      "items": ["sonarqube-db"]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "lan.gem.vm",
+              "kind": "runtime",
+              "label": "libvirt NAT",
+              "addr": "virbr0",
+              "children": [
+                {
+                  "id": "lan.gem.vm.dnsmasq",
+                  "kind": "service",
+                  "label": "dnsmasq",
+                  "note": "DHCP and DNS",
+                  "ports": ["67", "53"]
+                },
+                {
+                  "id": "lan.gem.vm.cia",
+                  "kind": "service",
+                  "label": "ci-a",
+                  "items": ["forgejo-runner"]
+                },
+                {
+                  "id": "lan.gem.vm.cib",
+                  "kind": "service",
+                  "label": "ci-b",
+                  "items": ["forgejo-runner"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lan.gems",
+          "kind": "machine",
+          "label": "gems desktop",
+          "children": [
+            {
+              "id": "lan.gems.onhost",
+              "kind": "runtime",
+              "label": "on the host",
+              "children": [
+                {
+                  "id": "lan.gems.onhost.gsshd",
+                  "kind": "service",
+                  "label": "sshd",
+                  "ports": ["22"]
+                }
+              ]
+            },
+            {
+              "id": "lan.gems.docker",
+              "kind": "runtime",
+              "label": "Docker",
+              "children": [
+                {
+                  "id": "lan.gems.docker.netns",
+                  "kind": "group",
+                  "label": "host network",
+                  "children": [
+                    {
+                      "id": "lan.gems.docker.netns.gsync",
+                      "kind": "service",
+                      "label": "syncthing",
+                      "ports": ["22000", "21027"]
+                    },
+                    {
+                      "id": "lan.gems.docker.netns.gtor",
+                      "kind": "service",
+                      "label": "tor",
+                      "note": "SOCKS",
+                      "ports": ["9050"]
+                    }
+                  ]
+                },
+                {
+                  "id": "lan.gems.docker.bridged",
+                  "kind": "group",
+                  "label": "published by docker-proxy",
+                  "children": [
+                    {
+                      "id": "lan.gems.docker.bridged.tproxy",
+                      "kind": "service",
+                      "label": "tls-proxy",
+                      "ports": ["443"]
+                    },
+                    {
+                      "id": "lan.gems.docker.bridged.dns2",
+                      "kind": "service",
+                      "label": "CoreDNS",
+                      "note": "DoT on 853",
+                      "ports": ["53", "853"]
+                    }
+                  ]
+                },
+                {
+                  "id": "lan.gems.docker.quiet",
+                  "kind": "group",
+                  "label": "no published port",
+                  "children": [
+                    {
+                      "id": "lan.gems.docker.quiet.rest",
+                      "kind": "service",
+                      "label": "restic-rest"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.jelly",
+                      "kind": "service",
+                      "label": "jellyfin"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.prom",
+                      "kind": "service",
+                      "label": "prometheus"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.alert",
+                      "kind": "service",
+                      "label": "alertmanager"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.graf",
+                      "kind": "service",
+                      "label": "grafana"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.loki",
+                      "kind": "service",
+                      "label": "loki"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.gatus",
+                      "kind": "service",
+                      "label": "gatus"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.gnode",
+                      "kind": "service",
+                      "label": "node-exporter"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.gcadv",
+                      "kind": "service",
+                      "label": "cadvisor"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.gptail",
+                      "kind": "service",
+                      "label": "promtail"
+                    },
+                    {
+                      "id": "lan.gems.docker.quiet.grunner",
+                      "kind": "service",
+                      "label": "forgejo-runner",
+                      "note": "docker socket"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "lan.gems.vm",
+              "kind": "runtime",
+              "label": "libvirt NAT",
+              "addr": "virbr0",
+              "children": [
+                {
+                  "id": "lan.gems.vm.cic",
+                  "kind": "service",
+                  "label": "ci-c",
+                  "items": ["forgejo-runner"]
+                },
+                {
+                  "id": "lan.gems.vm.cid",
+                  "kind": "service",
+                  "label": "ci-d",
+                  "items": ["forgejo-runner"]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upstream",
+      "kind": "zone",
+      "label": "Upstream DNS",
+      "col": 3,
+      "children": [
+        {
+          "id": "upstream.r",
+          "kind": "service",
+          "label": "Cloudflare DoT"
+        }
+      ]
+    },
+    {
+      "id": "offsite",
+      "kind": "zone",
+      "label": "Offsite storage",
+      "col": 3,
+      "children": [
+        {
+          "id": "offsite.drive",
+          "kind": "group",
+          "label": "account mesh",
+          "children": [
+            {
+              "id": "offsite.drive.a",
+              "kind": "service",
+              "label": "account one"
+            },
+            {
+              "id": "offsite.drive.b",
+              "kind": "service",
+              "label": "account two"
+            },
+            {
+              "id": "offsite.drive.c",
+              "kind": "service",
+              "label": "more accounts"
+            }
+          ],
+          "note": "rclone crypt over a union, so a provider holds only ciphertext"
+        }
+      ]
+    },
+    {
+      "id": "telegram",
+      "kind": "zone",
+      "label": "Telegram Bot API",
+      "col": 3,
+      "children": [
+        {
+          "id": "telegram.api",
+          "kind": "service",
+          "label": "api.telegram.org"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "internet.visitor",
+      "to": "cf.edge",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "cf.edge",
+      "to": "lan.gem.docker.quiet.cfd",
+      "label": "outbound tunnel",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.quiet.cfd",
+      "to": "lan.gem.docker.quiet.web",
+      "label": "http",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.quiet.cfd",
+      "to": "lan.gem.docker.quiet.pub",
+      "label": "http",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.quiet.cfd",
+      "to": "lan.gem.docker.quiet.bolao",
+      "label": "http",
+      "kind": "host"
+    },
+    {
+      "from": "internet.hidden.user",
+      "to": "lan.gem.docker.bridged.tor",
+      "label": "onion circuit",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.bridged.tor",
+      "to": "lan.gem.docker.quiet.torrp",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.quiet.torrp",
+      "to": "lan.gem.docker.quiet.web",
+      "label": "http",
+      "kind": "host"
+    },
+    {
+      "from": "internet.mta",
+      "to": "router",
+      "label": "IPv6 TLS",
+      "kind": "tls"
+    },
+    {
+      "from": "router",
+      "to": "lan.gem.docker.bridged.maddy",
+      "label": "IPv6 TLS",
+      "kind": "tls"
+    },
+    {
+      "from": "internet.peer",
+      "to": "router",
+      "label": "IPv6",
+      "kind": "tls"
+    },
+    {
+      "from": "router",
+      "to": "lan.gem.onhost.wg",
+      "label": "IPv6",
+      "kind": "tls"
+    },
+    {
+      "from": "internet.censored",
+      "to": "router",
+      "label": "WebRTC 40000-40040",
+      "kind": "tls"
+    },
+    {
+      "from": "router",
+      "to": "lan.gem.docker.netns.snow",
+      "label": "WebRTC 40000-40040",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gems",
+      "to": "lan.gem.docker.bridged.proxy",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gems",
+      "to": "lan.gem.onhost.sshd",
+      "label": "ssh",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gems.docker.bridged.tproxy",
+      "to": "lan.gems.docker.quiet.jelly",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.bridged.dns",
+      "to": "upstream.r",
+      "label": "DoT",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.bridged.proxy",
+      "to": "lan.gem.docker.netns.wgui",
+      "label": "br-lanhost",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.bridged.proxy",
+      "to": "lan.gem.docker.netns.sync",
+      "label": "br-lanhost",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.bridged.proxy",
+      "to": "lan.gem.docker.bridged.forgejo",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.quiet.rgems",
+      "to": "lan.gems.docker.bridged.tproxy",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gems.docker.bridged.tproxy",
+      "to": "lan.gems.docker.quiet.rest",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.quiet.offs",
+      "to": "offsite.drive",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.netns.sync",
+      "to": "lan.gems.docker.netns.gsync",
+      "label": "22000 TLS",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.quiet.cfd",
+      "to": "lan.gems.docker.bridged.tproxy",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.quiet.ptail",
+      "to": "lan.gems.docker.bridged.tproxy",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gems.docker.quiet.prom",
+      "to": "lan.gem.docker.bridged.proxy",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.bridged.proxy",
+      "to": "lan.gem.docker.quiet.nodeexp",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.bridged.proxy",
+      "to": "lan.gem.docker.quiet.cadv",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.bridged.tproxy",
+      "to": "lan.gems.docker.quiet.graf",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.bridged.tproxy",
+      "to": "lan.gems.docker.quiet.loki",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.quiet.gptail",
+      "to": "lan.gems.docker.quiet.loki",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.quiet.prom",
+      "to": "lan.gems.docker.quiet.gnode",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.quiet.prom",
+      "to": "lan.gems.docker.quiet.gcadv",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.quiet.prom",
+      "to": "lan.gems.docker.quiet.alert",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.quiet.graf",
+      "to": "lan.gems.docker.quiet.prom",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.quiet.graf",
+      "to": "lan.gems.docker.quiet.loki",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.docker.quiet.runner",
+      "to": "lan.gem.docker.bridged.forgejo",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.quiet.grunner",
+      "to": "lan.gem.docker.bridged.proxy",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.bridged.proxy",
+      "to": "lan.gem.docker.quiet.sonar",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.onhost.ops",
+      "to": "telegram.api",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gems.docker.quiet.alert",
+      "to": "telegram.api",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gems.docker.quiet.gatus",
+      "to": "telegram.api",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gems.docker.netns.gtor",
+      "to": "router",
+      "label": "tor circuits",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.vm.cia",
+      "to": "lan.gem.vm.dnsmasq",
+      "label": "DHCP 67, DNS 53",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.vm.cib",
+      "to": "lan.gem.vm.dnsmasq",
+      "label": "DHCP 67, DNS 53",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.vm.cia",
+      "to": "lan.gem.docker.bridged.proxy",
+      "label": "https",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.vm.cib",
+      "to": "lan.gem.docker.bridged.proxy",
+      "label": "https",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.vm.cic",
+      "to": "lan.gem.docker.bridged.proxy",
+      "label": "https",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gems.vm.cid",
+      "to": "lan.gem.docker.bridged.proxy",
+      "label": "https",
+      "kind": "tls"
+    }
+  ]
+}

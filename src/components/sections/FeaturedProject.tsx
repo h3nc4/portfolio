@@ -69,8 +69,13 @@ export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
             className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
             asChild
           >
-            <a href="https://github.com/h3nc4/WASudoku" target="_blank" rel="noopener noreferrer">
-              <SiGithub className="h-4 w-4" />
+            <a
+              href="https://github.com/h3nc4/WASudoku"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WASudoku on GitHub"
+            >
+              <SiGithub className="h-4 w-4" aria-hidden="true" />
               GitHub
             </a>
           </Button>
@@ -79,7 +84,12 @@ export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
             className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
             asChild
           >
-            <a href="https://cgit.h3nc4.com/WASudoku" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://cgit.h3nc4.com/WASudoku"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WASudoku on cgit"
+            >
               <GitBranch className="h-4 w-4" />
               cgit
             </a>

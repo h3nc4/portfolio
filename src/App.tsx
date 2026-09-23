@@ -22,6 +22,7 @@ import { ContainerPreviews } from '@/components/sections/ContainerPreviews'
 import { FeaturedProject } from '@/components/sections/FeaturedProject'
 import { Footer } from '@/components/sections/Footer'
 import { Hero } from '@/components/sections/Hero'
+import { Infrastructure } from '@/components/sections/Infrastructure'
 import { ProjectFamilies } from '@/components/sections/ProjectFamilies'
 import { SelectedProjects } from '@/components/sections/SelectedProjects'
 import { useHeroPeek } from '@/hooks/useHeroPeek'
@@ -41,37 +42,43 @@ export default function App() {
       <div className="mx-auto max-w-7xl px-6">
         <main>
           {/* A full viewport, so scrolling to the top shows the painting uncovered */}
-          <section className="flex min-h-dvh items-center py-20">
+          <section className="hero-pin flex items-center">
             <Hero />
           </section>
 
-          <div className="panel p-6 sm:p-9 lg:p-11">
-            <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
-              <div className="lg:w-[52%]">
-                <FeaturedProject />
-              </div>
-
-              {/* Device frame, beside the project it previews rather than in a rail */}
-              <aside className="relative flex w-full justify-center lg:w-[48%] lg:justify-end">
-                <div className="w-full max-w-md pt-12">
-                  <AnimatedContent distance={40} direction="horizontal" delay={0.4}>
-                    <DeviceFrame src="https://wasudoku.h3nc4.com" title="WASudoku Live Preview" />
-                  </AnimatedContent>
+          <div className="hero-sheet">
+            <div className="panel p-6 sm:p-9 lg:p-11">
+              <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+                <div className="lg:w-[52%]">
+                  <FeaturedProject />
                 </div>
-              </aside>
+
+                {/* Device frame, beside the project it previews rather than in a rail */}
+                <aside className="relative flex w-full justify-center lg:w-[48%] lg:justify-end">
+                  <div className="w-full max-w-md pt-12">
+                    <AnimatedContent distance={40} direction="horizontal" delay={0.4}>
+                      <DeviceFrame src="https://wasudoku.h3nc4.com" title="WASudoku Live Preview" />
+                    </AnimatedContent>
+                  </div>
+                </aside>
+              </div>
             </div>
-          </div>
 
-          <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
-            <SelectedProjects />
-          </div>
+            <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+              <SelectedProjects />
+            </div>
 
-          <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
-            <ContainerPreviews />
-          </div>
+            <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+              <ContainerPreviews />
+            </div>
 
-          <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
-            <ProjectFamilies />
+            <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+              <Infrastructure />
+            </div>
+
+            <div className="panel mt-8 p-6 sm:p-9 lg:p-11">
+              <ProjectFamilies />
+            </div>
           </div>
         </main>
 
