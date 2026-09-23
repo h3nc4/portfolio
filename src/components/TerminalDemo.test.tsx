@@ -37,8 +37,8 @@ describe('TerminalDemo', () => {
     vi.spyOn(Math, 'random').mockReturnValue(0.5)
 
     // Report the terminal as visible the moment it is observed. These tests run
-    // under fake timers in jsdom and in real browsers alike, and a genuine
-    // observer delivers nothing in either, which would stall every script.
+    // under fake timers in jsdom and in real browsers alike, and the browser's
+    // own observer delivers nothing in either, stalling every script.
     vi.stubGlobal(
       'IntersectionObserver',
       class {
