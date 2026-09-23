@@ -83,4 +83,18 @@ describe('App', () => {
     // Footer
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
   })
+
+  it('gives every panel an id, so a link can reach one from outside', () => {
+    render(<App />)
+
+    for (const id of [
+      'featured',
+      'selected-projects',
+      'containers',
+      'infrastructure',
+      'repository-families',
+    ]) {
+      expect(document.getElementById(id)).not.toBeNull()
+    }
+  })
 })
