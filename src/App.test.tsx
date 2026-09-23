@@ -85,7 +85,7 @@ describe('App', () => {
   })
 
   it('gives every panel an id, so a link can reach one from outside', () => {
-    const { container } = render(<App />)
+    render(<App />)
 
     for (const id of [
       'featured',
@@ -94,7 +94,7 @@ describe('App', () => {
       'infrastructure',
       'repository-families',
     ]) {
-      expect(container.querySelector(`#${id}`)).not.toBeNull()
+      expect(document.getElementById(id)).not.toBeNull()
     }
   })
 })
