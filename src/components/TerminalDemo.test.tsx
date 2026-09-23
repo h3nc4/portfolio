@@ -36,6 +36,27 @@ describe('TerminalDemo', () => {
     vi.useFakeTimers()
     vi.spyOn(Math, 'random').mockReturnValue(0.5)
 
+    // Report the terminal as visible the moment it is observed. These tests run
+    // under fake timers in jsdom and in real browsers alike, and a genuine
+    // observer delivers nothing in either, which would stall every script.
+    vi.stubGlobal(
+      'IntersectionObserver',
+      class {
+        readonly unobserve = vi.fn()
+        readonly disconnect = vi.fn()
+
+        private readonly callback: (entries: IntersectionObserverEntry[]) => void
+
+        constructor(callback: (entries: IntersectionObserverEntry[]) => void) {
+          this.callback = callback
+        }
+
+        observe() {
+          this.callback([{ intersectionRatio: 1 } as IntersectionObserverEntry])
+        }
+      },
+    )
+
     // Reset useRef to original implementation by default
     const actualReact = await vi.importActual<typeof React>('react')
     vi.mocked(React.useRef).mockImplementation(actualReact.useRef)
@@ -43,6 +64,7 @@ describe('TerminalDemo', () => {
 
   afterEach(() => {
     vi.useRealTimers()
+    vi.unstubAllGlobals()
     vi.restoreAllMocks()
   })
 
