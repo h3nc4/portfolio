@@ -19,6 +19,7 @@
 import { Terminal } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
+import { useInView } from '@/hooks/useInView'
 import { cn } from '@/lib/utils'
 
 export interface TerminalStep {
@@ -200,7 +201,7 @@ function renderTerminalLine(line: RenderedLine) {
   if (line.type === 'command') {
     return (
       <div className="flex gap-2">
-        <span className="text-dawn-accent shrink-0 font-medium">me@pc $</span>
+        <span className="text-term-prompt shrink-0 font-medium">me@pc $</span>
         <span className="text-dawn-sand whitespace-pre-wrap">{line.text}</span>
       </div>
     )
@@ -231,6 +232,14 @@ export function TerminalDemo(props: TerminalDemoProps) {
   const [currentCommand, setCurrentCommand] = useState('')
   const [showPrompt, setShowPrompt] = useState(true)
   const bodyRef = useRef<HTMLDivElement>(null)
+  const windowRef = useRef<HTMLDivElement>(null)
+  const onScreen = useInView(windowRef)
+
+  // Off screen the terminal shows a bare prompt. Deriving that rather than
+  // resetting the state means no run is ever seen part way through.
+  const shownLines = onScreen ? lines : []
+  const shownCommand = onScreen ? currentCommand : ''
+  const shownPrompt = showPrompt || !onScreen
 
   // Auto-scroll to bottom on content change
   useEffect(() => {
@@ -240,8 +249,11 @@ export function TerminalDemo(props: TerminalDemoProps) {
     }
   }, [lines, currentCommand, showPrompt])
 
-  // Main simulation loop
+  // Main simulation loop. It holds until the terminal is on screen, so a
+  // visitor sees the first keystroke rather than a run already part way done.
   useEffect(() => {
+    if (!onScreen) return
+
     const controller = new AbortController()
     const { signal } = controller
 
@@ -263,10 +275,11 @@ export function TerminalDemo(props: TerminalDemoProps) {
     return () => {
       controller.abort()
     }
-  }, [script, startDelay, restartDelay, minTypingDelay, maxTypingDelay, props])
+  }, [script, startDelay, restartDelay, minTypingDelay, maxTypingDelay, props, onScreen])
 
   return (
     <div
+      ref={windowRef}
       className={cn(
         'border-dawn-line flex w-full flex-col overflow-hidden rounded-lg border bg-[#17120e]/90 font-mono text-xs shadow-xl',
         className,
@@ -292,18 +305,18 @@ export function TerminalDemo(props: TerminalDemoProps) {
         ref={bodyRef}
         className="scrollbar-hide flex h-48 flex-col space-y-1 overflow-y-auto p-3 md:h-56"
       >
-        {lines.map((line) => (
+        {shownLines.map((line) => (
           <div key={line.id} className="break-all">
             {renderTerminalLine(line)}
           </div>
         ))}
 
         {/* Active Prompt */}
-        {showPrompt && (
+        {shownPrompt && (
           <div className="flex gap-2" data-testid="active-prompt">
-            <span className="text-dawn-accent shrink-0 font-medium">me@pc $</span>
+            <span className="text-term-prompt shrink-0 font-medium">me@pc $</span>
             <span className="text-dawn-sand whitespace-pre-wrap">
-              {currentCommand}
+              {shownCommand}
               <span
                 data-testid="cursor"
                 className="bg-dawn-accent ml-1 inline-block h-3 w-1.5 animate-pulse align-middle"

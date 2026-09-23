@@ -35,6 +35,10 @@
   --color-dawn-accent: #c7ab7b;
   --color-dawn-accent-hi: #d8be92;
 
+  /* The one colour outside the warm set, since a shell prompt is green
+   * everywhere else. This is the green Ubuntu's own default prompt uses. */
+  --color-term-prompt: #8ae234;
+
   --font-serif: 'Spectral', Charter, Georgia, serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }

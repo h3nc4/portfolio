@@ -36,6 +36,27 @@ describe('TerminalDemo', () => {
     vi.useFakeTimers()
     vi.spyOn(Math, 'random').mockReturnValue(0.5)
 
+    // Report the terminal as visible the moment it is observed. These tests run
+    // under fake timers in jsdom and in real browsers alike, and the browser's
+    // own observer delivers nothing in either, stalling every script.
+    vi.stubGlobal(
+      'IntersectionObserver',
+      class {
+        readonly unobserve = vi.fn()
+        readonly disconnect = vi.fn()
+
+        private readonly callback: (entries: IntersectionObserverEntry[]) => void
+
+        constructor(callback: (entries: IntersectionObserverEntry[]) => void) {
+          this.callback = callback
+        }
+
+        observe() {
+          this.callback([{ intersectionRatio: 1 } as IntersectionObserverEntry])
+        }
+      },
+    )
+
     // Reset useRef to original implementation by default
     const actualReact = await vi.importActual<typeof React>('react')
     vi.mocked(React.useRef).mockImplementation(actualReact.useRef)
@@ -43,6 +64,7 @@ describe('TerminalDemo', () => {
 
   afterEach(() => {
     vi.useRealTimers()
+    vi.unstubAllGlobals()
     vi.restoreAllMocks()
   })
 
@@ -348,5 +370,71 @@ describe('TerminalDemo', () => {
 
     expect(consoleSpy).toHaveBeenCalledWith('Terminal simulation error:', expect.any(Error))
     consoleSpy.mockRestore()
+  })
+
+  describe('while off screen', () => {
+    const script: TerminalStep[] = [{ type: 'command', text: 'whoami' }]
+    let report: ((ratio: number) => void) | undefined
+
+    beforeEach(() => {
+      report = undefined
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          observe = vi.fn()
+          unobserve = vi.fn()
+          disconnect = vi.fn()
+
+          constructor(callback: (entries: IntersectionObserverEntry[]) => void) {
+            report = (ratio) => {
+              callback([{ intersectionRatio: ratio } as IntersectionObserverEntry])
+            }
+          }
+        },
+      )
+    })
+
+    afterEach(() => {
+      vi.unstubAllGlobals()
+    })
+
+    it('types nothing until the terminal reaches the screen', async () => {
+      render(<TerminalDemo script={script} startDelay={0} />)
+
+      await advanceTimers(600)
+
+      // the bare prompt is there, and the script has typed nothing
+      expect(screen.getByTestId('active-prompt')).toBeInTheDocument()
+      expect(screen.queryByText(/whoami/)).not.toBeInTheDocument()
+    })
+
+    it('starts from the first keystroke once it arrives', async () => {
+      render(<TerminalDemo script={script} startDelay={0} />)
+      await advanceTimers(600)
+
+      await act(async () => {
+        report?.(0.5)
+      })
+      await advanceTimers(400)
+
+      expect(screen.getByText(/whoami/)).toBeInTheDocument()
+    })
+
+    it('goes back to a bare prompt after it leaves', async () => {
+      render(<TerminalDemo script={script} startDelay={0} />)
+      await act(async () => {
+        report?.(0.5)
+      })
+      await advanceTimers(400)
+      expect(screen.getByText(/whoami/)).toBeInTheDocument()
+
+      await act(async () => {
+        report?.(0)
+      })
+      await advanceTimers(10)
+
+      expect(screen.queryByText(/whoami/)).not.toBeInTheDocument()
+      expect(screen.getByTestId('active-prompt')).toBeInTheDocument()
+    })
   })
 })
