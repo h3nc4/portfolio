@@ -319,7 +319,7 @@ export function TerminalDemo(props: TerminalDemoProps) {
               {shownCommand}
               <span
                 data-testid="cursor"
-                className="bg-dawn-accent ml-1 inline-block h-3 w-1.5 animate-pulse align-middle"
+                className="bg-dawn-cream ml-1 inline-block h-3 w-1.5 animate-pulse align-middle"
               />
             </span>
           </div>
