@@ -57,19 +57,30 @@
    * Wikimedia Commons, file
    * Jan_van_Goyen_-_River_Landscape_with_a_Church_in_the_Distance_-_Google_Art_Project.jpg
    *
-   * The painting is attached to the root. The page scrolls over it rather than
-   * moving it.
+   * The painting rests on a fixed layer below the page. The page scrolls over it
+   * rather than moving it.
    */
   html {
     @apply scroll-smooth antialiased;
     background-color: var(--color-dawn-ground);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-dawn-line) transparent;
+  }
+
+  /* A fixed background is sized to the viewport, which a retracting mobile toolbar
+     rescaled by 9.5% and panned 122px. lvh sizes this layer once instead. */
+  html::before {
+    content: '';
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 100vh;
+    height: 100lvh;
+    z-index: -2;
+    pointer-events: none;
     background-image: url('/landscape.webp');
     background-size: cover;
     background-position: 75% 85%;
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-dawn-line) transparent;
   }
 
   body {
@@ -135,12 +146,13 @@
 @layer components {
   /*
    * The hero holds at the top of the viewport while the panels ride up over
-   * it, which uncovers the painting behind them as it shrinks away.
+   * it, which uncovers the painting behind them as it shrinks away. svh rather
+   * than dvh, since the small viewport does not change as a toolbar retracts.
    */
   .hero-pin {
     position: sticky;
     top: 0;
-    height: 100dvh;
+    height: 100svh;
     z-index: 0;
   }
 

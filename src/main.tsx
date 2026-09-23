@@ -18,10 +18,15 @@
 
 import './index.css'
 
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import App from './App.tsx'
+
+// A retracting mobile toolbar resizes the viewport, and a refresh on that moves
+// every trigger boundary mid-scroll. Set before any trigger exists.
+ScrollTrigger.config({ ignoreMobileResize: true })
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
