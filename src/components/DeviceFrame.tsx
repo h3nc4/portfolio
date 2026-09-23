@@ -107,7 +107,7 @@ export function DeviceFrame({
                   '--device-zoom-xs': smallPhoneZoom,
                 } as CSSProperties
               }
-              loading="lazy"
+              loading="eager"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
