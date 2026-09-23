@@ -8,13 +8,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/Dreamweaver",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/Dreamweaver"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/Dreamweaver",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/Dreamweaver"
         }
       ]
     },
@@ -26,13 +24,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/HyperGesture",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/HyperGesture"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/HyperGesture",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/HyperGesture"
         }
       ]
     },
@@ -44,13 +40,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/TelegramScout",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/TelegramScout"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/TelegramScout",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/TelegramScout"
         }
       ]
     },
@@ -62,13 +56,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/tddns",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/tddns"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/tddns",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/tddns"
         }
       ]
     },
@@ -80,13 +72,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/sonar-action",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/sonar-action"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/sonar-action",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/sonar-action"
         }
       ]
     }
@@ -100,13 +90,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/yt-dlp-slim",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/yt-dlp-slim"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/yt-dlp-slim",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/yt-dlp-slim"
         }
       ],
       "demo": [
@@ -163,13 +151,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/tor-slim",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/tor-slim"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/tor-slim",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/tor-slim"
         }
       ],
       "demo": [
@@ -216,13 +202,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/nginx-slim",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/nginx-slim"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/nginx-slim",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/nginx-slim"
         }
       ],
       "demo": [
@@ -269,13 +253,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/cgit-slim",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/cgit-slim"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/cgit-slim",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/cgit-slim"
         }
       ],
       "demo": [
@@ -322,13 +304,11 @@
       "links": [
         {
           "name": "github",
-          "url": "https://github.com/h3nc4/minecraft-slim",
-          "icon": "SiGithub"
+          "url": "https://github.com/h3nc4/minecraft-slim"
         },
         {
           "name": "cgit",
-          "url": "https://cgit.h3nc4.com/minecraft-slim",
-          "icon": "GitBranch"
+          "url": "https://cgit.h3nc4.com/minecraft-slim"
         }
       ],
       "demo": [

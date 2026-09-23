@@ -16,8 +16,6 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { GitBranch } from 'lucide-react'
-import { SiGithub } from 'react-icons/si'
 import { describe, expect, it } from 'vitest'
 
 import {
@@ -43,7 +41,6 @@ function expectValidProject(project: Project) {
   project.links.forEach((link) => {
     expect(link.name).toBeTruthy()
     expect(link.url).toMatch(/^https:\/\//)
-    expect(typeof link.icon).toMatch(/function|object/) // React component
   })
 }
 
@@ -117,45 +114,6 @@ describe('Data Integrity: EXTRAS', () => {
 })
 
 describe('hydrateProject', () => {
-  it('falls back to SiGithub when icon is not found', () => {
-    const mockRawProject = {
-      title: 'Test Project',
-      language: 'C',
-      description: 'Test Description',
-      tags: ['Test'],
-      links: [
-        {
-          name: 'Broken Link',
-          url: 'https://example.com',
-          icon: 'NonExistentIcon', // This forces the fallback
-        },
-      ],
-      demo: [],
-    } as unknown as RawProject
-
-    const result = hydrateProject(mockRawProject)
-    expect(result.links[0].icon).toBe(SiGithub)
-  })
-
-  it('hydrates GitBranch icon correctly', () => {
-    const mockRawProject = {
-      title: 'Test',
-      language: 'C',
-      description: 'Desc',
-      tags: [],
-      links: [
-        {
-          name: 'Mirror',
-          url: 'https://cgit.example.com',
-          icon: 'GitBranch',
-        },
-      ],
-    } as unknown as RawProject
-
-    const result = hydrateProject(mockRawProject)
-    expect(result.links[0].icon).toBe(GitBranch)
-  })
-
   it('hydrates custom media components', () => {
     const mockRawProject = {
       title: 'Test Project',

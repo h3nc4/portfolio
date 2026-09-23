@@ -16,10 +16,6 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { GitBranch } from 'lucide-react'
-import type { ElementType } from 'react'
-import { SiGithub } from 'react-icons/si'
-
 import { RickRoll } from '@/components/RickRoll'
 import type { TerminalStep } from '@/components/TerminalDemo'
 
@@ -28,7 +24,6 @@ import rawData from './projects.json'
 export interface ProjectLink {
   name: string
   url: string
-  icon: ElementType
 }
 
 export interface Project {
@@ -67,7 +62,6 @@ export interface DemoProject extends Project {
 export interface RawProjectLink {
   name: string
   url: string
-  icon: string
 }
 
 export interface RawProject {
@@ -86,11 +80,6 @@ interface RawData {
   extras: Extra[]
 }
 
-const ICON_MAP: Record<string, ElementType> = {
-  SiGithub,
-  GitBranch,
-}
-
 const MEDIA_MAP: Record<string, React.ReactNode> = {
   'rick-roll': <RickRoll />,
 }
@@ -99,7 +88,6 @@ const data = rawData as RawData
 
 /**
  * Transforms raw JSON project data into a fully typed Project object.
- * Maps string icon names to actual React components.
  */
 export function hydrateProject(project: RawProject): Project {
   return {
@@ -110,8 +98,6 @@ export function hydrateProject(project: RawProject): Project {
     links: project.links.map((link) => ({
       name: link.name,
       url: link.url,
-      // Fallback to SiGithub if the icon key is not found in the map
-      icon: ICON_MAP[link.icon] ?? SiGithub,
     })),
     demo: project.demo?.map((step) => {
       const s = step as {
