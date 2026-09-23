@@ -19,11 +19,17 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
+import { useHeroPin } from '@/hooks/useHeroPin'
+
 import { Hero } from './Hero'
 
 // Mock AnimatedContent to avoid GSAP issues
 vi.mock('@/components/AnimatedContent', () => ({
   default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+}))
+
+vi.mock('@/hooks/useHeroPin', () => ({
+  useHeroPin: vi.fn(),
 }))
 
 describe('Hero', () => {
@@ -44,5 +50,12 @@ describe('Hero', () => {
 
     const contactLink = screen.getByText('Contact Me').closest('a')
     expect(contactLink).toHaveAttribute('href', 'mailto:me@h3nc4.com')
+  })
+
+  it('hands the pin the body it should shrink', () => {
+    render(<Hero />)
+
+    const ref = vi.mocked(useHeroPin).mock.calls[0][0]
+    expect(ref.current).toHaveClass('hero-body')
   })
 })

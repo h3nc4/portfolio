@@ -59,7 +59,12 @@ describe('DeviceFrame', () => {
   // width, height and scale, so a media query can lower it on small viewports.
   const zoomCases: {
     label: string
-    props: Partial<{ zoom: number; mobileZoom: number; largeZoom: number }>
+    props: Partial<{
+      zoom: number
+      mobileZoom: number
+      largeZoom: number
+      smallPhoneZoom: number
+    }>
     property: string
     value: string
   }[] = [
@@ -72,6 +77,13 @@ describe('DeviceFrame', () => {
       props: { mobileZoom: 0.4 },
       property: '--device-zoom-sm',
       value: '0.4',
+    },
+    { label: 'the small-phone default', props: {}, property: '--device-zoom-xs', value: '0.62' },
+    {
+      label: 'an explicit small-phone zoom',
+      props: { smallPhoneZoom: 0.55 },
+      property: '--device-zoom-xs',
+      value: '0.55',
     },
     {
       label: 'an explicit large zoom',

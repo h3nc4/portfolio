@@ -1,0 +1,182 @@
+{
+  "sites": [
+    {
+      "host": "h3nc4.com",
+      "serves": "This site",
+      "reach": "public",
+      "service": "lan.gem.docker.quiet.web",
+      "about": "This portfolio."
+    },
+    {
+      "host": "wasudoku.h3nc4.com",
+      "serves": "WASudoku",
+      "reach": "public",
+      "service": "lan.gem.docker.quiet.web",
+      "about": "A Sudoku solver and generator."
+    },
+    {
+      "host": "cgit.h3nc4.com",
+      "serves": "cgit",
+      "reach": "public",
+      "service": "lan.gem.docker.quiet.pub",
+      "about": "A read-only mirror of the repositories."
+    },
+    {
+      "host": "git.h3nc4.com",
+      "serves": "Forgejo",
+      "reach": "public",
+      "service": "lan.gem.docker.bridged.forgejo",
+      "about": "A self-hosted Git forge."
+    },
+    {
+      "host": "sonar.h3nc4.com",
+      "serves": "SonarQube",
+      "reach": "public",
+      "service": "lan.gem.docker.quiet.sonar",
+      "about": "Static analysis and coverage gates."
+    },
+    {
+      "host": "grafana.h3nc4.com",
+      "serves": "Grafana",
+      "reach": "public",
+      "service": "lan.gems.docker.quiet.graf",
+      "about": "Metric and log dashboards."
+    },
+    {
+      "host": "mail.h3nc4.com",
+      "serves": "Mail",
+      "reach": "public",
+      "web": false,
+      "service": "lan.gem.docker.bridged.maddy",
+      "about": "Mail for this domain."
+    },
+    {
+      "host": "vpn.h3nc4.com",
+      "serves": "WireGuard",
+      "reach": "public",
+      "web": false,
+      "service": "lan.gem.onhost.wg",
+      "about": "A VPN into the LAN."
+    },
+    {
+      "host": "minecraft.h3nc4.com",
+      "serves": "Minecraft",
+      "reach": "public",
+      "web": false,
+      "service": "lan.gem.docker.bridged.mc",
+      "about": "A Paper Minecraft server."
+    },
+    {
+      "host": "wg.lan.h3nc4.com",
+      "serves": "wg-easy",
+      "reach": "lan",
+      "service": "lan.gem.docker.netns.wgui",
+      "about": "VPN peer management."
+    },
+    {
+      "host": "syncthing.lan.h3nc4.com",
+      "serves": "Syncthing",
+      "reach": "lan",
+      "service": "lan.gem.docker.netns.sync",
+      "about": "Continuous file sync."
+    },
+    {
+      "host": "node-exporter.gem.lan.h3nc4.com",
+      "serves": "node-exporter",
+      "reach": "lan",
+      "service": "lan.gem.docker.quiet.nodeexp",
+      "about": "Host metrics."
+    },
+    {
+      "host": "cadvisor.gem.lan.h3nc4.com",
+      "serves": "cAdvisor",
+      "reach": "lan",
+      "service": "lan.gem.docker.quiet.cadv",
+      "about": "Container metrics."
+    },
+    {
+      "host": "node-exporter.gems.lan.h3nc4.com",
+      "serves": "node-exporter",
+      "reach": "lan",
+      "about": "Host metrics.",
+      "service": "lan.gems.docker.quiet.gnode"
+    },
+    {
+      "host": "cadvisor.gems.lan.h3nc4.com",
+      "serves": "cAdvisor",
+      "reach": "lan",
+      "about": "Container metrics.",
+      "service": "lan.gems.docker.quiet.gcadv"
+    },
+    {
+      "host": "prometheus.lan.h3nc4.com",
+      "serves": "Prometheus",
+      "reach": "lan",
+      "service": "lan.gems.docker.quiet.prom",
+      "about": "Metric collection and storage."
+    },
+    {
+      "host": "alertmanager.lan.h3nc4.com",
+      "serves": "Alertmanager",
+      "reach": "lan",
+      "service": "lan.gems.docker.quiet.alert",
+      "about": "Alert routing."
+    },
+    {
+      "host": "loki.lan.h3nc4.com",
+      "serves": "Loki",
+      "reach": "lan",
+      "service": "lan.gems.docker.quiet.loki",
+      "about": "Log aggregation."
+    },
+    {
+      "host": "gatus.lan.h3nc4.com",
+      "serves": "Gatus",
+      "reach": "lan",
+      "service": "lan.gems.docker.quiet.gatus",
+      "about": "Uptime monitoring."
+    },
+    {
+      "host": "jellyfin.lan.h3nc4.com",
+      "serves": "Jellyfin",
+      "reach": "lan",
+      "service": "lan.gems.docker.quiet.jelly",
+      "about": "A media library."
+    },
+    {
+      "host": "restic.lan.h3nc4.com",
+      "serves": "restic-rest",
+      "reach": "lan",
+      "service": "lan.gems.docker.quiet.rest",
+      "about": "A backup endpoint."
+    },
+    {
+      "host": "ci-a.lan.h3nc4.com",
+      "serves": "CI runner",
+      "reach": "ci",
+      "service": "lan.gem.vm.cia",
+      "about": "Runs on gem."
+    },
+    {
+      "host": "ci-b.lan.h3nc4.com",
+      "serves": "CI runner",
+      "reach": "ci",
+      "service": "lan.gem.vm.cib",
+      "about": "Runs on gem."
+    },
+    {
+      "host": "ci-c.lan.h3nc4.com",
+      "serves": "CI runner",
+      "reach": "ci",
+      "service": "lan.gems.vm.cic",
+      "about": "Runs on gems."
+    },
+    {
+      "host": "ci-d.lan.h3nc4.com",
+      "serves": "CI runner",
+      "reach": "ci",
+      "service": "lan.gems.vm.cid",
+      "about": "Runs on gems."
+    }
+  ]
+}

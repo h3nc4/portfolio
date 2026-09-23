@@ -19,7 +19,7 @@
 import { useEffect } from 'react'
 
 /** How much of the next section to reveal, as a fraction of the viewport. */
-const DEFAULT_PEEK = 0.14
+export const HERO_PEEK = 0.14
 
 /**
  * Nudges the page down on first paint so the section under the hero is visible.
@@ -29,7 +29,7 @@ const DEFAULT_PEEK = 0.14
  * It yields to a restored position and to an anchor, since both mean the
  * visitor already has somewhere else to be.
  */
-export function useHeroPeek(peek: number = DEFAULT_PEEK) {
+export function useHeroPeek(peek: number = HERO_PEEK) {
   useEffect(() => {
     if (window.location.hash) {
       return
