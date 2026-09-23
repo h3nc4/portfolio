@@ -16,7 +16,6 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import AnimatedContent from '@/components/AnimatedContent'
 import { DeviceFrame } from '@/components/DeviceFrame'
 import { ContainerPreviews } from '@/components/sections/ContainerPreviews'
 import { FeaturedProject } from '@/components/sections/FeaturedProject'
@@ -56,9 +55,7 @@ export default function App() {
                 {/* Device frame, beside the project it previews rather than in a rail */}
                 <aside className="relative flex w-full justify-center lg:w-[48%] lg:justify-end">
                   <div className="w-full max-w-md pt-12">
-                    <AnimatedContent distance={40} direction="horizontal" delay={0.4}>
-                      <DeviceFrame src="https://wasudoku.h3nc4.com" title="WASudoku Live Preview" />
-                    </AnimatedContent>
+                    <DeviceFrame src="https://wasudoku.h3nc4.com" title="WASudoku Live Preview" />
                   </div>
                 </aside>
               </div>
