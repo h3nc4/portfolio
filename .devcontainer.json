@@ -1,9 +1,9 @@
 {
   "name": "Portfolio",
-  "image": "h3nc4/portfolio-dev:6",
+  "image": "h3nc4/portfolio-dev:7",
   "initializeCommand": "${localWorkspaceFolder}/scripts/devcontainer-init.sh",
   "runArgs": ["--name=portfolio-devcontainer", "--network=host"],
-  "remoteUser": "portfolio",
+  "remoteUser": "dev",
   "workspaceFolder": "/workspaces/portfolio",
   "overrideCommand": false,
   "mounts": [
