@@ -58,7 +58,7 @@ export function Infrastructure() {
           <Stat value={String(PUBLIC_WEB_COUNT)} label="websites served" />
           <Stat value={String(TOPOLOGY_EDGES.length)} label="links between services" />
         </div>
-        <p className="text-dawn-taupe mt-3 mb-10 max-w-prose text-xs font-light">
+        <p className="text-dawn-taupe mt-3 mb-10 max-w-prose text-sm font-light">
           A link is one service that dials another.
         </p>
       </AnimatedContent>

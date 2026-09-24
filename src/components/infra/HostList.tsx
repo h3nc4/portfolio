@@ -29,7 +29,7 @@ function Detail({ site }: Readonly<{ site: Site }>) {
       <span className="text-dawn-sand ml-auto font-mono text-xs tracking-wide">
         {site.serves}
       </span>
-      <span className="text-dawn-taupe w-full text-xs leading-snug font-light">
+      <span className="text-dawn-taupe w-full text-sm leading-snug font-light">
         {site.about}
       </span>
     </>
@@ -51,7 +51,7 @@ export function HostList({ reach }: Readonly<{ reach: SiteReach }>) {
               rel="noopener noreferrer"
               className={`group hover:border-dawn-accent ${ROW} no-underline`}
             >
-              <span className="text-dawn-cream group-hover:text-dawn-accent-hi font-mono text-xs">
+              <span className="text-dawn-cream group-hover:text-dawn-accent-hi font-mono text-sm">
                 {site.host}
               </span>
               <Detail site={site} />
@@ -59,7 +59,7 @@ export function HostList({ reach }: Readonly<{ reach: SiteReach }>) {
           </li>
         ) : (
           <li key={site.host} className={ROW}>
-            <span className="text-dawn-sand font-mono text-xs">{site.host}</span>
+            <span className="text-dawn-sand font-mono text-sm">{site.host}</span>
             <Detail site={site} />
           </li>
         ),
