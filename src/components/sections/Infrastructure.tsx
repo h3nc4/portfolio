@@ -32,7 +32,7 @@ function Stat({ value, label }: Readonly<{ value: string; label: string }>) {
   return (
     <div>
       <p className="text-dawn-accent-hi font-mono text-3xl leading-none tracking-tight">{value}</p>
-      <p className="text-dawn-taupe mt-2 text-[11px] leading-snug font-light">{label}</p>
+      <p className="text-dawn-taupe mt-2 text-xs leading-snug font-light">{label}</p>
     </div>
   )
 }
@@ -58,7 +58,7 @@ export function Infrastructure() {
           <Stat value={String(PUBLIC_WEB_COUNT)} label="websites served" />
           <Stat value={String(TOPOLOGY_EDGES.length)} label="links between services" />
         </div>
-        <p className="text-dawn-taupe mt-3 mb-10 max-w-prose text-xs font-light">
+        <p className="text-dawn-taupe mt-3 mb-10 max-w-prose text-sm font-light">
           A link is one service that dials another.
         </p>
       </AnimatedContent>
