@@ -52,6 +52,7 @@ jobs:
             npm run lint
             npm run lint:md
             npm run lint:sh
+            npm run lint:type
             npm run typecheck
             npm run test
             npm run build
