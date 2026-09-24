@@ -32,7 +32,7 @@ function Stat({ value, label }: Readonly<{ value: string; label: string }>) {
   return (
     <div>
       <p className="text-dawn-accent-hi font-mono text-3xl leading-none tracking-tight">{value}</p>
-      <p className="text-dawn-taupe mt-2 text-[11px] leading-snug font-light">{label}</p>
+      <p className="text-dawn-taupe mt-2 text-xs leading-snug font-light">{label}</p>
     </div>
   )
 }

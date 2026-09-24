@@ -27,10 +27,10 @@ export function AlsoRunning() {
           key={entry.machine}
           className="border-dawn-cream/10 grid gap-x-6 gap-y-1 border-b pb-4 sm:grid-cols-[8rem_1fr]"
         >
-          <dt className="text-dawn-sand font-mono text-[10px] tracking-wider uppercase">
+          <dt className="text-dawn-sand font-mono text-xs tracking-wider uppercase">
             {entry.machine}
           </dt>
-          <dd className="text-dawn-taupe text-[13px] leading-relaxed font-light">
+          <dd className="text-dawn-taupe text-sm leading-relaxed font-light">
             {entry.names.join(' · ')}
           </dd>
         </div>

@@ -26,10 +26,10 @@ const ROW = 'flex flex-wrap items-baseline gap-x-2 border-b border-dawn-cream/10
 function Detail({ site }: Readonly<{ site: Site }>) {
   return (
     <>
-      <span className="text-dawn-sand ml-auto font-mono text-[10px] tracking-wide">
+      <span className="text-dawn-sand ml-auto font-mono text-xs tracking-wide">
         {site.serves}
       </span>
-      <span className="text-dawn-taupe w-full text-[11px] leading-snug font-light">
+      <span className="text-dawn-taupe w-full text-xs leading-snug font-light">
         {site.about}
       </span>
     </>
