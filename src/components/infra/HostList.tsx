@@ -20,19 +20,22 @@ import { isBrowsable, type Site, type SiteReach, sitesReaching, siteUrl } from '
  * name is not, since a visitor's request would go nowhere.
  */
 
-const ROW = 'flex flex-wrap items-baseline gap-x-2 border-b border-dawn-cream/10 py-2'
+const ROW = 'block border-b border-dawn-cream/10 py-2'
 
-/** What answers the hostname, and one sentence on what it does. */
+/*
+ * What answers the hostname, and one sentence on what it does, on the line below it.
+ * A right-aligned label shared the hostname's line until the longest names outgrew a
+ * column, at which point it wrapped onto a line of its own and read as a third field.
+ */
 function Detail({ site }: Readonly<{ site: Site }>) {
   return (
-    <>
-      <span className="text-dawn-sand ml-auto font-mono text-xs tracking-wide">
-        {site.serves}
+    <span className="block text-sm leading-snug font-light">
+      <span className="text-dawn-sand font-mono text-xs tracking-wide">{site.serves}</span>
+      <span aria-hidden="true" className="text-dawn-stone">
+        {' · '}
       </span>
-      <span className="text-dawn-taupe w-full text-sm leading-snug font-light">
-        {site.about}
-      </span>
-    </>
+      <span className="text-dawn-taupe">{site.about}</span>
+    </span>
   )
 }
 
@@ -40,7 +43,7 @@ export function HostList({ reach }: Readonly<{ reach: SiteReach }>) {
   return (
     <ul
       data-testid={`hosts-${reach}`}
-      className="grid gap-x-8 gap-y-0 sm:grid-cols-2 lg:grid-cols-3"
+      className="grid gap-x-8 gap-y-0 sm:grid-cols-2 xl:grid-cols-3"
     >
       {sitesReaching(reach).map((site) =>
         isBrowsable(site) ? (
@@ -51,7 +54,7 @@ export function HostList({ reach }: Readonly<{ reach: SiteReach }>) {
               rel="noopener noreferrer"
               className={`group hover:border-dawn-accent ${ROW} no-underline`}
             >
-              <span className="text-dawn-cream group-hover:text-dawn-accent-hi font-mono text-sm">
+              <span className="text-dawn-cream group-hover:text-dawn-accent-hi block font-mono text-sm [overflow-wrap:anywhere]">
                 {site.host}
               </span>
               <Detail site={site} />
@@ -59,7 +62,9 @@ export function HostList({ reach }: Readonly<{ reach: SiteReach }>) {
           </li>
         ) : (
           <li key={site.host} className={ROW}>
-            <span className="text-dawn-sand font-mono text-sm">{site.host}</span>
+            <span className="text-dawn-sand block font-mono text-sm [overflow-wrap:anywhere]">
+              {site.host}
+            </span>
             <Detail site={site} />
           </li>
         ),
