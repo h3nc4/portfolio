@@ -18,7 +18,7 @@
     "format:check": "prettier --check .",
     "preview": "vite preview",
     "test:browser": "vitest --config vitest.config.browser.ts",
-    "test": "vitest run --coverage; mv coverage/lcov.info coverage.lcov; rm -rf coverage",
+    "test": "vitest run --coverage; s=$?; mv coverage/lcov.info coverage.lcov; rm -rf coverage; exit $s",
     "audit": "npm audit --audit-level=high",
     "prepare": "husky"
   },
