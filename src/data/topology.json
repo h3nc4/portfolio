@@ -179,6 +179,13 @@
                       "kind": "service",
                       "label": "minecraft",
                       "ports": ["25565"]
+                    },
+                    {
+                      "id": "lan.gem.docker.bridged.aptcache",
+                      "kind": "service",
+                      "label": "apt-cache",
+                      "note": "debian, devuan",
+                      "ports": ["80"]
                     }
                   ]
                 },
@@ -810,6 +817,42 @@
       "to": "lan.gem.docker.bridged.proxy",
       "label": "https",
       "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.bridged.aptcache",
+      "to": "upstream.r",
+      "label": "http",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.quiet.grunner",
+      "to": "lan.gem.docker.bridged.aptcache",
+      "label": "http",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.vm.cia",
+      "to": "lan.gem.docker.bridged.aptcache",
+      "label": "http",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gem.vm.cib",
+      "to": "lan.gem.docker.bridged.aptcache",
+      "label": "http",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.vm.cic",
+      "to": "lan.gem.docker.bridged.aptcache",
+      "label": "http",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.vm.cid",
+      "to": "lan.gem.docker.bridged.aptcache",
+      "label": "http",
+      "kind": "host"
     }
   ]
 }

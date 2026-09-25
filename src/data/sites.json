@@ -177,6 +177,20 @@
       "reach": "ci",
       "service": "lan.gems.vm.cid",
       "about": "Runs on gems."
+    },
+    {
+      "host": "debian.lan.h3nc4.com",
+      "serves": "Debian",
+      "reach": "lan",
+      "service": "lan.gem.docker.bridged.aptcache",
+      "about": "A package mirror."
+    },
+    {
+      "host": "devuan.lan.h3nc4.com",
+      "serves": "Devuan",
+      "reach": "lan",
+      "service": "lan.gem.docker.bridged.aptcache",
+      "about": "A package mirror."
     }
   ]
 }
