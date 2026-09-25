@@ -30,7 +30,9 @@ ARG ANDROID_PLATFORM_VERSION="android-36"
 
 ########################################
 # Runtime user configuration
-ARG USER="portfolio"
+# dev, because dev-base bakes the user it creates and every repository
+# shares that image.
+ARG USER="dev"
 ARG UID="1000"
 ARG GID="1000"
 ARG CARGO_HOME="/home/${USER}/.local/share/cargo"
@@ -72,74 +74,11 @@ RUN cd "/rootfs/usr/local/bin" && ln -s ../../../opt/node/bin/* .
 
 ################################################################################
 # Debian main stage
-FROM debian:13@sha256:9cc080028c43b27d2074d63a5f9caf7166d731494965616c1a6d2827a004585c AS main
-ARG USER
-ARG UID
-ARG GID
+FROM h3nc4/dev-base:debian-13@sha256:7e16158a6bc18e5dc393f373a00521a0109d0b1ce0150ad6f949e416ce1a051f AS main
 
-# Update apt lists
-RUN apt-get update -qq
+# dev-base ends as the dev user, and the steps below need root.
+USER root
 
-# Gen locale
-RUN apt-get install --no-install-recommends -y -qq locales && \
-  echo "en_US.UTF-8 UTF-8" >/etc/locale.gen && \
-  locale-gen en_US.UTF-8 && \
-  update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-
-# Install generic tools
-RUN apt-get install --no-install-recommends -y -qq \
-  bash-completion \
-  ca-certificates \
-  curl \
-  file \
-  git \
-  gnupg \
-  gosu \
-  iputils-ping \
-  iproute2 \
-  jq \
-  less \
-  man-db \
-  nano \
-  net-tools \
-  opendoas \
-  openssh-client \
-  procps \
-  shellcheck \
-  tini \
-  tree \
-  wget \
-  yq
-
-# Add Docker outside of Docker packages
-RUN apt-get install --no-install-recommends -y -qq \
-  docker-cli \
-  docker-buildx
-
-# Install compression utilities
-RUN apt-get install --no-install-recommends -y -qq \
-  brotli \
-  gzip \
-  xz-utils
-
-########################################
-# Create a non-root developing user and configure doas
-RUN addgroup --gid "${GID}" "${USER}"
-RUN adduser --uid "${UID}" --gid "${GID}" \
-  --shell "/bin/bash" --disabled-password "${USER}"
-
-RUN addgroup --gid 110 docker && usermod -aG docker "${USER}"
-
-RUN printf "permit nopass nolog keepenv %s as root\n" "${USER}" >/etc/doas.conf && \
-  chmod 400 /etc/doas.conf && \
-  printf "%s\nset -e\n%s\n" "#!/bin/sh" "doas \$@" >/usr/local/bin/sudo && \
-  chmod a+rx /usr/local/bin/sudo
-
-COPY scripts/switch-user.sh /usr/local/bin/switch-user.sh
-COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/switch-user.sh /usr/local/bin/entrypoint.sh
-
-########################################
 # Copy features from other stages
 COPY --from=node-stage /rootfs/ /
 
