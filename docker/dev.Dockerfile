@@ -37,9 +37,20 @@ ARG UID="1000"
 ARG GID="1000"
 ARG CARGO_HOME="/home/${USER}/.local/share/cargo"
 
+# A caching mirror on the network this is built on, so a package is fetched from
+# the internet once rather than once per build. Empty by default, which is what
+# CI uses: its runners have no route to a LAN mirror and go straight to Debian.
+ARG APT_MIRROR=""
+
 ################################################################################
 # Shared builder image
 FROM debian:13-slim@sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a AS builder-base
+
+ARG APT_MIRROR
+RUN if [ -n "${APT_MIRROR}" ]; then \
+    sed -i "s|http://deb.debian.org|${APT_MIRROR}|g" \
+      /etc/apt/sources.list.d/debian.sources; \
+  fi
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   gnupg \
