@@ -37,18 +37,18 @@ ARG UID="1000"
 ARG GID="1000"
 ARG CARGO_HOME="/home/${USER}/.local/share/cargo"
 
-# A caching mirror on the network this is built on, so a package is fetched from
-# the internet once rather than once per build. Empty by default, which is what
-# CI uses: its runners have no route to a LAN mirror and go straight to Debian.
-ARG APT_MIRROR=""
+# The package mirror to build through. It answers on one network only, so
+# resolving the name is the test for reaching it.
+ARG APT_MIRROR="http://debian.lan.h3nc4.com"
 
 ################################################################################
 # Shared builder image
 FROM debian:13-slim@sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a AS builder-base
 
 ARG APT_MIRROR
-RUN if [ -n "${APT_MIRROR}" ]; then \
-    sed -i "s|http://deb.debian.org|${APT_MIRROR}|g" \
+RUN host="${APT_MIRROR#http://}"; \
+  if [ -n "${host}" ] && getent hosts "${host}" >/dev/null 2>&1; then \
+    sed -i "s|^URIs: http://deb.debian.org/\(.*\)$|URIs: ${APT_MIRROR}/\1 http://deb.debian.org/\1|" \
       /etc/apt/sources.list.d/debian.sources; \
   fi
 
@@ -85,7 +85,7 @@ RUN cd "/rootfs/usr/local/bin" && ln -s ../../../opt/node/bin/* .
 
 ################################################################################
 # Debian main stage
-FROM h3nc4/dev-base:debian-13@sha256:882dbbaafb92a2b366b54dbed2aca6b2531f01fb89095b5b7889cd930ad68ec2 AS main
+FROM h3nc4/dev-base:debian-13@sha256:1d854408035d42667be8b3b46e166f30b0ca41dff1583c1f04234f9d39e2ebaa AS main
 
 # dev-base ends as the dev user, and the steps below need root.
 USER root
