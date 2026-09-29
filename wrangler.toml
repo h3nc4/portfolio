@@ -1,0 +1,39 @@
+# Copyright (C) 2025-2026  Henrique Almeida
+# This file is part of the portfolio.
+#
+# The portfolio is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# The portfolio is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with the portfolio.  If not, see <https://www.gnu.org/licenses/>.
+
+# Serves dist from the edge, replacing the nginx container behind the tunnel.
+# An assets-only Worker runs no script, so asset requests are never billed.
+name = "h3nc4-portfolio"
+compatibility_date = "2026-09-28"
+
+# Off, so the site answers on its own hostnames and not on workers.dev too.
+workers_dev = false
+
+[assets]
+directory = "./dist"
+
+# Replaces `try_files $uri $uri/ /index.html`.
+not_found_handling = "single-page-application"
+
+# The apex also answers for the two files http-static used to serve, which now
+# ship in public/ rather than out of a container of their own.
+[[routes]]
+pattern = "h3nc4.com"
+custom_domain = true
+
+[[routes]]
+pattern = "www.h3nc4.com"
+custom_domain = true
