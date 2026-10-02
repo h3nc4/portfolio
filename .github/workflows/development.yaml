@@ -268,7 +268,7 @@ jobs:
           echo "CONTAINER_ID=$CONTAINER_ID" >>"$GITHUB_ENV"
       - name: Poll container url
         run: |
-          for i in $(seq 1 10); do
+          for _ in $(seq 1 10); do
             if wget -qO- http://localhost:8080/ | grep -qi "henrique"; then
               echo "Container started successfully."
               exit 0
