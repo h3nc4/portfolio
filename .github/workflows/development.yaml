@@ -281,7 +281,7 @@ jobs:
           exit 1
       - name: Check content types
         run: |
-          for pair in landscape.webp=image/webp favicon.ico=image/vnd.microsoft.icon robots.txt=text/plain; do
+          for pair in landscape.webp=image/webp favicon.ico=image/vnd.microsoft.icon robots.txt=text/plain dreamweaver.asc=text/plain; do
             path="${pair%%=*}"
             want="${pair#*=}"
             got="$(curl -sI "http://localhost:8080/${path}" | tr -d '\r' | sed -n 's/^content-type: //Ip')"
