@@ -25,6 +25,7 @@ import { Infrastructure } from '@/components/sections/Infrastructure'
 import { ProjectFamilies } from '@/components/sections/ProjectFamilies'
 import { SelectedProjects } from '@/components/sections/SelectedProjects'
 import { useHeroPeek } from '@/hooks/useHeroPeek'
+import { siblingUrl } from '@/lib/entrance'
 
 /**
  * Main application component acting as the layout shell.
@@ -34,10 +35,6 @@ import { useHeroPeek } from '@/hooks/useHeroPeek'
  */
 export default function App() {
   useHeroPeek()
-
-  // wasudoku sits one label under whatever host served this page, so the preview
-  // follows the entrance rather than sending an onion visitor to the clearnet.
-  const previewUrl = `${location.protocol}//wasudoku.${location.host.replace(/^www\./, '')}`
 
   // clip, not hidden: hidden on one axis makes the other a scroll container
   return (
@@ -59,7 +56,7 @@ export default function App() {
                 {/* Device frame, beside the project it previews rather than in a rail */}
                 <aside className="relative flex w-full justify-center lg:w-[48%] lg:justify-end">
                   <div className="w-full max-w-md pt-12">
-                    <DeviceFrame src={previewUrl} title="WASudoku Live Preview" />
+                    <DeviceFrame src={siblingUrl('wasudoku')} title="WASudoku Live Preview" />
                   </div>
                 </aside>
               </div>

@@ -21,6 +21,7 @@ import { SiGithub } from 'react-icons/si'
 
 import AnimatedContent from '@/components/AnimatedContent'
 import { Button } from '@/components/ui/button'
+import { siblingUrl } from '@/lib/entrance'
 
 interface FeaturedProjectProps {
   /**
@@ -59,7 +60,7 @@ export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
             className="bg-dawn-accent text-dawn-ground hover:bg-dawn-accent-hi gap-2 font-medium"
             asChild
           >
-            <a href="https://wasudoku.h3nc4.com" target="_blank" rel="noopener noreferrer">
+            <a href={siblingUrl('wasudoku')} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-4 w-4" />
               Open App
             </a>
