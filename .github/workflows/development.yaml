@@ -221,15 +221,17 @@ jobs:
           # The repository names the image, so nothing has to be told what this project is
           # called. Docker Hub takes no capitals, which GitHub does.
           image="$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')"
+          version="$(echo "${GITHUB_SHA}" | cut -c1-7)"
           tags="${image}:latest"
           if [ "${GITHUB_EVENT_NAME}" = "push" ] && [ "${GITHUB_REF}" = "refs/heads/main" ]; then
-            tags="${tags},${image}:$(echo "${GITHUB_SHA}" | cut -c1-7)"
+            tags="${tags},${image}:${version}"
           fi
           # The dev container pins the image the builder stage runs, and it is the only copy.
           dev_image="$(scripts/devcontainer-image.sh)"
           {
             echo "PUSH=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}"
             echo "IMAGE=${image}"
+            echo "VERSION=${version}"
             echo "TAGS=${tags}"
             echo "DEV_IMAGE=${dev_image}"
           } >>"$GITHUB_OUTPUT"
@@ -260,6 +262,7 @@ jobs:
           tags: ${{ steps.meta.outputs.TAGS }}
           build-args: |
             DEV_IMAGE=${{ steps.meta.outputs.DEV_IMAGE }}
+            VERSION=${{ steps.meta.outputs.VERSION }}
             COMMIT_SHA=${{ github.sha }}
             BUILD_DATE=${{ steps.build_date.outputs.date }}
       - name: Run container
