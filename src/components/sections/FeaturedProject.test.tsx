@@ -37,7 +37,7 @@ describe('FeaturedProject', () => {
     render(<FeaturedProject />)
 
     const openAppLink = screen.getByRole('link', { name: /Open App/i })
-    expect(openAppLink).toHaveAttribute('href', 'https://wasudoku.h3nc4.com')
+    expect(openAppLink).toHaveAttribute('href', `${location.protocol}//wasudoku.${location.host}`)
 
     const sourceLink = screen.getByRole('link', { name: /GitHub/i })
     expect(sourceLink).toHaveAttribute('href', 'https://github.com/h3nc4/WASudoku')
