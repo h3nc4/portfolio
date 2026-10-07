@@ -48,13 +48,13 @@ describe('countServices', () => {
   it('counts what each machine runs', () => {
     const counts = MACHINES.map((machine) => countServices(machine))
 
-    expect(counts).toEqual([30, 18])
+    expect(counts).toEqual([30, 19])
   })
 })
 
 describe('the figures the section states', () => {
   it('counts every service in the estate', () => {
-    expect(SERVICE_COUNT).toBe(60)
+    expect(SERVICE_COUNT).toBe(61)
   })
 
   it('agrees with the topology it counts', () => {

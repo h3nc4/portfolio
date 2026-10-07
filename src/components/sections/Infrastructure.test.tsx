@@ -47,14 +47,16 @@ describe('Infrastructure', () => {
     render(<Infrastructure />)
 
     expect(screen.queryByText(/ports open to the internet/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/firewall/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/IPv6/)).not.toBeInTheDocument()
     expect(screen.queryByText(/carrier's NAT/)).not.toBeInTheDocument()
   })
 
-  it('carries the two host lists and the rest of what runs', () => {
+  it('carries the host lists and the rest of what runs', () => {
     render(<Infrastructure />)
 
     expect(screen.getByTestId('hosts-public')).toBeInTheDocument()
+    expect(screen.getByTestId('hosts-onion')).toBeInTheDocument()
     expect(screen.getByTestId('hosts-lan')).toBeInTheDocument()
     expect(screen.getByTestId('hosts-ci')).toBeInTheDocument()
     expect(screen.getByTestId('also-running')).toBeInTheDocument()
@@ -65,6 +67,12 @@ describe('Infrastructure', () => {
 
     const order = screen.getAllByRole('heading', { level: 3 }).map((heading) => heading.textContent)
 
-    expect(order).toEqual(['Public services', 'Private services', 'CI runners', 'Also running'])
+    expect(order).toEqual([
+      'Public services',
+      'Hidden services',
+      'Private services',
+      'CI runners',
+      'Also running',
+    ])
   })
 })

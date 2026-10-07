@@ -361,6 +361,13 @@
                       "label": "CoreDNS",
                       "note": "DoT on 853",
                       "ports": ["53", "853"]
+                    },
+                    {
+                      "id": "lan.gems.docker.bridged.sun",
+                      "kind": "service",
+                      "label": "sunshine",
+                      "note": "Moonlight",
+                      "ports": ["47984", "47989", "48010", "47998-48000"]
                     }
                   ]
                 },
@@ -611,6 +618,12 @@
     {
       "from": "lan.gems.docker.bridged.tproxy",
       "to": "lan.gems.docker.quiet.jelly",
+      "label": "",
+      "kind": "host"
+    },
+    {
+      "from": "lan.gems.docker.bridged.tproxy",
+      "to": "lan.gems.docker.bridged.sun",
       "label": "",
       "kind": "host"
     },
