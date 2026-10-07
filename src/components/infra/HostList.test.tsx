@@ -33,7 +33,7 @@ describe('HostList', () => {
     render(<HostList reach="public" />)
 
     for (const link of screen.getAllByRole('link')) {
-      if (link.textContent?.startsWith('h3nc4.com')) continue
+      if (link.getAttribute('href') === '#') continue
       expect(link).toHaveAttribute('target', '_blank')
       expect(link).toHaveAttribute('rel', 'noopener noreferrer')
     }
