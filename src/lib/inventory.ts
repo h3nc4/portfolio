@@ -47,7 +47,8 @@ export interface Unnamed {
 /*
  * What each machine runs beyond the hostnames above. The processes sharing a
  * box are listed beside it, since a reader counting names should find them all.
- * A service marked hidden is counted and left unnamed.
+ * A service marked hidden is counted and left unnamed. Each is named by the
+ * software it runs, once, however many containers run it.
  */
 export const UNNAMED_BY_MACHINE: Unnamed[] = MACHINES.map((machine) => {
   const names: string[] = []
@@ -55,8 +56,8 @@ export const UNNAMED_BY_MACHINE: Unnamed[] = MACHINES.map((machine) => {
   walkTopology([machine], (node) => {
     if ((node.children?.length ?? 0) > 0 || NAMED.has(node.id) || node.hidden) return
 
-    names.push(node.label, ...(node.items ?? []))
+    names.push(node.app ?? node.label, ...(node.items ?? []))
   })
 
-  return { machine: machine.label, names }
+  return { machine: machine.label, names: [...new Set(names)] }
 })

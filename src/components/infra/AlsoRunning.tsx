@@ -31,7 +31,14 @@ export function AlsoRunning() {
             {entry.machine}
           </dt>
           <dd className="text-dawn-taupe text-sm leading-relaxed font-light">
-            {entry.names.join(' · ')}
+            {entry.names.map((name, index) => (
+              <span key={name}>
+                <span className="whitespace-nowrap">
+                  {name}
+                  {index < entry.names.length - 1 && ' ·'}
+                </span>{' '}
+              </span>
+            ))}
           </dd>
         </div>
       ))}
