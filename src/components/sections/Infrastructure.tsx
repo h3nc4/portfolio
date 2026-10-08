@@ -48,7 +48,7 @@ export function Infrastructure() {
         </div>
         <p className="text-dawn-taupe mb-8 max-w-prose font-light">
           Two machines behind one router, running {SERVICE_COUNT} services across Docker, libvirt
-          and the host itself. The firewall policy is drop.
+          and the host itself.
         </p>
       </AnimatedContent>
 
@@ -69,6 +69,18 @@ export function Infrastructure() {
           Anyone can reach these. Each answers on its own name over HTTPS.
         </p>
         <HostList reach="public" />
+      </AnimatedContent>
+
+      <AnimatedContent distance={20} direction="vertical" delay={0.2} threshold={0.1}>
+        <div className="mt-12">
+          <h3 className="text-dawn-cream mb-1 text-lg font-medium tracking-tight">
+            Hidden services
+          </h3>
+          <p className="text-dawn-taupe mb-4 max-w-prose text-sm font-light">
+            The portfolio and WASudoku again, as Tor onion services. They open in Tor Browser.
+          </p>
+          <HostList reach="onion" />
+        </div>
       </AnimatedContent>
 
       <AnimatedContent distance={20} direction="vertical" delay={0.2} threshold={0.1}>

@@ -15,12 +15,46 @@
 
 import { describe, expect, it } from 'vitest'
 
-import { isBrowsable, PUBLIC_WEB_COUNT, SITES, sitesReaching, siteUrl } from './sites'
+import { displayHost, isBrowsable, PUBLIC_WEB_COUNT, SITES, sitesReaching, siteUrl } from './sites'
 import { TOPOLOGY_INDEX } from './topology'
+
+const ONION_HOST = /(^|\.)h3nc4cd73utflolf2uxgws3j6rmgzotlwndukabzgzawpzk5fejws5id\.onion$/
 
 describe('siteUrl', () => {
   it('reaches a host over TLS', () => {
-    expect(siteUrl(SITES[0])).toBe(`https://${SITES[0].host}`)
+    const site = SITES.find((candidate) => candidate.host === 'wasudoku.h3nc4.com')!
+
+    expect(siteUrl(site)).toBe('https://wasudoku.h3nc4.com')
+  })
+
+  it('points the page the visitor is on at its own top', () => {
+    expect(SITES.filter((site) => site.self).map((site) => site.host)).toEqual(['h3nc4.com'])
+    expect(siteUrl(SITES[0])).toBe('#')
+  })
+
+  it('reaches an onion over plain HTTP, since the circuit is already encrypted', () => {
+    const [onion] = sitesReaching('onion')
+
+    expect(siteUrl(onion)).toBe(`http://${onion.host}`)
+  })
+})
+
+describe('displayHost', () => {
+  it('elides the middle of an onion address, keeping any subdomain whole', () => {
+    expect(sitesReaching('onion').map(displayHost)).toEqual([
+      'h3nc4cd73...5fejws5id.onion',
+      'wasudoku.h3nc4...s5id.onion',
+    ])
+  })
+
+  it('prints every onion name at the same length', () => {
+    const lengths = new Set(sitesReaching('onion').map((site) => displayHost(site).length))
+
+    expect(lengths.size).toBe(1)
+  })
+
+  it('prints every other hostname whole', () => {
+    expect(displayHost(SITES[0])).toBe('h3nc4.com')
   })
 })
 
@@ -35,9 +69,11 @@ describe('the tunnel sites', () => {
     }
   })
 
-  it('keeps every hostname inside the one domain', () => {
+  it('keeps every hostname inside the one domain or the one onion', () => {
     for (const site of SITES) {
-      expect(site.host, site.host).toMatch(/(^|\.)h3nc4\.com$/)
+      expect(site.host, site.host).toMatch(
+        site.reach === 'onion' ? ONION_HOST : /(^|\.)h3nc4\.com$/,
+      )
     }
   })
 
@@ -56,14 +92,28 @@ describe('the tunnel sites', () => {
 
 describe('the two bands', () => {
   it('puts every hostname in exactly one band', () => {
-    const counted =
-      sitesReaching('public').length + sitesReaching('lan').length + sitesReaching('ci').length
+    const counted = (['public', 'onion', 'lan', 'ci'] as const)
+      .map((reach) => sitesReaching(reach).length)
+      .reduce((sum, length) => sum + length, 0)
 
     expect(counted).toBe(SITES.length)
   })
 
   it('counts only the public sites a browser can open', () => {
     expect(PUBLIC_WEB_COUNT).toBe(sitesReaching('public').filter(isBrowsable).length)
+  })
+
+  it('counts no onion address as a website of its own', () => {
+    expect(sitesReaching('onion').every(isBrowsable)).toBe(true)
+    expect(PUBLIC_WEB_COUNT).toBe(sitesReaching('public').filter(isBrowsable).length)
+  })
+
+  it('serves over Tor only what is also public', () => {
+    const publicServes = new Set(sitesReaching('public').map((site) => site.serves))
+
+    for (const site of sitesReaching('onion')) {
+      expect(publicServes.has(site.serves), site.host).toBe(true)
+    }
   })
 
   it('leaves mail and the VPN out of the website count', () => {

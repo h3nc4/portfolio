@@ -4,6 +4,7 @@
       "host": "h3nc4.com",
       "serves": "This site",
       "reach": "public",
+      "self": true,
       "service": "lan.gem.docker.quiet.web",
       "about": "This portfolio."
     },
@@ -65,6 +66,20 @@
       "web": false,
       "service": "lan.gem.docker.bridged.mc",
       "about": "A Paper Minecraft server."
+    },
+    {
+      "host": "h3nc4cd73utflolf2uxgws3j6rmgzotlwndukabzgzawpzk5fejws5id.onion",
+      "serves": "This site",
+      "reach": "onion",
+      "service": "lan.gem.docker.quiet.web",
+      "about": "This portfolio, over Tor."
+    },
+    {
+      "host": "wasudoku.h3nc4cd73utflolf2uxgws3j6rmgzotlwndukabzgzawpzk5fejws5id.onion",
+      "serves": "WASudoku",
+      "reach": "onion",
+      "service": "lan.gem.docker.quiet.web",
+      "about": "The Sudoku solver, over Tor."
     },
     {
       "host": "wg.lan.h3nc4.com",
@@ -142,6 +157,13 @@
       "reach": "lan",
       "service": "lan.gems.docker.quiet.jelly",
       "about": "A media library."
+    },
+    {
+      "host": "sunshine.lan.h3nc4.com",
+      "serves": "Sunshine",
+      "reach": "lan",
+      "service": "lan.gems.docker.bridged.sun",
+      "about": "Game streaming to the TV."
     },
     {
       "host": "restic.lan.h3nc4.com",

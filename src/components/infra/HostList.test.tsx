@@ -16,7 +16,7 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import { isBrowsable, sitesReaching } from '@/data/sites'
+import { displayHost, isBrowsable, sitesReaching, siteUrl } from '@/data/sites'
 
 import { HostList } from './HostList'
 
@@ -26,19 +26,36 @@ describe('HostList', () => {
 
     const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href'))
 
-    expect(hrefs).toEqual(
-      sitesReaching('public')
-        .filter(isBrowsable)
-        .map((site) => `https://${site.host}`),
-    )
+    expect(hrefs).toEqual(sitesReaching('public').filter(isBrowsable).map(siteUrl))
   })
 
-  it('opens each one safely in a tab of its own', () => {
+  it('opens each one but this site safely in a tab of its own', () => {
     render(<HostList reach="public" />)
 
     for (const link of screen.getAllByRole('link')) {
+      if (link.getAttribute('href') === '#') continue
       expect(link).toHaveAttribute('target', '_blank')
       expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+    }
+  })
+
+  it('keeps this site in the same tab, at its own top', () => {
+    render(<HostList reach="public" />)
+
+    const self = screen.getByText('h3nc4.com').closest('a')!
+
+    expect(self).toHaveAttribute('href', '#')
+    expect(self).not.toHaveAttribute('target')
+  })
+
+  it('prints each onion address elided, on one line, with the whole one on hover', () => {
+    render(<HostList reach="onion" />)
+
+    for (const site of sitesReaching('onion')) {
+      const name = screen.getByText(displayHost(site))
+
+      expect(name).toHaveClass('truncate')
+      expect(name.closest('a')).toHaveAttribute('title', site.host)
     }
   })
 
@@ -48,6 +65,14 @@ describe('HostList', () => {
     expect(screen.getByText('mail.h3nc4.com')).toBeInTheDocument()
     expect(screen.getByText('vpn.h3nc4.com')).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /mail\.h3nc4\.com/ })).not.toBeInTheDocument()
+  })
+
+  it('links every onion address over plain HTTP', () => {
+    render(<HostList reach="onion" />)
+
+    const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href'))
+
+    expect(hrefs).toEqual(sitesReaching('onion').map((site) => `http://${site.host}`))
   })
 
   it('links no LAN hostname, since a visitor cannot reach one', () => {

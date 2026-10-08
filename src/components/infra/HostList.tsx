@@ -13,7 +13,14 @@
  * GNU Affero General Public License for more details.
  */
 
-import { isBrowsable, type Site, type SiteReach, sitesReaching, siteUrl } from '@/data/sites'
+import {
+  displayHost,
+  isBrowsable,
+  type Site,
+  type SiteReach,
+  sitesReaching,
+  siteUrl,
+} from '@/data/sites'
 
 /*
  * The hostnames in one band. A public one a browser can open is a link. A LAN
@@ -21,6 +28,18 @@ import { isBrowsable, type Site, type SiteReach, sitesReaching, siteUrl } from '
  */
 
 const ROW = 'block border-b border-dawn-cream/10 py-2'
+
+const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' }
+
+/* This site scrolls to its own top in place, every other one opens in a tab of its own. */
+function linkTarget(site: Site) {
+  return site.self ? {} : NEW_TAB
+}
+
+/* An elided onion address is short enough for the narrowest column and must stay on one line. */
+function wrapping(site: Site): string {
+  return site.reach === 'onion' ? 'truncate' : '[overflow-wrap:anywhere]'
+}
 
 /*
  * What answers the hostname, and one sentence on what it does, on the line below it.
@@ -47,21 +66,23 @@ export function HostList({ reach }: Readonly<{ reach: SiteReach }>) {
     >
       {sitesReaching(reach).map((site) =>
         isBrowsable(site) ? (
-          <li key={site.host}>
+          <li key={site.host} className="min-w-0">
             <a
               href={siteUrl(site)}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...linkTarget(site)}
+              title={site.host}
               className={`group hover:border-dawn-accent ${ROW} no-underline`}
             >
-              <span className="text-dawn-cream group-hover:text-dawn-accent-hi block font-mono text-sm [overflow-wrap:anywhere]">
-                {site.host}
+              <span
+                className={`text-dawn-cream group-hover:text-dawn-accent-hi block font-mono text-sm ${wrapping(site)}`}
+              >
+                {displayHost(site)}
               </span>
               <Detail site={site} />
             </a>
           </li>
         ) : (
-          <li key={site.host} className={ROW}>
+          <li key={site.host} className={`min-w-0 ${ROW}`}>
             <span className="text-dawn-sand block font-mono text-sm [overflow-wrap:anywhere]">
               {site.host}
             </span>
