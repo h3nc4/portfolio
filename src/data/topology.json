@@ -94,7 +94,7 @@
                   "id": "lan.gem.onhost.ops",
                   "kind": "service",
                   "label": "nftables",
-                  "items": ["cron", "ntpd"]
+                  "items": ["cron", "ntpd", "certbot"]
                 }
               ]
             },
@@ -145,7 +145,8 @@
                       "id": "lan.gem.docker.bridged.proxy",
                       "kind": "service",
                       "label": "lan-proxy",
-                      "ports": ["443"]
+                      "ports": ["443"],
+                      "app": "nginx"
                     },
                     {
                       "id": "lan.gem.docker.bridged.maddy",
@@ -202,7 +203,8 @@
                     {
                       "id": "lan.gem.docker.quiet.torrp",
                       "kind": "service",
-                      "label": "tor-reverse-proxy"
+                      "label": "tor-reverse-proxy",
+                      "app": "nginx"
                     },
                     {
                       "id": "lan.gem.docker.quiet.web",
@@ -220,7 +222,8 @@
                       "id": "lan.gem.docker.quiet.none",
                       "kind": "service",
                       "label": "forgejo-db",
-                      "items": ["renovate", "restic"]
+                      "items": ["renovate", "restic"],
+                      "app": "PostgreSQL"
                     },
                     {
                       "id": "lan.gem.docker.quiet.bolao",
@@ -232,13 +235,15 @@
                       "id": "lan.gem.docker.quiet.rgems",
                       "kind": "service",
                       "label": "restic-gems",
-                      "note": "copy to gems"
+                      "note": "copy to gems",
+                      "app": "restic"
                     },
                     {
                       "id": "lan.gem.docker.quiet.offs",
                       "kind": "service",
                       "label": "media-offsite",
-                      "note": "encrypted, to the offsite mesh"
+                      "note": "encrypted, to the offsite mesh",
+                      "app": "rclone"
                     },
                     {
                       "id": "lan.gem.docker.quiet.ptail",
@@ -353,7 +358,8 @@
                       "id": "lan.gems.docker.bridged.tproxy",
                       "kind": "service",
                       "label": "tls-proxy",
-                      "ports": ["443"]
+                      "ports": ["443"],
+                      "app": "nginx"
                     },
                     {
                       "id": "lan.gems.docker.bridged.dns2",

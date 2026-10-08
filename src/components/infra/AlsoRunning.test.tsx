@@ -35,8 +35,14 @@ describe('AlsoRunning', () => {
     const gem = screen.getByText('gem server').parentElement
 
     expect(gem).toHaveTextContent('cloudflared')
-    expect(gem).toHaveTextContent('lan-proxy')
+    expect(gem).toHaveTextContent('nginx')
     expect(gem).toHaveTextContent('nftables')
+  })
+
+  it('names a program once per machine, however many containers run it', () => {
+    for (const entry of UNNAMED_BY_MACHINE) {
+      expect(new Set(entry.names).size, entry.machine).toBe(entry.names.length)
+    }
   })
 
   it('leaves out anything a hostname already names', () => {

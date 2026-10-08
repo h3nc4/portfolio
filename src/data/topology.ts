@@ -32,6 +32,8 @@ export interface TopologyNode {
   addr?: string
   /** A qualifier too short to deserve its own box. */
   note?: string
+  /** The software it runs, where the label names the container rather than the program. */
+  app?: string
   /** Listening ports, as strings so a range such as 40000-40040 fits. */
   ports?: string[]
   /** Processes that share this box instead of taking one each. */
