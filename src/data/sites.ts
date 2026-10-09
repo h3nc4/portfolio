@@ -16,7 +16,7 @@
 import rawSites from './sites.json'
 
 /** The set of clients a hostname serves. */
-export type SiteReach = 'public' | 'onion' | 'lan' | 'ci'
+export type SiteReach = 'public' | 'onion' | 'i2p' | 'lan' | 'ci'
 
 /** One hostname, and the service behind it. */
 export interface Site {
@@ -47,35 +47,41 @@ export function sitesReaching(reach: SiteReach): Site[] {
   return SITES.filter((site) => site.reach === reach)
 }
 
-/** Where a browser goes for one of them. An onion address is plain HTTP, since Tor already encrypts the circuit. */
+/** True for the overlay networks, whose addresses are keys and whose transport already encrypts. */
+export function isHidden(site: Site): boolean {
+  return site.reach === 'onion' || site.reach === 'i2p'
+}
+
+/** Where a browser goes for one of them. A hidden address is plain HTTP, since Tor or I2P already encrypts the path. */
 export function siteUrl(site: Site): string {
   if (site.self) return '#'
-  const scheme = site.reach === 'onion' ? 'http' : 'https'
+  const scheme = isHidden(site) ? 'http' : 'https'
   return `${scheme}://${site.host}`
 }
 
-/** Length every onion name prints at, so the two rows match and fit the narrowest column. */
-const ONION_DISPLAY_LENGTH = 27
-const ONION_SUFFIX = '.onion'
+/** Length every hidden name prints at. Each row then matches the others and fits the narrowest column. */
+const HIDDEN_DISPLAY_LENGTH = 27
+const KEY_SUFFIXES = ['.onion', '.b32.i2p']
 const ELISION = '...'
 
-/** The hostname as the list prints it, with the middle of an onion address elided to a fixed length. */
+/** The hostname as the list prints it, with the middle of a key address elided to a fixed length. A registered I2P name prints whole. */
 export function displayHost(site: Site): string {
-  if (site.reach !== 'onion') return site.host
-  const name = site.host.slice(0, -ONION_SUFFIX.length)
+  const suffix = KEY_SUFFIXES.find((candidate) => site.host.endsWith(candidate))
+  if (!isHidden(site) || suffix === undefined) return site.host
+  const name = site.host.slice(0, -suffix.length)
   const split = name.lastIndexOf('.') + 1
   const prefix = name.slice(0, split)
   const address = name.slice(split)
-  const room = ONION_DISPLAY_LENGTH - prefix.length - ELISION.length - ONION_SUFFIX.length
+  const room = HIDDEN_DISPLAY_LENGTH - prefix.length - ELISION.length - suffix.length
   const head = Math.ceil(room / 2)
   const tail = room - head
-  return `${prefix}${address.slice(0, head)}${ELISION}${address.slice(-tail)}${ONION_SUFFIX}`
+  return `${prefix}${address.slice(0, head)}${ELISION}${address.slice(-tail)}${suffix}`
 }
 
 /** True when a visitor can open it, which the LAN names and mail are not. */
 export function isBrowsable(site: Site): boolean {
-  return (site.reach === 'public' || site.reach === 'onion') && site.web !== false
+  return (site.reach === 'public' || isHidden(site)) && site.web !== false
 }
 
-/** Public sites a browser can open, which is the figure the section states. The onion names are the same sites again. */
+/** Public sites a browser can open, which is the figure the section states. The onion and I2P names are the same sites again. */
 export const PUBLIC_WEB_COUNT = sitesReaching('public').filter(isBrowsable).length

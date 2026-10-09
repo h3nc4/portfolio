@@ -57,6 +57,7 @@ describe('Infrastructure', () => {
 
     expect(screen.getByTestId('hosts-public')).toBeInTheDocument()
     expect(screen.getByTestId('hosts-onion')).toBeInTheDocument()
+    expect(screen.getByTestId('hosts-i2p')).toBeInTheDocument()
     expect(screen.getByTestId('hosts-lan')).toBeInTheDocument()
     expect(screen.getByTestId('hosts-ci')).toBeInTheDocument()
     expect(screen.getByTestId('also-running')).toBeInTheDocument()
@@ -70,6 +71,7 @@ describe('Infrastructure', () => {
     expect(order).toEqual([
       'Public services',
       'Hidden services',
+      'I2P sites',
       'Private services',
       'CI runners',
       'Also running',
