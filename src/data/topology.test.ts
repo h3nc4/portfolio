@@ -108,7 +108,7 @@ describe('the groupings the section uses', () => {
   })
 
   it('counts every service the estate runs', () => {
-    expect(SERVICES).toHaveLength(61)
+    expect(SERVICES).toHaveLength(63)
   })
 
   it('treats a node with children as no service of its own', () => {

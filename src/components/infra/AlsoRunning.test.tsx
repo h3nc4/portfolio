@@ -67,7 +67,7 @@ describe('AlsoRunning', () => {
     render(<AlsoRunning />)
 
     expect(screen.queryByText(/private service/)).not.toBeInTheDocument()
-    expect(SERVICE_COUNT).toBe(61)
+    expect(SERVICE_COUNT).toBe(63)
   })
 
   it('names nothing twice across the two machines', () => {

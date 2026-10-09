@@ -19,6 +19,9 @@ import { displayHost, isBrowsable, PUBLIC_WEB_COUNT, SITES, sitesReaching, siteU
 import { TOPOLOGY_INDEX } from './topology'
 
 const ONION_HOST = /(^|\.)h3nc4cd73utflolf2uxgws3j6rmgzotlwndukabzgzawpzk5fejws5id\.onion$/
+const I2P_HOST = /^[a-z2-7]{52}\.b32\.i2p$/
+
+const HOST_PATTERN = { onion: ONION_HOST, i2p: I2P_HOST } as const
 
 describe('siteUrl', () => {
   it('reaches a host over TLS', () => {
@@ -37,6 +40,12 @@ describe('siteUrl', () => {
 
     expect(siteUrl(onion)).toBe(`http://${onion.host}`)
   })
+
+  it('reaches an I2P site over plain HTTP, since the tunnels are already encrypted', () => {
+    const [eepsite] = sitesReaching('i2p')
+
+    expect(siteUrl(eepsite)).toBe(`http://${eepsite.host}`)
+  })
 })
 
 describe('displayHost', () => {
@@ -47,8 +56,16 @@ describe('displayHost', () => {
     ])
   })
 
-  it('prints every onion name at the same length', () => {
-    const lengths = new Set(sitesReaching('onion').map((site) => displayHost(site).length))
+  it('elides the middle of a b32 address', () => {
+    expect(sitesReaching('i2p').map(displayHost)).toEqual([
+      'bgqwufp7...he76qklq.b32.i2p',
+      'vwatkzzb...ashkemza.b32.i2p',
+    ])
+  })
+
+  it('prints every hidden name at the same length', () => {
+    const hidden = [...sitesReaching('onion'), ...sitesReaching('i2p')]
+    const lengths = new Set(hidden.map((site) => displayHost(site).length))
 
     expect(lengths.size).toBe(1)
   })
@@ -69,11 +86,14 @@ describe('the tunnel sites', () => {
     }
   })
 
-  it('keeps every hostname inside the one domain or the one onion', () => {
+  it('keeps every hostname inside the one domain, the one onion or a b32 address', () => {
     for (const site of SITES) {
-      expect(site.host, site.host).toMatch(
-        site.reach === 'onion' ? ONION_HOST : /(^|\.)h3nc4\.com$/,
-      )
+      const pattern =
+        site.reach === 'onion' || site.reach === 'i2p'
+          ? HOST_PATTERN[site.reach]
+          : /(^|\.)h3nc4\.com$/
+
+      expect(site.host, site.host).toMatch(pattern)
     }
   })
 
@@ -92,7 +112,7 @@ describe('the tunnel sites', () => {
 
 describe('the two bands', () => {
   it('puts every hostname in exactly one band', () => {
-    const counted = (['public', 'onion', 'lan', 'ci'] as const)
+    const counted = (['public', 'onion', 'i2p', 'lan', 'ci'] as const)
       .map((reach) => sitesReaching(reach).length)
       .reduce((sum, length) => sum + length, 0)
 
@@ -103,15 +123,16 @@ describe('the two bands', () => {
     expect(PUBLIC_WEB_COUNT).toBe(sitesReaching('public').filter(isBrowsable).length)
   })
 
-  it('counts no onion address as a website of its own', () => {
+  it('counts no onion or I2P address as a website of its own', () => {
     expect(sitesReaching('onion').every(isBrowsable)).toBe(true)
+    expect(sitesReaching('i2p').every(isBrowsable)).toBe(true)
     expect(PUBLIC_WEB_COUNT).toBe(sitesReaching('public').filter(isBrowsable).length)
   })
 
-  it('serves over Tor only what is also public', () => {
+  it('serves over Tor and I2P only what is also public', () => {
     const publicServes = new Set(sitesReaching('public').map((site) => site.serves))
 
-    for (const site of sitesReaching('onion')) {
+    for (const site of [...sitesReaching('onion'), ...sitesReaching('i2p')]) {
       expect(publicServes.has(site.serves), site.host).toBe(true)
     }
   })

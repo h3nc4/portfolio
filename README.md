@@ -10,6 +10,8 @@ Or at [https://gh.h3nc4.com](https://gh.h3nc4.com) _via GitHub Pages_
 
 Also available as a hidden service at: `h3nc4cd73utflolf2uxgws3j6rmgzotlwndukabzgzawpzk5fejws5id.onion`
 
+And on I2P as `h3nc4.i2p`, or by its address: `bgqwufp7w3l4alehssros6ysb2ul7pvzdxf2gkvkgxmqhe76qklq.b32.i2p`
+
 ## License
 
 Portfolio is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.

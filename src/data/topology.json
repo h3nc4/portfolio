@@ -37,6 +37,11 @@
               "id": "internet.hidden.user",
               "kind": "service",
               "label": "Tor user"
+            },
+            {
+              "id": "internet.hidden.i2puser",
+              "kind": "service",
+              "label": "I2P user"
             }
           ]
         }
@@ -128,6 +133,12 @@
                       "kind": "service",
                       "label": "snowflake-proxy",
                       "ports": ["40000-40040"]
+                    },
+                    {
+                      "id": "lan.gem.docker.netns.i2pd",
+                      "kind": "service",
+                      "label": "i2pd",
+                      "ports": ["23901"]
                     },
                     {
                       "id": "lan.gem.docker.netns.tddns",
@@ -608,6 +619,24 @@
       "to": "lan.gem.docker.netns.snow",
       "label": "WebRTC 40000-40040",
       "kind": "tls"
+    },
+    {
+      "from": "internet.hidden.i2puser",
+      "to": "router",
+      "label": "I2P 23901",
+      "kind": "tls"
+    },
+    {
+      "from": "router",
+      "to": "lan.gem.docker.netns.i2pd",
+      "label": "I2P 23901",
+      "kind": "tls"
+    },
+    {
+      "from": "lan.gem.docker.netns.i2pd",
+      "to": "lan.gem.docker.quiet.torrp",
+      "label": "172.31.241.2:80",
+      "kind": "host"
     },
     {
       "from": "lan.gems",

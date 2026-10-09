@@ -48,16 +48,19 @@ describe('HostList', () => {
     expect(self).not.toHaveAttribute('target')
   })
 
-  it('prints each onion address elided, on one line, with the whole one on hover', () => {
-    render(<HostList reach="onion" />)
+  it.each(['onion', 'i2p'] as const)(
+    'prints each %s address elided, on one line, with the whole one on hover',
+    (reach) => {
+      render(<HostList reach={reach} />)
 
-    for (const site of sitesReaching('onion')) {
-      const name = screen.getByText(displayHost(site))
+      for (const site of sitesReaching(reach)) {
+        const name = screen.getByText(displayHost(site))
 
-      expect(name).toHaveClass('truncate')
-      expect(name.closest('a')).toHaveAttribute('title', site.host)
-    }
-  })
+        expect(name).toHaveClass('truncate')
+        expect(name.closest('a')).toHaveAttribute('title', site.host)
+      }
+    },
+  )
 
   it('names the mail and VPN hosts without linking them', () => {
     render(<HostList reach="public" />)
@@ -67,12 +70,12 @@ describe('HostList', () => {
     expect(screen.queryByRole('link', { name: /mail\.h3nc4\.com/ })).not.toBeInTheDocument()
   })
 
-  it('links every onion address over plain HTTP', () => {
-    render(<HostList reach="onion" />)
+  it.each(['onion', 'i2p'] as const)('links every %s address over plain HTTP', (reach) => {
+    render(<HostList reach={reach} />)
 
     const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href'))
 
-    expect(hrefs).toEqual(sitesReaching('onion').map((site) => `http://${site.host}`))
+    expect(hrefs).toEqual(sitesReaching(reach).map((site) => `http://${site.host}`))
   })
 
   it('links no LAN hostname, since a visitor cannot reach one', () => {

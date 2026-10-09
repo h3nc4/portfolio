@@ -16,6 +16,7 @@
 import {
   displayHost,
   isBrowsable,
+  isHidden,
   type Site,
   type SiteReach,
   sitesReaching,
@@ -36,9 +37,9 @@ function linkTarget(site: Site) {
   return site.self ? {} : NEW_TAB
 }
 
-/* An elided onion address is short enough for the narrowest column and must stay on one line. */
+/* An elided hidden address is short enough for the narrowest column and must stay on one line. */
 function wrapping(site: Site): string {
-  return site.reach === 'onion' ? 'truncate' : '[overflow-wrap:anywhere]'
+  return isHidden(site) ? 'truncate' : '[overflow-wrap:anywhere]'
 }
 
 /*
