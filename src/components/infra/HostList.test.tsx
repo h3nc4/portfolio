@@ -49,7 +49,7 @@ describe('HostList', () => {
   })
 
   it.each(['onion', 'i2p'] as const)(
-    'prints each %s address elided, on one line, with the whole one on hover',
+    'prints each %s name on one line, with the whole one on hover',
     (reach) => {
       render(<HostList reach={reach} />)
 

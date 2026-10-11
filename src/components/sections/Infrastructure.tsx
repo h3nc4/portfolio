@@ -87,8 +87,8 @@ export function Infrastructure() {
         <div className="mt-12">
           <h3 className="text-dawn-cream mb-1 text-lg font-medium tracking-tight">I2P sites</h3>
           <p className="text-dawn-taupe mb-4 max-w-prose text-sm font-light">
-            The same two sites on I2P, where the portfolio is also registered as h3nc4.i2p. They
-            open through the HTTP proxy of an I2P router.
+            The portfolio and WASudoku again, as I2P sites. They open through the HTTP proxy of an
+            I2P router.
           </p>
           <HostList reach="i2p" />
         </div>

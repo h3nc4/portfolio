@@ -10,7 +10,7 @@ Or at [https://gh.h3nc4.com](https://gh.h3nc4.com) _via GitHub Pages_
 
 Also available as a hidden service at: `h3nc4cd73utflolf2uxgws3j6rmgzotlwndukabzgzawpzk5fejws5id.onion`
 
-And on I2P as `h3nc4.i2p`, or by its address: `bgqwufp7w3l4alehssros6ysb2ul7pvzdxf2gkvkgxmqhe76qklq.b32.i2p`
+And on I2P as `h3nc4.i2p`, or by its b32 address while address books catch up: `bgqwufp7w3l4alehssros6ysb2ul7pvzdxf2gkvkgxmqhe76qklq.b32.i2p`
 
 ## License
 
