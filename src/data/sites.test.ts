@@ -19,7 +19,7 @@ import { displayHost, isBrowsable, PUBLIC_WEB_COUNT, SITES, sitesReaching, siteU
 import { TOPOLOGY_INDEX } from './topology'
 
 const ONION_HOST = /(^|\.)h3nc4cd73utflolf2uxgws3j6rmgzotlwndukabzgzawpzk5fejws5id\.onion$/
-const I2P_HOST = /^[a-z2-7]{52}\.b32\.i2p$/
+const I2P_HOST = /(^|\.)h3nc4\.i2p$/
 
 const HOST_PATTERN = { onion: ONION_HOST, i2p: I2P_HOST } as const
 
@@ -56,16 +56,18 @@ describe('displayHost', () => {
     ])
   })
 
-  it('elides the middle of a b32 address', () => {
-    expect(sitesReaching('i2p').map(displayHost)).toEqual([
-      'bgqwufp7...he76qklq.b32.i2p',
-      'vwatkzzb...ashkemza.b32.i2p',
-    ])
+  it('prints a registered I2P name whole', () => {
+    expect(sitesReaching('i2p').map(displayHost)).toEqual(['h3nc4.i2p', 'wasudoku.h3nc4.i2p'])
   })
 
-  it('prints every hidden name at the same length', () => {
-    const hidden = [...sitesReaching('onion'), ...sitesReaching('i2p')]
-    const lengths = new Set(hidden.map((site) => displayHost(site).length))
+  it('elides the middle of a b32 address', () => {
+    const site = { ...sitesReaching('i2p')[0], host: `${'a'.repeat(52)}.b32.i2p` }
+
+    expect(displayHost(site)).toBe('aaaaaaaa...aaaaaaaa.b32.i2p')
+  })
+
+  it('prints every onion name at the same length', () => {
+    const lengths = new Set(sitesReaching('onion').map((site) => displayHost(site).length))
 
     expect(lengths.size).toBe(1)
   })
@@ -86,7 +88,7 @@ describe('the tunnel sites', () => {
     }
   })
 
-  it('keeps every hostname inside the one domain, the one onion or a b32 address', () => {
+  it('keeps every hostname inside the one domain, the one onion or the one I2P name', () => {
     for (const site of SITES) {
       const pattern =
         site.reach === 'onion' || site.reach === 'i2p'

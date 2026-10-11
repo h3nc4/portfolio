@@ -82,14 +82,14 @@
       "about": "The Sudoku solver, over Tor."
     },
     {
-      "host": "bgqwufp7w3l4alehssros6ysb2ul7pvzdxf2gkvkgxmqhe76qklq.b32.i2p",
+      "host": "h3nc4.i2p",
       "serves": "This site",
       "reach": "i2p",
       "service": "lan.gem.docker.quiet.web",
       "about": "This portfolio, over I2P."
     },
     {
-      "host": "vwatkzzbc4r6bg7lzj4gzq7i47eptsonekz6hjme3ydpashkemza.b32.i2p",
+      "host": "wasudoku.h3nc4.i2p",
       "serves": "WASudoku",
       "reach": "i2p",
       "service": "lan.gem.docker.quiet.web",
