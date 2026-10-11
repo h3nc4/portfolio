@@ -60,7 +60,7 @@ describe('Data Integrity: SELECTED_PROJECTS', () => {
 
 describe('Data Integrity: CONTAINER_PROJECTS', () => {
   it('should hold every slim container', () => {
-    expect(CONTAINER_PROJECTS).toHaveLength(5)
+    expect(CONTAINER_PROJECTS).toHaveLength(6)
   })
 
   it('should be valid projects carrying a populated demo', () => {
