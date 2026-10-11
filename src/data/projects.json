@@ -195,6 +195,57 @@
       ]
     },
     {
+      "title": "i2pd-slim",
+      "language": "Dockerfile",
+      "description": "The i2pd I2P router as one static binary in a scratch Docker container, verified against its signed release.",
+      "tags": ["Docker", "Actions"],
+      "links": [
+        {
+          "name": "github",
+          "url": "https://github.com/h3nc4/i2pd-slim"
+        },
+        {
+          "name": "cgit",
+          "url": "https://cgit.h3nc4.com/i2pd-slim"
+        }
+      ],
+      "demo": [
+        {
+          "text": "docker run -p 4444:4444 \\",
+          "type": "command"
+        },
+        {
+          "text": "  h3nc4/i2pd-slim",
+          "type": "command"
+        },
+        {
+          "text": "i2pd v2.61.0 (0.9.70) starting...",
+          "type": "output",
+          "delay": 500
+        },
+        {
+          "text": "Reseed: 16 certificates loaded",
+          "type": "output",
+          "delay": 200
+        },
+        {
+          "text": "Reseed: Downloading SU3 from https://reseed.onion.im/i2pseeds.su3",
+          "type": "output",
+          "delay": 500
+        },
+        {
+          "text": "Daemon: Transports started",
+          "type": "output",
+          "delay": 1400
+        },
+        {
+          "text": "Clients: Starting HTTP Proxy at 0.0.0.0:4444",
+          "type": "output",
+          "delay": 300
+        }
+      ]
+    },
+    {
       "title": "nginx-slim",
       "language": "Dockerfile",
       "description": "A single binary NGINX Docker container with Brotli support, running on a scratch filesystem.",
@@ -361,6 +412,11 @@
           "title": "tor-slim",
           "what": "Tor on scratch",
           "url": "https://github.com/h3nc4/tor-slim"
+        },
+        {
+          "title": "i2pd-slim",
+          "what": "i2pd on scratch",
+          "url": "https://github.com/h3nc4/i2pd-slim"
         },
         {
           "title": "nginx-slim",
