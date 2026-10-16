@@ -106,10 +106,10 @@ runs_over_limit() {
   ' "$1"
 }
 
-[ "${1:-}" = "--base" ] && [ "$#" -ge 2 ] || {
+if [ "${1:-}" != "--base" ] || [ "$#" -lt 2 ]; then
   echo "usage: $0 --base <ref> [file...]" >&2
   exit 2
-}
+fi
 BASE="$2"
 shift 2
 # A base the clone never fetched would diff to nothing and pass.
