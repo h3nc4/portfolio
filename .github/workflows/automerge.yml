@@ -1,8 +1,5 @@
 name: Automerge Renovate
 
-# one
-# two
-# three
 on:
   workflow_run:
     workflows:
@@ -13,6 +10,9 @@ on:
 
 permissions: {}
 
+# one
+# two
+# three
 jobs:
   automerge:
     name: Merge if CI passed
