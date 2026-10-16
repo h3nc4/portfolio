@@ -110,7 +110,7 @@ async function typeCommand(
     if (signal.aborted) return
     onType(text.slice(0, i))
     const delay = getRandomDelay(minDelay, maxDelay)
-    await wait(delay, signal)
+    await wait(delay, signal) // NOSONAR each keystroke waits for the one before it
   }
 }
 
@@ -179,12 +179,7 @@ async function runSimulationCycle(
   }
 
   for (const step of script) {
-    await runScriptStep(step, {
-      minTypingDelay,
-      maxTypingDelay,
-      state,
-      signal,
-    })
+    await runScriptStep(step, { minTypingDelay, maxTypingDelay, state, signal }) // NOSONAR steps play in script order
   }
 
   state.setShowPrompt(true)
@@ -260,7 +255,7 @@ export function TerminalDemo(props: TerminalDemoProps) {
     const loop = async () => {
       try {
         while (!signal.aborted) {
-          await runSimulationCycle(props, { setLines, setCurrentCommand, setShowPrompt }, signal)
+          await runSimulationCycle(props, { setLines, setCurrentCommand, setShowPrompt }, signal) // NOSONAR a cycle starts once the last one ends
         }
       } catch (err) {
         // Ignore AbortError on cleanup, rethrow unexpected errors
