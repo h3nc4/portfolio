@@ -60,10 +60,10 @@ runs_over_limit() {
         if (lo[i] <= to && hi[i] >= from) return 1
       return 0
     }
+    # A header is known by its wording, since any comment can open a file.
     function is_header(from, to,   _i) {
-      if (from <= 3) return 1
       for (_i = from; _i <= to; _i++)
-        if (index(text[_i], "Copyright") > 0) return 1
+        if (text[_i] ~ /SPDX-License-Identifier|Copyright|General Public License|All rights reserved|[Ss]ee LICENSE/) return 1
       return 0
     }
     function report(   from, to) {

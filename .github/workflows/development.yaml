@@ -36,6 +36,8 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: scripts/comment-length.sh --base "${BASE_SHA}"
+      - name: Test comment length check
+        run: sh scripts/comment-length.test.sh
       - name: Run h3nc4/dev-image-action
         uses: h3nc4/dev-image-action@1e296b26a16b3e20db153e32b963d953a41ef1a1 # v2
         with:
