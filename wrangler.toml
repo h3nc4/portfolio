@@ -25,8 +25,9 @@ workers_dev = false
 [assets]
 directory = "./dist"
 
-# Replaces `try_files $uri $uri/ /index.html`.
-not_found_handling = "single-page-application"
+# A missing path answers 404 as on GitHub Pages. The page has no client routes, and
+# index.html with a 200 read as a real file to probes such as assetlinks.json.
+not_found_handling = "404-page"
 
 # Routes, not custom domains. A custom domain owns the DNS record and refuses
 # while the tunnel's CNAME exists, which is code 100117.
