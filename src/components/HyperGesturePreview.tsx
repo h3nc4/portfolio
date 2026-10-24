@@ -71,7 +71,7 @@ export function HyperGesturePreview() {
   const swipe = useSwipe({ onTap: next, onSwipeLeft: next, onSwipeRight: previous })
 
   const switcher = (
-    <div role="group" aria-label="HyperGesture app screens" className="flex p-0.5">
+    <fieldset aria-label="HyperGesture app screens" className="m-0 flex min-w-0 border-0 p-0.5">
       {HYPERGESTURE_SCREENS.map((screen, index) => (
         <button
           key={screen.name}
@@ -88,7 +88,7 @@ export function HyperGesturePreview() {
           {screen.name}
         </button>
       ))}
-    </div>
+    </fieldset>
   )
 
   return (

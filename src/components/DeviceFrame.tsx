@@ -41,7 +41,7 @@ export function DeviceFrame({ src, title, className, zoom = 0.7 }: DeviceFramePr
             />
             <span className="bg-dawn-accent-hi relative inline-flex h-2 w-2 rounded-full" />
           </span>
-          Live Interactive Preview
+          <span>Live Interactive Preview</span>
         </span>
       }
       screenClassName="device-screen"
