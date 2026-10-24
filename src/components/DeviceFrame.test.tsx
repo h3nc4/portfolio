@@ -17,11 +17,25 @@
  */
 
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+
+import { useAfterLoad } from '@/hooks/useAfterLoad'
 
 import { DeviceFrame } from './DeviceFrame'
 
+vi.mock('@/hooks/useAfterLoad', () => ({ useAfterLoad: vi.fn(() => true) }))
+
 describe('DeviceFrame', () => {
+  afterEach(() => {
+    vi.mocked(useAfterLoad).mockReturnValue(true)
+  })
+
+  it('leaves the iframe empty until the page has loaded', () => {
+    vi.mocked(useAfterLoad).mockReturnValue(false)
+    render(<DeviceFrame src="https://example.com" title="Test" />)
+    expect(screen.getByTitle('Test')).not.toHaveAttribute('src')
+  })
+
   it('renders iframe with correct src and title', () => {
     const src = 'https://example.com'
     const title = 'Example App'

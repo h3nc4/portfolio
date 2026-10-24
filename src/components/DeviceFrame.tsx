@@ -19,6 +19,7 @@
 import type { CSSProperties } from 'react'
 
 import { PhoneShell } from '@/components/PhoneShell'
+import { useAfterLoad } from '@/hooks/useAfterLoad'
 
 interface DeviceFrameProps {
   readonly src: string
@@ -30,6 +31,9 @@ interface DeviceFrameProps {
 
 /** Shows interactive content in an iframe inside a handset mock. */
 export function DeviceFrame({ src, title, className, zoom = 0.7 }: DeviceFrameProps) {
+  // Booting after load keeps the app out of the first load, and before a scroll reaches it (#512)
+  const afterLoad = useAfterLoad()
+
   return (
     <PhoneShell
       badge={
@@ -48,7 +52,7 @@ export function DeviceFrame({ src, title, className, zoom = 0.7 }: DeviceFramePr
       className={className}
     >
       <iframe
-        src={src}
+        src={afterLoad ? src : undefined}
         title={title}
         className="border-0 bg-black"
         style={{ '--device-zoom': zoom } as CSSProperties}
