@@ -32,9 +32,10 @@ describe('DeviceFrame', () => {
     expect(iframe).toHaveAttribute('src', src)
   })
 
-  it('renders the interactive badge', () => {
+  it('renders the live badge with a pulsing dot', () => {
     render(<DeviceFrame src="https://example.com" title="Test" />)
     expect(screen.getByText('Live Interactive Preview')).toBeInTheDocument()
+    expect(screen.getByTestId('live-pulse')).toHaveClass('animate-ping')
   })
 
   it('renders with correct default attributes', () => {
@@ -55,47 +56,14 @@ describe('DeviceFrame', () => {
     expect(container).toHaveClass('custom-class')
   })
 
-  // The zoom is published as a custom property and the stylesheet turns it into
-  // width, height and scale, so a media query can lower it on small viewports.
-  const zoomCases: {
-    label: string
-    props: Partial<{
-      zoom: number
-      mobileZoom: number
-      largeZoom: number
-      smallPhoneZoom: number
-    }>
-    property: string
-    value: string
-  }[] = [
-    { label: 'the desktop default', props: {}, property: '--device-zoom', value: '0.8' },
-    { label: 'the mobile default', props: {}, property: '--device-zoom-sm', value: '0.72' },
-    { label: 'the large default', props: {}, property: '--device-zoom-lg', value: '0.8' },
-    { label: 'an explicit zoom', props: { zoom: 0.5 }, property: '--device-zoom', value: '0.5' },
-    {
-      label: 'an explicit mobile zoom',
-      props: { mobileZoom: 0.4 },
-      property: '--device-zoom-sm',
-      value: '0.4',
-    },
-    { label: 'the small-phone default', props: {}, property: '--device-zoom-xs', value: '0.62' },
-    {
-      label: 'an explicit small-phone zoom',
-      props: { smallPhoneZoom: 0.55 },
-      property: '--device-zoom-xs',
-      value: '0.55',
-    },
-    {
-      label: 'an explicit large zoom',
-      props: { largeZoom: 0.95 },
-      property: '--device-zoom-lg',
-      value: '0.95',
-    },
-  ]
+  // The stylesheet turns the custom property into the iframe's size and scale
+  it('publishes the default zoom as a custom property', () => {
+    render(<DeviceFrame src="https://example.com" title="Test" />)
+    expect(screen.getByTitle('Test').style.getPropertyValue('--device-zoom')).toBe('0.7')
+  })
 
-  it.each(zoomCases)('publishes $label as a custom property', ({ props, property, value }) => {
-    render(<DeviceFrame src="https://example.com" title="Test" {...props} />)
-
-    expect(screen.getByTitle('Test').style.getPropertyValue(property)).toBe(value)
+  it('publishes an explicit zoom as a custom property', () => {
+    render(<DeviceFrame src="https://example.com" title="Test" zoom={0.5} />)
+    expect(screen.getByTitle('Test').style.getPropertyValue('--device-zoom')).toBe('0.5')
   })
 })

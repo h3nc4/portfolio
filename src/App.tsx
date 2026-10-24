@@ -16,16 +16,14 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { DeviceFrame } from '@/components/DeviceFrame'
 import { ContainerPreviews } from '@/components/sections/ContainerPreviews'
-import { FeaturedProject } from '@/components/sections/FeaturedProject'
+import { FeaturedProjects } from '@/components/sections/FeaturedProjects'
 import { Footer } from '@/components/sections/Footer'
 import { Hero } from '@/components/sections/Hero'
 import { Infrastructure } from '@/components/sections/Infrastructure'
 import { ProjectFamilies } from '@/components/sections/ProjectFamilies'
 import { SelectedProjects } from '@/components/sections/SelectedProjects'
 import { useHeroPeek } from '@/hooks/useHeroPeek'
-import { siblingUrl } from '@/lib/entrance'
 
 /**
  * Main application component acting as the layout shell.
@@ -48,18 +46,7 @@ export default function App() {
 
           <div className="hero-sheet">
             <div id="featured" className="panel scroll-mt-8 p-6 sm:p-9 lg:p-11">
-              <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
-                <div className="lg:w-[52%]">
-                  <FeaturedProject />
-                </div>
-
-                {/* Device frame, beside the project it previews rather than in a rail */}
-                <aside className="relative flex w-full justify-center lg:w-[48%] lg:justify-end">
-                  <div className="w-full max-w-md pt-12">
-                    <DeviceFrame src={siblingUrl('wasudoku')} title="WASudoku Live Preview" />
-                  </div>
-                </aside>
-              </div>
+              <FeaturedProjects />
             </div>
 
             <div id="selected-projects" className="panel mt-8 scroll-mt-8 p-6 sm:p-9 lg:p-11">

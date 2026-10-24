@@ -16,87 +16,80 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ExternalLink, GitBranch } from 'lucide-react'
-import { SiGithub } from 'react-icons/si'
+import type { ReactNode } from 'react'
 
 import AnimatedContent from '@/components/AnimatedContent'
 import { Button } from '@/components/ui/button'
-import { siblingUrl } from '@/lib/entrance'
+import type { FeaturedLink, FeaturedProjectData } from '@/data/featured'
 
 interface FeaturedProjectProps {
+  readonly project: FeaturedProjectData
+  /** The handset that previews the project, drawn above its text. */
+  readonly preview: ReactNode
   /**
-   * Delay in seconds before the animation starts.
+   * Delay in seconds before the text animates in.
    * @default 0
    */
   readonly delay?: number
 }
 
-/**
- * Displays detailed information about the featured project (WASudoku).
- */
-export function FeaturedProject({ delay = 0 }: FeaturedProjectProps) {
+const PRIMARY_CLASS = 'bg-dawn-accent text-dawn-ground hover:bg-dawn-accent-hi gap-2 font-medium'
+const SECONDARY_CLASS =
+  'border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm'
+
+function ProjectLink({
+  link,
+  primary,
+}: {
+  readonly link: FeaturedLink
+  readonly primary: boolean
+}) {
+  const Icon = link.icon
+  const newTab = link.sameTab ? {} : { target: '_blank', rel: 'noopener noreferrer' }
+
   return (
-    <AnimatedContent distance={20} direction="vertical" delay={delay}>
-      <section className="space-y-8">
-        <div className="space-y-4">
-          <div className="text-dawn-accent flex items-center gap-2 font-mono">
-            <span className="bg-dawn-stone h-px w-8" />
-            <span className="text-sm font-medium tracking-wider uppercase">Featured Project</span>
-            <span className="bg-dawn-stone hidden h-px w-8" />
-          </div>
+    <Button
+      variant={primary ? 'default' : 'outline'}
+      className={primary ? PRIMARY_CLASS : SECONDARY_CLASS}
+      asChild
+    >
+      <a href={link.href} aria-label={link.ariaLabel} {...newTab}>
+        <Icon className="h-4 w-4" aria-hidden="true" />
+        {link.label}
+      </a>
+    </Button>
+  )
+}
 
-          <h2 className="text-dawn-cream text-3xl font-medium tracking-tight">WASudoku</h2>
-          <p className="text-dawn-stone font-mono text-sm tracking-wide">Vite / Rust / TS / PWA</p>
+/** One featured column, a subgrid on wide screens so both phones and both titles line up. */
+export function FeaturedProject({ project, preview, delay = 0 }: FeaturedProjectProps) {
+  return (
+    <article
+      id={project.id}
+      className="flex scroll-mt-8 flex-col gap-10 lg:row-span-2 lg:grid lg:grid-rows-subgrid"
+    >
+      {/* Room for the badge above the handset */}
+      <div className="pt-12">{preview}</div>
 
-          <p className="text-dawn-taupe max-w-[52ch] text-lg leading-relaxed font-light">
-            A high-performance Sudoku solver and generator running entirely in the browser using
-            WebAssembly and Rust. Features a hybrid solving engine (logic + backtracking),
-            step-by-step visualization, and a responsive PWA interface.
-          </p>
+      <AnimatedContent
+        distance={20}
+        direction="vertical"
+        delay={delay}
+        className="flex flex-col items-center text-center"
+      >
+        <h3 className="text-dawn-cream text-2xl font-medium tracking-tight">{project.title}</h3>
+        <p className="text-dawn-stone mt-2 font-mono text-sm tracking-wide">{project.stack}</p>
+
+        <p className="text-dawn-taupe mt-4 max-w-md leading-relaxed font-light">
+          {project.description}
+        </p>
+
+        <div className="mt-auto flex flex-wrap justify-center gap-3 pt-8">
+          {project.links.map((link, index) => (
+            <ProjectLink key={link.label} link={link} primary={index === 0} />
+          ))}
         </div>
-
-        <div className="flex flex-wrap gap-4">
-          <Button
-            className="bg-dawn-accent text-dawn-ground hover:bg-dawn-accent-hi gap-2 font-medium"
-            asChild
-          >
-            <a href={siblingUrl('wasudoku')} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="h-4 w-4" />
-              Open App
-            </a>
-          </Button>
-          <Button
-            variant="outline"
-            className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
-            asChild
-          >
-            <a
-              href="https://github.com/h3nc4/WASudoku"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WASudoku on GitHub"
-            >
-              <SiGithub className="h-4 w-4" aria-hidden="true" />
-              GitHub
-            </a>
-          </Button>
-          <Button
-            variant="outline"
-            className="border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm"
-            asChild
-          >
-            <a
-              href="https://cgit.h3nc4.com/WASudoku"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WASudoku on cgit"
-            >
-              <GitBranch className="h-4 w-4" />
-              cgit
-            </a>
-          </Button>
-        </div>
-      </section>
-    </AnimatedContent>
+      </AnimatedContent>
+    </article>
   )
 }

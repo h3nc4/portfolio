@@ -34,7 +34,7 @@ export function SelectedProjects() {
           <span className="bg-dawn-line h-px flex-1" />
         </div>
         <p className="text-dawn-taupe mb-8 max-w-prose font-light">
-          A distribution, a phone gesture layer, a Go service, a C daemon, and the tooling that
+          A distribution, a Go service, a C daemon, a Game of Life for X, and the tooling that
           grades the rest.
         </p>
       </AnimatedContent>
