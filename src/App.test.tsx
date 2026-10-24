@@ -49,7 +49,7 @@ describe('App', () => {
   it('renders main structure', () => {
     render(<App />)
     expect(screen.getByRole('main')).toBeInTheDocument()
-    expect(screen.getByRole('complementary')).toBeInTheDocument() // <aside>
+    expect(screen.getAllByRole('article')).toHaveLength(2) // one column per featured project
   })
 
   it('composes all key sections', () => {
@@ -58,12 +58,11 @@ describe('App', () => {
     // Hero Section Content
     expect(screen.getByRole('heading', { name: /Henrique Almeida/i, level: 1 })).toBeInTheDocument()
 
-    // Featured Project Content
-    expect(screen.getByText('Featured Project')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'WASudoku', level: 2 })).toBeInTheDocument()
-
-    // Visual Showcase
-    expect(screen.getByTestId('mock-device-frame')).toBeInTheDocument()
+    // Featured projects, HyperGesture first
+    expect(screen.getByRole('heading', { name: 'Featured Projects', level: 2 })).toBeInTheDocument()
+    const [first, second] = screen.getAllByRole('article')
+    expect(first).toContainElement(screen.getByRole('img', { name: /HyperGesture home screen/i }))
+    expect(second).toContainElement(screen.getByTestId('mock-device-frame'))
 
     // Selected Projects Content
     expect(
@@ -84,11 +83,28 @@ describe('App', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
   })
 
+  it('puts HyperGesture before WASudoku, both in the featured panel', () => {
+    render(<App />)
+    const featured = document.getElementById('featured')
+    const hyperGesture = document.getElementById('hypergesture')
+    const wasudoku = document.getElementById('wasudoku')
+
+    expect(featured).toContainElement(hyperGesture)
+    expect(featured).toContainElement(wasudoku)
+    expect(hyperGesture).toHaveTextContent('HyperGesture')
+    expect(wasudoku).toHaveTextContent('WASudoku')
+    expect(hyperGesture?.compareDocumentPosition(wasudoku as Node) ?? 0).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+  })
+
   it('gives every panel an id, so a link can reach one from outside', () => {
     render(<App />)
 
     for (const id of [
       'featured',
+      'hypergesture',
+      'wasudoku',
       'selected-projects',
       'containers',
       'infrastructure',

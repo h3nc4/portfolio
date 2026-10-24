@@ -33,7 +33,7 @@ describe('SelectedProjects', () => {
     expect(
       screen.getByRole('heading', { name: /Selected Projects/i, level: 2 }),
     ).toBeInTheDocument()
-    expect(screen.getByText(/A distribution, a phone gesture layer/i)).toBeInTheDocument()
+    expect(screen.getByText(/A distribution, a Go service/i)).toBeInTheDocument()
   })
 
   it('renders a row per selected project', () => {
@@ -65,6 +65,12 @@ describe('SelectedProjects', () => {
         expect(screen.getAllByText(tag).length).toBeGreaterThan(0)
       })
     })
+  })
+
+  it('leaves out the featured projects', () => {
+    render(<SelectedProjects />)
+    expect(screen.queryByText('HyperGesture')).not.toBeInTheDocument()
+    expect(screen.queryByText('WASudoku')).not.toBeInTheDocument()
   })
 
   it('renders one card per selected project', () => {

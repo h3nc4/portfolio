@@ -184,40 +184,11 @@
     }
   }
 
-  /*
-   * The screen zoom is resolved here rather than inline, which lets the media
-   * query below lower it. A smaller zoom hands the iframe a wider virtual
-   * viewport, and its content is drawn smaller to fit.
-   */
+  /* A smaller zoom hands the iframe a wider virtual viewport, drawn smaller to fit. */
   .device-screen > iframe {
-    --z: var(--device-zoom, 0.8);
-    width: calc(100% / var(--z));
-    height: calc(100% / var(--z));
-    transform: scale(var(--z));
+    width: calc(100% / var(--device-zoom));
+    height: calc(100% / var(--device-zoom));
+    transform: scale(var(--device-zoom));
     transform-origin: 0 0;
-  }
-
-  /* A phone-width frame is too narrow for the app at desktop zoom. */
-  @media (max-width: 639px) {
-    .device-screen > iframe {
-      --z: var(--device-zoom-sm, 0.72);
-    }
-  }
-
-  /*
-   * Under 430px the frame stops reaching its 360px cap, so it loses height and
-   * the app inside it starts to scroll. Zooming out further buys that height back.
-   */
-  @media (max-width: 429px) {
-    .device-screen > iframe {
-      --z: var(--device-zoom-xs, 0.62);
-    }
-  }
-
-  /* Past 1024px the frame reaches its full width and can carry a higher zoom. */
-  @media (min-width: 1024px) {
-    .device-screen > iframe {
-      --z: var(--device-zoom-lg, 0.8);
-    }
   }
 }

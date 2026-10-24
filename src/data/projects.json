@@ -17,22 +17,6 @@
       ]
     },
     {
-      "title": "HyperGesture",
-      "language": "Kotlin",
-      "description": "Edge gestures for Xiaomi HyperOS, so you can keep the launcher you actually like.",
-      "tags": ["Android", "Kotlin"],
-      "links": [
-        {
-          "name": "github",
-          "url": "https://github.com/h3nc4/HyperGesture"
-        },
-        {
-          "name": "cgit",
-          "url": "https://cgit.h3nc4.com/HyperGesture"
-        }
-      ]
-    },
-    {
       "title": "TelegramScout",
       "language": "Go",
       "description": "A headless Telegram alarm system that monitors specific channels for keywords.",
@@ -61,6 +45,22 @@
         {
           "name": "cgit",
           "url": "https://cgit.h3nc4.com/tddns"
+        }
+      ]
+    },
+    {
+      "title": "Life",
+      "language": "C",
+      "description": "Conway's Game of Life for X.",
+      "tags": ["C", "X11", "OpenMP"],
+      "links": [
+        {
+          "name": "github",
+          "url": "https://github.com/h3nc4/Life"
+        },
+        {
+          "name": "cgit",
+          "url": "https://cgit.h3nc4.com/Life"
         }
       ]
     },
