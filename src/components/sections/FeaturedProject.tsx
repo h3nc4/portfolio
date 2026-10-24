@@ -26,10 +26,7 @@ interface FeaturedProjectProps {
   readonly project: FeaturedProjectData
   /** The handset that previews the project, drawn above its text. */
   readonly preview: ReactNode
-  /**
-   * Delay in seconds before the text animates in.
-   * @default 0
-   */
+  /** Delay in seconds before the text animates in, 0 by default. */
   readonly delay?: number
 }
 
