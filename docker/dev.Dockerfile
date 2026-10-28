@@ -19,7 +19,7 @@
 
 ########################################
 # Node.js versions
-ARG NODE_VERSION="24.22.1"
+ARG NODE_VERSION="26.13.0"
 ARG NODE_DISTRO="node-v${NODE_VERSION}-linux-x64"
 
 ########################################
