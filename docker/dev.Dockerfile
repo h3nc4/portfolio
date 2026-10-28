@@ -19,7 +19,7 @@
 
 ########################################
 # Node.js versions
-ARG NODE_VERSION="24.22.1"
+ARG NODE_VERSION="26.13.0"
 ARG NODE_DISTRO="node-v${NODE_VERSION}-linux-x64"
 
 ########################################
@@ -90,6 +90,22 @@ FROM h3nc4/dev-base:debian-13@sha256:c78e86da85254b1d6f9278ddec16e0d8f9ebe008101
 # dev-base ends as the dev user, and the steps below need root.
 USER root
 
+# Not inherited: dev-base sets it while building, and its squashed image does not
+# carry it into the runtime environment.
+ENV DEBIAN_FRONTEND=noninteractive
+
+########################################
+# Node.js links against libatomic since v26, and dev-base does not carry it
+ARG APT_MIRROR
+RUN host="${APT_MIRROR#http://}"; \
+  if [ -n "${host}" ] && getent hosts "${host}" >/dev/null 2>&1; then \
+    sed -i "s|^URIs: http://deb.debian.org/|URIs: ${APT_MIRROR}/|" \
+      /etc/apt/sources.list.d/debian.sources; \
+  fi
+
+RUN apt-get update -qq && apt-get install --no-install-recommends -y -qq \
+  libatomic1
+
 # Copy features from other stages
 COPY --from=node-stage /rootfs/ /
 
@@ -99,7 +115,11 @@ RUN npm install -g npm@latest
 
 ########################################
 # Clean cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* && \
+  if [ -n "${APT_MIRROR}" ]; then \
+    sed -i "s|^URIs: ${APT_MIRROR}/|URIs: http://deb.debian.org/|" \
+      /etc/apt/sources.list.d/debian.sources; \
+  fi
 RUN rm -rf /var/cache/* /var/log/* /tmp/* /root/.npm
 
 ################################################################################
