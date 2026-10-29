@@ -5,3 +5,6 @@ node_modules/
 # Coverage reports
 coverage/
 coverage*.*
+
+# rumdl
+.rumdl_cache/
