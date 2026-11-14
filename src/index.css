@@ -190,7 +190,6 @@
     transform: translate(0px, 20px);
   }
 
-
   /* A smaller zoom hands the iframe a wider virtual viewport, drawn smaller to fit. */
   .device-screen > iframe {
     width: calc(100% / var(--device-zoom));

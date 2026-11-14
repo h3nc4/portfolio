@@ -28,17 +28,13 @@ const { screenClass, class: className, ...rest } = Astro.props
   </div>
 
   {/* Outer shell, a hairline lighter than the body so the edge catches light */}
-  <div
-    class="relative rounded-[2.6rem] bg-linear-to-b from-neutral-500 to-neutral-700 p-[3px] shadow-2xl"
-  >
+  <div class="relative rounded-[2.6rem] bg-linear-to-b from-neutral-500 to-neutral-700 p-[3px] shadow-2xl">
     {/* Body, the grey bezel with a wider chin below the screen */}
     <div class="rounded-[2.45rem] bg-neutral-900 px-[10px] pt-[26px] pb-[20px]">
       {/* Earpiece and camera */}
       <div class="absolute top-[13px] right-0 left-0 flex items-center justify-center gap-2">
         <span class="h-[4px] w-10 rounded-full bg-neutral-800"></span>
-        <span
-          class="flex h-[8px] w-[8px] items-center justify-center rounded-full bg-neutral-950 ring-1 ring-neutral-700"
-        >
+        <span class="flex h-[8px] w-[8px] items-center justify-center rounded-full bg-neutral-950 ring-1 ring-neutral-700">
           <span class="h-[3px] w-[3px] rounded-full bg-neutral-600"></span>
         </span>
       </div>

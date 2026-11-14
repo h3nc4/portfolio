@@ -3,6 +3,8 @@ export const MEDIA = ['rick-roll'] as const
 
 export type MediaName = (typeof MEDIA)[number]
 
+export const RICK_ROLL_URL = 'https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.mp4'
+
 export interface TerminalStep {
   text?: string
   media?: MediaName

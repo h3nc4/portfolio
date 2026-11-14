@@ -81,9 +81,7 @@ interface RawData {
 
 const data = rawData as RawData
 
-/**
- * Transforms raw JSON project data into a fully typed Project object.
- */
+/** Transforms raw JSON project data into a fully typed Project object. */
 export function hydrateProject(project: RawProject): Project {
   return {
     title: project.title,

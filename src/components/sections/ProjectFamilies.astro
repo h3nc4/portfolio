@@ -18,40 +18,36 @@ const LINKS = [...EXTRAS, { title: 'all of it on cgit', url: 'https://cgit.h3nc4
   </Reveal>
 
   <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-11">
-    {
-      FAMILIES.map((family, index) => (
-        <Reveal delay={0.1 * index}>
-          <h3 class="border-dawn-cream/15 text-dawn-stone mb-3 border-b pb-3 font-mono text-xs tracking-wider uppercase">
-            {family.name}
-          </h3>
-          {family.items.map((item) => (
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="group flex items-baseline justify-between gap-4 py-2.5 text-sm transition-colors"
-            >
-              <span class="text-dawn-sand group-hover:text-dawn-accent font-mono text-sm transition-colors">
-                {item.title}
-              </span>
-              <span class="text-dawn-stone text-right text-sm font-light">{item.what}</span>
-            </a>
-          ))}
-        </Reveal>
-      ))
-    }
+    {FAMILIES.map((family, index) => (
+      <Reveal delay={0.1 * index}>
+        <h3 class="border-dawn-cream/15 text-dawn-stone mb-3 border-b pb-3 font-mono text-xs tracking-wider uppercase">
+          {family.name}
+        </h3>
+        {family.items.map((item) => (
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex items-baseline justify-between gap-4 py-2.5 text-sm transition-colors"
+          >
+            <span class="text-dawn-sand group-hover:text-dawn-accent font-mono text-sm transition-colors">
+              {item.title}
+            </span>
+            <span class="text-dawn-stone text-right text-sm font-light">{item.what}</span>
+          </a>
+        ))}
+      </Reveal>
+    ))}
   </div>
 
   <Reveal delay={0.2}>
     <div class="mt-10 flex flex-wrap items-baseline gap-x-5 gap-y-2">
       <span class="text-dawn-stone font-mono text-xs tracking-wider uppercase">Smaller things</span>
-      {
-        LINKS.map((link) => (
-          <a href={link.url} target="_blank" rel="noopener noreferrer" class={SMALL_LINK}>
-            {link.title}
-          </a>
-        ))
-      }
+      {LINKS.map((link) => (
+        <a href={link.url} target="_blank" rel="noopener noreferrer" class={SMALL_LINK}>
+          {link.title}
+        </a>
+      ))}
     </div>
   </Reveal>
 </section>

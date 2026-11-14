@@ -17,5 +17,7 @@ const { variant = 'default', class: className, ...rest } = Astro.props
   data-variant={variant}
   data-size="default"
   class={cn(buttonVariants({ variant, size: 'default', className }))}
-  {...rest}><slot /></a
+  {...rest}
 >
+  <slot />
+</a>

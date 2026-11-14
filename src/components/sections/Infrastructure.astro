@@ -45,23 +45,21 @@ const BANDS: { reach: SiteReach; title: string; about: string }[] = [
   <Reveal delay={0.2} threshold={0.2}>
     <SectionHeading title="Infrastructure" rule="bg-dawn-cream/15" />
     <p class="text-dawn-taupe mb-8 max-w-prose font-light">
-      Two machines behind one router, running {SERVICE_COUNT} services across Docker, libvirt and the
-      host itself.
+      Two machines behind one router, running {SERVICE_COUNT} services across Docker, libvirt and
+      the host itself.
     </p>
   </Reveal>
 
   <Reveal delay={0.3}>
     <div class="border-dawn-cream/15 grid grid-cols-3 gap-6 border-y py-6">
-      {
-        STATS.map((stat) => (
-          <div>
-            <p class="text-dawn-accent-hi font-mono text-3xl leading-none tracking-tight">
-              {stat.value}
-            </p>
-            <p class="text-dawn-taupe mt-2 text-sm leading-snug font-light">{stat.label}</p>
-          </div>
-        ))
-      }
+      {STATS.map((stat) => (
+        <div>
+          <p class="text-dawn-accent-hi font-mono text-3xl leading-none tracking-tight">
+            {stat.value}
+          </p>
+          <p class="text-dawn-taupe mt-2 text-sm leading-snug font-light">{stat.label}</p>
+        </div>
+      ))}
     </div>
     <p class="text-dawn-taupe mt-3 mb-10 max-w-prose text-sm font-light">
       A link is one service that dials another.
@@ -76,17 +74,15 @@ const BANDS: { reach: SiteReach; title: string; about: string }[] = [
     <HostList reach="public" />
   </Reveal>
 
-  {
-    BANDS.map((band) => (
-      <Reveal delay={0.2}>
-        <div class="mt-12">
-          <h3 class="text-dawn-cream mb-1 text-lg font-medium tracking-tight">{band.title}</h3>
-          <p class="text-dawn-taupe mb-4 max-w-prose text-sm font-light">{band.about}</p>
-          <HostList reach={band.reach} />
-        </div>
-      </Reveal>
-    ))
-  }
+  {BANDS.map((band) => (
+    <Reveal delay={0.2}>
+      <div class="mt-12">
+        <h3 class="text-dawn-cream mb-1 text-lg font-medium tracking-tight">{band.title}</h3>
+        <p class="text-dawn-taupe mb-4 max-w-prose text-sm font-light">{band.about}</p>
+        <HostList reach={band.reach} />
+      </div>
+    </Reveal>
+  ))}
 
   <Reveal delay={0.2}>
     <div class="mt-12">

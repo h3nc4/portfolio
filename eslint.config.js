@@ -17,7 +17,7 @@
  */
 
 import js from '@eslint/js'
-import astro from 'eslint-plugin-astro'
+import { configs as astroConfigs } from 'eslint-plugin-astro'
 import { flatConfigs as importXConfigs } from 'eslint-plugin-import-x'
 import jestDom from 'eslint-plugin-jest-dom'
 import promise from 'eslint-plugin-promise'
@@ -31,8 +31,8 @@ export default [
   { ignores: ['dist', 'coverage', '.astro'] },
   js.configs.recommended,
   ...tseslintConfigs.recommended,
-  ...astro.configs.recommended,
-  ...astro.configs['jsx-a11y-recommended'],
+  ...astroConfigs.recommended,
+  ...astroConfigs['jsx-a11y-recommended'],
   importXConfigs.recommended,
   importXConfigs.typescript,
   promise.configs['flat/recommended'],

@@ -18,29 +18,27 @@ import { CONTAINER_PROJECTS } from '@/data/projects'
   </Reveal>
 
   <div class="flex flex-wrap justify-center gap-6">
-    {
-      CONTAINER_PROJECTS.map((project, index) => (
-        <Reveal delay={0.1 * index} class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
-          <a
-            href={project.links[0].url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="border-dawn-cream/15 hover:border-dawn-accent flex h-full flex-col overflow-hidden rounded-xl border bg-[#17120e]/55 transition-all hover:-translate-y-0.5"
-          >
-            <div class="border-dawn-cream/15 border-b bg-[#0c0907]/60 p-4">
-              <TerminalDemo script={project.demo} />
-            </div>
+    {CONTAINER_PROJECTS.map((project, index) => (
+      <Reveal delay={0.1 * index} class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
+        <a
+          href={project.links[0].url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border-dawn-cream/15 hover:border-dawn-accent flex h-full flex-col overflow-hidden rounded-xl border bg-[#17120e]/55 transition-all hover:-translate-y-0.5"
+        >
+          <div class="border-dawn-cream/15 border-b bg-[#0c0907]/60 p-4">
+            <TerminalDemo script={project.demo} />
+          </div>
 
-            <div class="flex flex-1 flex-col p-6">
-              <h3 class="text-dawn-cream text-lg font-medium">{project.title}</h3>
-              <p class="text-dawn-taupe mt-3 mb-auto text-sm leading-relaxed font-light">
-                {project.description}
-              </p>
-              <TagList tags={project.tags} />
-            </div>
-          </a>
-        </Reveal>
-      ))
-    }
+          <div class="flex flex-1 flex-col p-6">
+            <h3 class="text-dawn-cream text-lg font-medium">{project.title}</h3>
+            <p class="text-dawn-taupe mt-3 mb-auto text-sm leading-relaxed font-light">
+              {project.description}
+            </p>
+            <TagList tags={project.tags} />
+          </div>
+        </a>
+      </Reveal>
+    ))}
   </div>
 </section>

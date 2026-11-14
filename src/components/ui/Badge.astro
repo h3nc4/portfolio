@@ -10,4 +10,6 @@ interface Props {
 const { variant, class: className } = Astro.props
 ---
 
-<span data-slot="badge" class={cn(badgeVariants({ variant }), className)}><slot /></span>
+<span data-slot="badge" class={cn(badgeVariants({ variant }), className)}>
+  <slot />
+</span>

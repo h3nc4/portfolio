@@ -30,32 +30,30 @@ const { reach } = Astro.props
 ---
 
 <ul data-testid={`hosts-${reach}`} class="grid gap-x-8 gap-y-0 sm:grid-cols-2 xl:grid-cols-3">
-  {
-    sitesReaching(reach).map((site) =>
-      isBrowsable(site) ? (
-        <li class="min-w-0">
-          <a
-            href={siteUrl(site)}
-            {...linkTarget(site)}
-            title={site.host}
-            class={`group hover:border-dawn-accent ${ROW} no-underline`}
+  {sitesReaching(reach).map((site) =>
+    isBrowsable(site) ? (
+      <li class="min-w-0">
+        <a
+          href={siteUrl(site)}
+          {...linkTarget(site)}
+          title={site.host}
+          class={`group hover:border-dawn-accent ${ROW} no-underline`}
+        >
+          <span
+            class={`text-dawn-cream group-hover:text-dawn-accent-hi block font-mono text-sm ${wrapping(site)}`}
           >
-            <span
-              class={`text-dawn-cream group-hover:text-dawn-accent-hi block font-mono text-sm ${wrapping(site)}`}
-            >
-              {displayHost(site)}
-            </span>
-            <HostDetail site={site} />
-          </a>
-        </li>
-      ) : (
-        <li class={`min-w-0 ${ROW}`}>
-          <span class="text-dawn-sand block font-mono text-sm [overflow-wrap:anywhere]">
-            {site.host}
+            {displayHost(site)}
           </span>
           <HostDetail site={site} />
-        </li>
-      ),
-    )
-  }
+        </a>
+      </li>
+    ) : (
+      <li class={`min-w-0 ${ROW}`}>
+        <span class="text-dawn-sand block font-mono text-sm [overflow-wrap:anywhere]">
+          {site.host}
+        </span>
+        <HostDetail site={site} />
+      </li>
+    ),
+  )}
 </ul>

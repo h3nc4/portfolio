@@ -13,4 +13,6 @@ const wait = delay > 0 ? Number(delay.toFixed(3)) : undefined
 const line = threshold === DEFAULT_THRESHOLD ? undefined : threshold
 ---
 
-<div class:list={['reveal', className]} data-delay={wait} data-threshold={line}><slot /></div>
+<div class:list={['reveal', className]} data-delay={wait} data-threshold={line}>
+  <slot />
+</div>

@@ -41,39 +41,39 @@ const PILL =
 ---
 
 <PhoneShell data-screens>
-  <fieldset slot="badge" aria-label="HyperGesture app screens" class="m-0 flex min-w-0 border-0 p-0.5">
-    {
-      SCREENS.map((screen, index) => (
-        <button
-          type="button"
-          aria-pressed={index === 0 ? 'true' : 'false'}
-          class={cn(PILL, (index === 0 ? PILL_ACTIVE : PILL_IDLE).join(' '))}
-        >
-          {screen.name}
-        </button>
-      ))
-    }
+  <fieldset
+    slot="badge"
+    aria-label="HyperGesture app screens"
+    class="m-0 flex min-w-0 border-0 p-0.5"
+  >
+    {SCREENS.map((screen, index) => (
+      <button
+        type="button"
+        aria-pressed={index === 0 ? 'true' : 'false'}
+        class={cn(PILL, (index === 0 ? PILL_ACTIVE : PILL_IDLE).join(' '))}
+      >
+        {screen.name}
+      </button>
+    ))}
   </fieldset>
 
-  {
-    SCREENS.map((screen, index) => (
-      <img
-        src={screen.small}
-        srcset={`${screen.small} ${SHOT_WIDTH}w, ${screen.large} ${SHOT_WIDTH * 2}w`}
-        sizes={SHOT_SIZES}
-        width={SHOT_WIDTH}
-        height={SHOT_HEIGHT}
-        alt={screen.alt}
-        aria-hidden={index === 0 ? 'false' : 'true'}
-        loading={index === 0 ? 'eager' : 'lazy'}
-        decoding="async"
-        class={cn(
-          'absolute inset-0 h-full w-full bg-[#0f151c] object-contain object-top transition-opacity duration-300',
-          index === 0 ? 'opacity-100' : 'opacity-0',
-        )}
-      />
-    ))
-  }
+  {SCREENS.map((screen, index) => (
+    <img
+      src={screen.small}
+      srcset={`${screen.small} ${SHOT_WIDTH}w, ${screen.large} ${SHOT_WIDTH * 2}w`}
+      sizes={SHOT_SIZES}
+      width={SHOT_WIDTH}
+      height={SHOT_HEIGHT}
+      alt={screen.alt}
+      aria-hidden={index === 0 ? 'false' : 'true'}
+      loading={index === 0 ? 'eager' : 'lazy'}
+      decoding="async"
+      class={cn(
+        'absolute inset-0 h-full w-full bg-[#0f151c] object-contain object-top transition-opacity duration-300',
+        index === 0 ? 'opacity-100' : 'opacity-0',
+      )}
+    />
+  ))}
 
   <button
     type="button"

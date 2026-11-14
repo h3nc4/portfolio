@@ -5,16 +5,19 @@ import { UNNAMED_BY_MACHINE } from '@/lib/inventory'
 ---
 
 <dl data-testid="also-running" class="flex flex-col gap-4">
-  {
-    UNNAMED_BY_MACHINE.map((entry) => (
-      <div class="border-dawn-cream/10 grid gap-x-6 gap-y-1 border-b pb-4 sm:grid-cols-[8rem_1fr]">
-        <dt class="text-dawn-sand font-mono text-xs tracking-wider uppercase">{entry.machine}</dt>
-        <dd class="text-dawn-taupe text-sm leading-relaxed font-light">
-          {entry.names.map((name, index) => (
-            <span><span class="whitespace-nowrap">{name}{index < entry.names.length - 1 && ' ·'}</span>{' '}</span>
-          ))}
-        </dd>
-      </div>
-    ))
-  }
+  {UNNAMED_BY_MACHINE.map((entry) => (
+    <div class="border-dawn-cream/10 grid gap-x-6 gap-y-1 border-b pb-4 sm:grid-cols-[8rem_1fr]">
+      <dt class="text-dawn-sand font-mono text-xs tracking-wider uppercase">{entry.machine}</dt>
+      <dd class="text-dawn-taupe text-sm leading-relaxed font-light">
+        {entry.names.map((name, index) => (
+          <span>
+            <span class="whitespace-nowrap">
+              {name}
+              {index < entry.names.length - 1 && ' ·'}
+            </span>{' '}
+          </span>
+        ))}
+      </dd>
+    </div>
+  ))}
 </dl>

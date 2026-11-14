@@ -10,9 +10,10 @@ interface Props {
 const { site } = Astro.props
 ---
 
-<span class="block text-sm leading-snug font-light"
-  ><span class="text-dawn-sand font-mono text-xs tracking-wide">{site.serves}</span><span
-    aria-hidden="true"
-    class="text-dawn-stone">{' · '}</span
-  ><span class="text-dawn-taupe">{site.about}</span></span
->
+<span class="block text-sm leading-snug font-light">
+  <span class="text-dawn-sand font-mono text-xs tracking-wide">{site.serves}</span>
+  <span aria-hidden="true" class="text-dawn-stone">
+    {' · '}
+  </span>
+  <span class="text-dawn-taupe">{site.about}</span>
+</span>

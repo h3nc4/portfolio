@@ -1,9 +1,4 @@
-import {
-  DEFAULT_TIMING,
-  playLoop,
-  type TerminalStep,
-  type TerminalView,
-} from '@/lib/terminal'
+import { DEFAULT_TIMING, playLoop, type TerminalStep, type TerminalView } from '@/lib/terminal'
 import { watchInView } from '@/scripts/inView'
 
 const PROMPT = 'me@pc $'
@@ -28,7 +23,9 @@ function renderLine(line: Omit<TerminalStep, 'delay'>, media: ParentNode): HTMLE
     row.append(body)
   } else if (line.type === 'custom') {
     const body = element('div', 'my-2')
-    const template = media.querySelector<HTMLTemplateElement>(`template[data-media="${line.media}"]`)
+    const template = media.querySelector<HTMLTemplateElement>(
+      `template[data-media="${line.media}"]`,
+    )
     if (template) body.append(template.content.cloneNode(true))
     row.append(body)
   } else {
@@ -76,7 +73,10 @@ export function createTerminalView(body: HTMLElement, media: ParentNode): Termin
       promptEl = element('div', 'flex gap-2')
       promptEl.dataset.testid = 'active-prompt'
       const input = element('span', 'text-dawn-sand whitespace-pre-wrap')
-      const cursor = element('span', 'bg-dawn-cream ml-1 inline-block h-3 w-1.5 animate-pulse align-middle')
+      const cursor = element(
+        'span',
+        'bg-dawn-cream ml-1 inline-block h-3 w-1.5 animate-pulse align-middle',
+      )
       cursor.dataset.testid = 'cursor'
       input.append(cursor)
       promptEl.append(promptLabel(), input)

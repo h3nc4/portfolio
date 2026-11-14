@@ -24,9 +24,7 @@ const rickRoll = script.some((step) => step.media === 'rick-roll')
   data-terminal
   data-script={JSON.stringify(script)}
 >
-  <div
-    class="border-dawn-line bg-dawn-surface/60 flex items-center justify-between border-b px-3 py-2"
-  >
+  <div class="border-dawn-line bg-dawn-surface/60 flex items-center justify-between border-b px-3 py-2">
     <div class="flex gap-1.5">
       <div class="h-2.5 w-2.5 rounded-full bg-red-500/20"></div>
       <div class="h-2.5 w-2.5 rounded-full bg-yellow-500/20"></div>
@@ -45,21 +43,19 @@ const rickRoll = script.some((step) => step.media === 'rick-roll')
     class="scrollbar-hide flex h-48 flex-col space-y-1 overflow-y-auto p-3 md:h-56"
   >
     <div class="flex gap-2" data-testid="active-prompt">
-      <span class="text-term-prompt shrink-0 font-medium">me@pc $</span><span
-        class="text-dawn-sand whitespace-pre-wrap"
-        ><span
+      <span class="text-term-prompt shrink-0 font-medium">me@pc $</span>
+      <span class="text-dawn-sand whitespace-pre-wrap">
+        <span
           data-testid="cursor"
           class="bg-dawn-cream ml-1 inline-block h-3 w-1.5 animate-pulse align-middle"
-        ></span></span
-      >
+        ></span>
+      </span>
     </div>
   </div>
 
-  {
-    rickRoll && (
-      <template data-media="rick-roll">
-        <RickRoll />
-      </template>
-    )
-  }
+  {rickRoll && (
+    <template data-media="rick-roll">
+      <RickRoll />
+    </template>
+  )}
 </div>
