@@ -18,7 +18,7 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { REVEAL_DISTANCE, REVEAL_DURATION, startReveals } from './reveal'
+import { PAINTED_OPACITY, REVEAL_DISTANCE, REVEAL_DURATION, startReveals } from './reveal'
 
 /** Where a top crosses into view under the default threshold. */
 const LINE = () => innerHeight * (1 - 0.1)
@@ -104,6 +104,19 @@ describe('startReveals', () => {
     expect(riseOf(el)).toBeCloseTo(REVEAL_DISTANCE * (1 - later), 3)
     expect(later).toBeGreaterThan(first)
     expect(later).toBeLessThan(1)
+  })
+
+  it('rises from the opacity it rests at, as a painted reveal does', () => {
+    const { el } = reveal(LINE(), { painted: '' })
+
+    stop = startReveals(root)
+    vi.advanceTimersByTime(20)
+    const first = Number(el.style.opacity)
+    vi.advanceTimersByTime(REVEAL_DURATION)
+
+    expect(PAINTED_OPACITY).toBe(0.01)
+    expect(first).toBeGreaterThan(PAINTED_OPACITY)
+    expect(isDone(el)).toBe(true)
   })
 
   it('holds an element below its line', () => {

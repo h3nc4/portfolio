@@ -18,7 +18,7 @@
 
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { HERO_PEEK, peekHero } from './peek'
+import { HERO_PEEK, peekAfterPaint, peekHero } from './peek'
 
 function fakeWindow({ hash = '', scrollY = 0 } = {}) {
   const scrollTo = vi.fn()
@@ -73,5 +73,30 @@ describe('peekHero', () => {
     peekHero()
 
     expect(scrollTo).toHaveBeenCalledWith({ top: innerHeight * HERO_PEEK, behavior: 'auto' })
+  })
+})
+
+describe('peekAfterPaint', () => {
+  it('peeks only in the second frame, once the first has been drawn', () => {
+    const { win, scrollTo } = fakeWindow()
+    const frames: FrameRequestCallback[] = []
+    Object.assign(win, { requestAnimationFrame: (cb: FrameRequestCallback) => frames.push(cb) })
+
+    peekAfterPaint(win)
+    expect(frames).toHaveLength(1)
+    frames.shift()!(0)
+    expect(scrollTo).not.toHaveBeenCalled()
+    frames.shift()!(0)
+
+    expect(scrollTo).toHaveBeenCalledExactlyOnceWith({ top: 1000 * HERO_PEEK, behavior: 'auto' })
+  })
+
+  it('reads the global window by default', () => {
+    const raf = vi.spyOn(window, 'requestAnimationFrame').mockReturnValue(0)
+
+    peekAfterPaint()
+
+    expect(raf).toHaveBeenCalledOnce()
+    raf.mockRestore()
   })
 })

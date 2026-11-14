@@ -190,6 +190,11 @@
     transform: translate(0px, 20px);
   }
 
+  /* Chrome never takes a paint at opacity 0 as the largest one, and 0.01 reads as nothing */
+  .reveal[data-painted] {
+    opacity: 0.01;
+  }
+
   /* A smaller zoom hands the iframe a wider virtual viewport, drawn smaller to fit. */
   .device-screen > iframe {
     width: calc(100% / var(--device-zoom));

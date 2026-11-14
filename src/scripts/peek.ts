@@ -26,3 +26,9 @@ export function peekHero(win: Window = window, peek: number = HERO_PEEK) {
 
   win.scrollTo({ top: win.innerHeight * peek, behavior: 'auto' })
 }
+
+// Chrome stops collecting the largest paint once the page scrolls, and a peek in the first
+// frames left mobile with no LCP at all, so it waits until a frame has been drawn.
+export function peekAfterPaint(win: Window = window) {
+  win.requestAnimationFrame(() => win.requestAnimationFrame(() => peekHero(win)))
+}

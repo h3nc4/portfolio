@@ -27,16 +27,20 @@ export const REVEAL_DURATION = 800
 
 const SECOND = 1000
 
+/** Where a `data-painted` reveal rests, as `index.css` sets it. */
+export const PAINTED_OPACITY = 0.01
+
 function line(el: HTMLElement, viewport: number): number {
   return viewport * (1 - Number(el.dataset.threshold ?? DEFAULT_THRESHOLD))
 }
 
 function play(el: HTMLElement) {
+  const rest = 'painted' in el.dataset ? PAINTED_OPACITY : 0
   tween({
     duration: REVEAL_DURATION,
     delay: Number(el.dataset.delay ?? 0) * SECOND,
     onUpdate: (progress) => {
-      el.style.opacity = String(progress)
+      el.style.opacity = String(rest + (1 - rest) * progress)
       el.style.transform = `translate(0px, ${REVEAL_DISTANCE * (1 - progress)}px)`
     },
   })

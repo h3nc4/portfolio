@@ -56,4 +56,9 @@ describe('Reveal', () => {
     expect(await reveal({ threshold: 0.2 })).toHaveAttribute('data-threshold', '0.2')
     expect(await reveal({ threshold: 0 })).toHaveAttribute('data-threshold', '0')
   })
+
+  it('marks a painted reveal only when asked', async () => {
+    expect(await reveal({ painted: true })).toHaveAttribute('data-painted', '')
+    expect(await reveal()).not.toHaveAttribute('data-painted')
+  })
 })

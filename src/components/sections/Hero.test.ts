@@ -72,4 +72,11 @@ describe('Hero', () => {
 
     expect(within(body).getByRole('heading', { level: 1 }).closest('.hero-body')).not.toBeNull()
   })
+
+  // Chrome takes no paint at opacity 0 as the largest, so the hero rests at a trace instead
+  it('rests painted, so its first paint counts as the largest', async () => {
+    const body = await hero()
+
+    expect(body.querySelector('.hero-body')!.closest('.reveal')).toHaveAttribute('data-painted')
+  })
 })

@@ -21,15 +21,22 @@ interface Props {
   readonly delay?: number
   readonly threshold?: number
   readonly class?: string
+  /** Rests at a trace of opacity rather than none, so the browser counts its first paint. */
+  readonly painted?: boolean
 }
 
 const DEFAULT_THRESHOLD = 0.1
 
-const { delay = 0, threshold = DEFAULT_THRESHOLD, class: className } = Astro.props
+const { delay = 0, threshold = DEFAULT_THRESHOLD, class: className, painted } = Astro.props
 const wait = delay > 0 ? Number(delay.toFixed(3)) : undefined
 const line = threshold === DEFAULT_THRESHOLD ? undefined : threshold
 ---
 
-<div class:list={['reveal', className]} data-delay={wait} data-threshold={line}>
+<div
+  class:list={['reveal', className]}
+  data-delay={wait}
+  data-threshold={line}
+  data-painted={painted ? '' : undefined}
+>
   <slot />
 </div>
