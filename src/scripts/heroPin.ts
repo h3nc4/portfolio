@@ -1,5 +1,5 @@
 import { HERO_PEEK } from '@/scripts/peek'
-import { frameTime, power3Out } from '@/scripts/tween'
+import { expoOut, frameTime } from '@/scripts/tween'
 
 /** Scroll distance over which the hero shrinks away, as a fraction of the viewport. */
 const RANGE = 0.92
@@ -38,7 +38,7 @@ function isTouch(win: Window): boolean {
 }
 
 // Shrinks and fades the hero as the panels ride over it. Each scroll eases the shown progress
-// toward the new one over SCRUB_MS, which is how GSAP's scrub followed the page before.
+// toward the new one over SCRUB_MS with expo.out, which is how GSAP's scrub followed the page.
 export function pinHero(el: HTMLElement, win: Window = window): () => void {
   if (win.matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {}
 
@@ -54,7 +54,7 @@ export function pinHero(el: HTMLElement, win: Window = window): () => void {
 
   const tick = (now: number) => {
     const k = Math.min(1, (now - startedAt) / SCRUB_MS)
-    shown = from + (to - from) * power3Out(k)
+    shown = from + (to - from) * expoOut(k)
     apply()
     frame = k < 1 ? win.requestAnimationFrame(tick) : 0
   }

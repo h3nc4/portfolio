@@ -3,6 +3,9 @@ export type Ease = (t: number) => number
 /** GSAP's power3.out, which despite the name is a quartic. */
 export const power3Out: Ease = (t) => 1 - (1 - t) ** 4
 
+/** GSAP's expo.out, which ScrollTrigger eased its scrub with. It lands on exactly 1. */
+export const expoOut: Ease = (t) => (t >= 1 ? 1 : 1 - 2 ** (-10 * t))
+
 /** One frame at 60Hz, in ms. */
 const TICK_MS = 1000 / 60
 
