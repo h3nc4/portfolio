@@ -1,7 +1,25 @@
+/*
+ * Copyright (C) 2026  Henrique Almeida
+ * This file is part of Portfolio.
+ *
+ * Portfolio is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Portfolio is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 // @vitest-environment node
 // The underscore keeps Astro from routing this file as an endpoint of the page
 import { execFile } from 'node:child_process'
-import { mkdtemp, readFile, rm } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm } from 'node:fs/promises'
 import path from 'node:path'
 import { promisify } from 'node:util'
 
@@ -126,7 +144,9 @@ describe('index page', () => {
 
     // Inlining the stylesheet and bundling the script happen only in a build
     beforeAll(async () => {
-      outDir = await mkdtemp(path.join(root, 'node_modules/.cache/page-test-'))
+      const cache = path.join(root, 'node_modules/.cache')
+      await mkdir(cache, { recursive: true })
+      outDir = await mkdtemp(path.join(cache, 'page-test-'))
       await promisify(execFile)(
         path.join(root, 'node_modules/.bin/astro'),
         ['build', '--outDir', outDir, '--silent'],

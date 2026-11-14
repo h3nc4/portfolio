@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2026  Henrique Almeida
+ * This file is part of Portfolio.
+ *
+ * Portfolio is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Portfolio is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { REVEAL_DISTANCE, REVEAL_DURATION, startReveals } from './reveal'
@@ -20,13 +38,14 @@ function reveal(top: number, data: Record<string, string> = {}, parent: HTMLElem
   return { el, position }
 }
 
+// Firefox writes translate(0px, 0px) back as translate(0px), so a missing rise reads as 0
 function riseOf(el: HTMLElement): number {
-  const match = /^translate\(0px, (-?[\d.e-]+)px\)$/.exec(el.style.transform)
-  return Number(match?.[1])
+  const match = /^translate\(0px(?:, (-?[\d.e-]+)px)?\)$/.exec(el.style.transform)
+  return match ? Number(match[1] ?? 0) : NaN
 }
 
 function isDone(el: HTMLElement) {
-  return el.style.opacity === '1' && el.style.transform === 'translate(0px, 0px)'
+  return el.style.opacity === '1' && riseOf(el) === 0
 }
 
 describe('startReveals', () => {
