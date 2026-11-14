@@ -31,7 +31,7 @@ COPY "package.json" "package-lock.json" ./
 RUN npm ci
 
 # Copy source code
-COPY "README.md" "LICENSE" *.js *.json *.ts *.html ./
+COPY "astro.config.ts" "tsconfig.json" ./
 COPY src/ src/
 COPY public/ public/
 
