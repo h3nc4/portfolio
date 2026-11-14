@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { heroStyle, pinHero, progressAt, SCRUB_MS } from './heroPin'
-import { frameTime, power3Out } from './tween'
+import { expoOut, frameTime } from './tween'
 
 const TICK_MS = 1000 / 60
 
@@ -162,7 +162,7 @@ describe('pinHero', () => {
     expect(pending()).toBe(0)
   })
 
-  it('eases toward a new scroll with power3Out over 600ms', () => {
+  it('eases toward a new scroll with expo.out over 600ms', () => {
     const { win, frame, pending, at, scroll } = fakeWindow()
     const el = hero()
     pinHero(el, win)
@@ -170,7 +170,7 @@ describe('pinHero', () => {
     at(1000)
     scroll(1060)
     frame(1300)
-    expect(el.style).toEqual(heroStyle(power3Out(0.5)))
+    expect(el.style).toEqual(heroStyle(expoOut(0.5)))
 
     frame(1600)
     expect(el.style).toEqual(heroStyle(1))
@@ -186,7 +186,7 @@ describe('pinHero', () => {
     frame(frameTime(win) + SCRUB_MS / 4)
 
     expect(raw.document.timeline.currentTime).toBe(TICK_MS)
-    expect(el.style).toEqual(heroStyle(power3Out(0.25)))
+    expect(el.style).toEqual(heroStyle(expoOut(0.25)))
   })
 
   it('retargets a scrub in flight from where it shows', () => {
@@ -197,7 +197,7 @@ describe('pinHero', () => {
     at(0)
     scroll(1060)
     frame(SCRUB_MS / 2)
-    const midway = power3Out(0.5)
+    const midway = expoOut(0.5)
 
     at(SCRUB_MS / 2)
     scroll(0)
@@ -205,7 +205,7 @@ describe('pinHero', () => {
     expect(pending()).toBe(1)
 
     frame(SCRUB_MS)
-    expect(el.style).toEqual(heroStyle(midway * (1 - power3Out(0.5))))
+    expect(el.style).toEqual(heroStyle(midway * (1 - expoOut(0.5))))
 
     frame(SCRUB_MS * 1.5)
     expect(el.style).toEqual(heroStyle(0))

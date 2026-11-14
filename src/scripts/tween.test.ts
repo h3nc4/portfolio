@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { frameTime, power3Out, tween } from './tween'
+import { expoOut, frameTime, power3Out, tween } from './tween'
 
 const TICK_MS = 1000 / 60
 
@@ -24,6 +24,18 @@ function fakeWindow(currentTime: number | null = TICK_MS, now = 0) {
   }
   return { win: win as unknown as Window, raw: win, frame, pending: () => queue.size }
 }
+
+describe('expoOut', () => {
+  it('is the exponential GSAP calls expo.out', () => {
+    expect(expoOut(0)).toBe(0)
+    expect(expoOut(0.1)).toBeCloseTo(0.5)
+    expect(expoOut(0.5)).toBeCloseTo(0.96875)
+  })
+
+  it('lands on exactly 1, which the formula alone never reaches', () => {
+    expect(expoOut(1)).toBe(1)
+  })
+})
 
 describe('power3Out', () => {
   it('is the quartic GSAP calls power3.out', () => {
