@@ -18,7 +18,7 @@ export default getViteConfig({
       exclude: [
         'src/scripts/main.ts',
         'src/components/ui',
-        'src/test',
+        'src/test/**',
         '**/*.test.ts',
         '**/*.d.ts',
       ],
