@@ -2,6 +2,9 @@
 dist/
 node_modules/
 
+# Astro generated types
+.astro/
+
 # Coverage reports
 coverage-*.*
 

@@ -46,7 +46,7 @@ const PILL =
       SCREENS.map((screen, index) => (
         <button
           type="button"
-          aria-pressed={String(index === 0)}
+          aria-pressed={index === 0 ? 'true' : 'false'}
           class={cn(PILL, (index === 0 ? PILL_ACTIVE : PILL_IDLE).join(' '))}
         >
           {screen.name}
@@ -64,7 +64,7 @@ const PILL =
         width={SHOT_WIDTH}
         height={SHOT_HEIGHT}
         alt={screen.alt}
-        aria-hidden={String(index !== 0)}
+        aria-hidden={index === 0 ? 'false' : 'true'}
         loading={index === 0 ? 'eager' : 'lazy'}
         decoding="async"
         class={cn(

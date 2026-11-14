@@ -8,3 +8,6 @@ coverage*.*
 
 # rumdl
 .rumdl_cache/
+
+# Astro generated types
+.astro/
