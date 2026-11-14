@@ -1,0 +1,21 @@
+---
+// The shadcn button, drawn as the link it always wrapped
+import type { HTMLAttributes } from 'astro/types'
+
+import { type ButtonVariant, buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+
+interface Props extends HTMLAttributes<'a'> {
+  readonly variant?: ButtonVariant
+}
+
+const { variant = 'default', class: className, ...rest } = Astro.props
+---
+
+<a
+  data-slot="button"
+  data-variant={variant}
+  data-size="default"
+  class={cn(buttonVariants({ variant, size: 'default', className }))}
+  {...rest}><slot /></a
+>

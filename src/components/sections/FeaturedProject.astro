@@ -1,0 +1,58 @@
+---
+// One featured column, a subgrid on wide screens so both phones and both titles line up
+import Icon from '@/components/Icon.astro'
+import Reveal from '@/components/Reveal.astro'
+import ButtonLink from '@/components/ui/ButtonLink.astro'
+import type { FeaturedLink, FeaturedProjectData } from '@/data/featured'
+
+interface Props {
+  readonly project: FeaturedProjectData
+  /** Delay in seconds before the text animates in, 0 by default. */
+  readonly delay?: number
+}
+
+const PRIMARY_CLASS = 'bg-dawn-accent text-dawn-ground hover:bg-dawn-accent-hi gap-2 font-medium'
+const SECONDARY_CLASS =
+  'border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm'
+
+// A download stays in the same tab, since a new one would only flash open and close
+const newTab = (link: FeaturedLink) =>
+  link.sameTab ? {} : { target: '_blank', rel: 'noopener noreferrer' }
+
+const { project, delay = 0 } = Astro.props
+---
+
+<article
+  id={project.id}
+  class="flex scroll-mt-8 flex-col gap-10 lg:row-span-2 lg:grid lg:grid-rows-subgrid"
+>
+  {/* Room for the badge above the handset */}
+  <div class="pt-12"><slot name="preview" /></div>
+
+  <Reveal delay={delay} class="flex flex-col items-center text-center">
+    <h3 class="text-dawn-cream text-2xl font-medium tracking-tight">{project.title}</h3>
+    <p class="text-dawn-stone mt-2 font-mono text-sm tracking-wide">{project.stack}</p>
+
+    <p class="text-dawn-taupe mt-4 max-w-md leading-relaxed font-light">
+      {project.description}
+    </p>
+
+    <div class="mt-auto flex flex-wrap justify-center gap-3 pt-8">
+      {
+        project.links.map((link, index) => (
+          <ButtonLink
+            variant={index === 0 ? 'default' : 'outline'}
+            class={index === 0 ? PRIMARY_CLASS : SECONDARY_CLASS}
+            href={link.href}
+            aria-label={link.ariaLabel}
+            data-sibling={link.sibling}
+            {...newTab(link)}
+          >
+            <Icon name={link.icon} className="h-4 w-4" aria-hidden="true" />
+            {link.label}
+          </ButtonLink>
+        ))
+      }
+    </div>
+  </Reveal>
+</article>

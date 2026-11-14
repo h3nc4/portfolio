@@ -19,9 +19,8 @@
 /// <reference types="vitest" />
 import { devices } from '@playwright/test'
 import { playwright } from '@vitest/browser-playwright'
-import { defineConfig, mergeConfig } from 'vitest/config'
-
-import viteConfig from './vite.config'
+import path from 'path'
+import { defineConfig } from 'vitest/config'
 
 type BrowserType = 'chromium' | 'firefox' | 'webkit'
 
@@ -55,16 +54,22 @@ const channelBrowsers = [
   provider: playwright({ launchOptions: { channel } }),
 }))
 
-export default mergeConfig(
-  viteConfig,
-  defineConfig({
-    test: {
-      browser: {
-        enabled: true,
-        provider: playwright({}),
-        headless: true,
-        instances: [...basicBrowsers, ...mobileBrowsers, ...channelBrowsers],
-      },
+// The page's behaviour in every browser. A component test renders through Astro on Node, so it stays out.
+export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
-  }),
-)
+  },
+  test: {
+    globals: true,
+    setupFiles: 'src/test/setup.ts',
+    include: ['src/scripts/**/*.test.ts', 'src/lib/**/*.test.ts', 'src/data/**/*.test.ts'],
+    browser: {
+      enabled: true,
+      provider: playwright({}),
+      headless: true,
+      instances: [...basicBrowsers, ...mobileBrowsers, ...channelBrowsers],
+    },
+  },
+})

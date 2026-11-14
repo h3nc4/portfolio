@@ -1,0 +1,25 @@
+---
+// Drawn to static SVG at build time, so the page ships the markup and none of the library
+import { Download, ExternalLink, GitBranch } from 'lucide-react'
+import { SiGithub } from 'react-icons/si'
+
+import type { FeaturedIcon } from '@/data/featured'
+
+interface Props {
+  readonly name: FeaturedIcon
+  readonly className?: string
+  readonly 'aria-hidden'?: 'true'
+}
+
+const ICONS = {
+  download: Download,
+  'external-link': ExternalLink,
+  'git-branch': GitBranch,
+  github: SiGithub,
+}
+
+const { name, ...rest } = Astro.props
+const Component = ICONS[name]
+---
+
+<Component {...rest} />

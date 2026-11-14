@@ -1,0 +1,204 @@
+/*
+ * Copyright (C) 2026  Henrique Almeida
+ * This file is part of Portfolio.
+ *
+ * Portfolio is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Portfolio is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import { describe, expect, it } from 'vitest'
+
+import {
+  CONTAINER_PROJECTS,
+  EXTRAS,
+  FAMILIES,
+  hydrateProject,
+  type Project,
+  type RawProject,
+  SELECTED_PROJECTS,
+  toDemoProject,
+} from './projects'
+
+function expectValidProject(project: Project) {
+  expect(project.title).toBeTruthy()
+  expect(project.language).toBeTruthy()
+  expect(project.description).toBeTruthy()
+  expect(Array.isArray(project.tags)).toBe(true)
+  expect(project.tags.length).toBeGreaterThan(0)
+  expect(Array.isArray(project.links)).toBe(true)
+  expect(project.links.length).toBeGreaterThan(0)
+
+  project.links.forEach((link) => {
+    expect(link.name).toBeTruthy()
+    expect(link.url).toMatch(/^https:\/\//)
+  })
+}
+
+describe('Data Integrity: SELECTED_PROJECTS', () => {
+  it('should be a non-empty array of valid projects', () => {
+    expect(Array.isArray(SELECTED_PROJECTS)).toBe(true)
+    expect(SELECTED_PROJECTS.length).toBeGreaterThan(0)
+    SELECTED_PROJECTS.forEach(expectValidProject)
+  })
+
+  it('should not carry terminal demos', () => {
+    SELECTED_PROJECTS.forEach((project) => {
+      expect(project.demo).toBeUndefined()
+    })
+  })
+})
+
+describe('Data Integrity: CONTAINER_PROJECTS', () => {
+  it('should hold every slim container', () => {
+    expect(CONTAINER_PROJECTS).toHaveLength(6)
+  })
+
+  it('should be valid projects carrying a populated demo', () => {
+    CONTAINER_PROJECTS.forEach((project) => {
+      expectValidProject(project)
+      expect(project.demo.length).toBeGreaterThan(0)
+    })
+  })
+
+  it('should format demo steps with correct union types', () => {
+    CONTAINER_PROJECTS.forEach((project) => {
+      project.demo.forEach((step) => {
+        expect(['command', 'output', 'custom']).toContain(step.type)
+
+        if (step.type === 'custom') {
+          expect(step.media).toBe('rick-roll')
+        } else {
+          expect(step.text).toBeDefined()
+        }
+      })
+    })
+  })
+})
+
+describe('Data Integrity: FAMILIES', () => {
+  it('should group repositories under a name', () => {
+    expect(FAMILIES.length).toBeGreaterThan(0)
+
+    FAMILIES.forEach((family) => {
+      expect(family.name).toBeTruthy()
+      expect(family.items.length).toBeGreaterThan(0)
+
+      family.items.forEach((item) => {
+        expect(item.title).toBeTruthy()
+        expect(item.what).toBeTruthy()
+        expect(item.url).toMatch(/^https:\/\//)
+      })
+    })
+  })
+})
+
+describe('Data Integrity: EXTRAS', () => {
+  it('should name and link every mention', () => {
+    expect(EXTRAS.length).toBeGreaterThan(0)
+
+    EXTRAS.forEach((extra) => {
+      expect(extra.title).toBeTruthy()
+      expect(extra.url).toMatch(/^https:\/\//)
+    })
+  })
+})
+
+describe('hydrateProject', () => {
+  it('keeps the name of known media', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      language: 'C',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      demo: [
+        {
+          type: 'custom',
+          media: 'rick-roll',
+          delay: 100,
+        },
+      ],
+    } as unknown as RawProject
+
+    const result = hydrateProject(mockRawProject)
+    expect(result.demo?.[0].media).toBe('rick-roll')
+  })
+
+  it('drops a media name it has no template for', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      language: 'C',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      demo: [
+        {
+          type: 'custom',
+          media: 'unknown-key',
+          delay: 100,
+        },
+      ],
+    } as unknown as RawProject
+
+    const result = hydrateProject(mockRawProject)
+    expect(result.demo?.[0]).toEqual({ type: 'custom', delay: 100, media: undefined })
+  })
+
+  it('handles steps without text property gracefully', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      language: 'C',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      demo: [
+        {
+          type: 'command',
+          delay: 100,
+          // text property is missing
+        },
+      ],
+    } as unknown as RawProject
+
+    const result = hydrateProject(mockRawProject)
+    expect(result.demo?.[0].text).toBeUndefined()
+  })
+})
+
+describe('toDemoProject', () => {
+  it('keeps the demo it was given', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      language: 'Dockerfile',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      demo: [{ type: 'output', text: 'done' }],
+    } as unknown as RawProject
+
+    expect(toDemoProject(mockRawProject).demo).toHaveLength(1)
+  })
+
+  it('substitutes an empty demo when the raw project has none', () => {
+    const mockRawProject = {
+      title: 'Test Project',
+      language: 'Dockerfile',
+      description: 'Desc',
+      tags: [],
+      links: [],
+      // demo property is missing
+    } as unknown as RawProject
+
+    expect(toDemoProject(mockRawProject).demo).toEqual([])
+  })
+})

@@ -1,0 +1,61 @@
+---
+// The hostnames in one band. A public one a browser can open is a link, and a LAN name is not,
+// since a visitor's request would go nowhere.
+import HostDetail from '@/components/infra/HostDetail.astro'
+import {
+  displayHost,
+  isBrowsable,
+  isHidden,
+  type Site,
+  type SiteReach,
+  sitesReaching,
+  siteUrl,
+} from '@/data/sites'
+
+interface Props {
+  readonly reach: SiteReach
+}
+
+const ROW = 'block border-b border-dawn-cream/10 py-2'
+
+const NEW_TAB = { target: '_blank', rel: 'noopener noreferrer' }
+
+// This site scrolls to its own top in place, every other one opens in a tab of its own
+const linkTarget = (site: Site) => (site.self ? {} : NEW_TAB)
+
+// An elided hidden address is short enough for the narrowest column and must stay on one line
+const wrapping = (site: Site) => (isHidden(site) ? 'truncate' : '[overflow-wrap:anywhere]')
+
+const { reach } = Astro.props
+---
+
+<ul data-testid={`hosts-${reach}`} class="grid gap-x-8 gap-y-0 sm:grid-cols-2 xl:grid-cols-3">
+  {
+    sitesReaching(reach).map((site) =>
+      isBrowsable(site) ? (
+        <li class="min-w-0">
+          <a
+            href={siteUrl(site)}
+            {...linkTarget(site)}
+            title={site.host}
+            class={`group hover:border-dawn-accent ${ROW} no-underline`}
+          >
+            <span
+              class={`text-dawn-cream group-hover:text-dawn-accent-hi block font-mono text-sm ${wrapping(site)}`}
+            >
+              {displayHost(site)}
+            </span>
+            <HostDetail site={site} />
+          </a>
+        </li>
+      ) : (
+        <li class={`min-w-0 ${ROW}`}>
+          <span class="text-dawn-sand block font-mono text-sm [overflow-wrap:anywhere]">
+            {site.host}
+          </span>
+          <HostDetail site={site} />
+        </li>
+      ),
+    )
+  }
+</ul>

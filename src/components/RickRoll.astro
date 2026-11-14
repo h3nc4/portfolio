@@ -1,0 +1,11 @@
+---
+export const RICK_ROLL_URL = 'https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.mp4'
+---
+
+<div class="w-[50%] overflow-hidden rounded-md" data-testid="rick-roll-container">
+  <div class="relative w-full pb-[83%]">
+    <video class="absolute inset-0 h-full w-full object-cover" autoplay loop muted playsinline preload="auto">
+      <source src={RICK_ROLL_URL} type="video/mp4" />
+    </video>
+  </div>
+</div>

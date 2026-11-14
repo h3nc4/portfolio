@@ -1,0 +1,41 @@
+---
+// The main projects as cards, one per domain. The cards wrap and centre, so a short last row sits in the middle.
+import Reveal from '@/components/Reveal.astro'
+import SectionHeading from '@/components/sections/SectionHeading.astro'
+import TagList from '@/components/sections/TagList.astro'
+import { SELECTED_PROJECTS } from '@/data/projects'
+---
+
+<section>
+  <Reveal delay={0.2} threshold={0.2}>
+    <SectionHeading title="Selected Projects" rule="bg-dawn-line" />
+    <p class="text-dawn-taupe mb-8 max-w-prose font-light">
+      A distribution, a Go service, a C daemon, a Game of Life for X, and the tooling that grades
+      the rest.
+    </p>
+  </Reveal>
+
+  <div class="flex flex-wrap justify-center gap-6">
+    {
+      SELECTED_PROJECTS.map((project, index) => (
+        <Reveal delay={0.1 * index} class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
+          <a
+            href={project.links[0].url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="border-dawn-cream/15 hover:border-dawn-accent flex h-full flex-col rounded-xl border bg-[#17120e]/55 p-6 transition-all hover:-translate-y-0.5"
+          >
+            <h3 class="text-dawn-cream text-lg font-medium">{project.title}</h3>
+            <p class="text-dawn-stone mt-1 font-mono text-xs tracking-wider uppercase">
+              {project.language}
+            </p>
+            <p class="text-dawn-taupe mt-4 mb-auto text-sm leading-relaxed font-light">
+              {project.description}
+            </p>
+            <TagList tags={project.tags} />
+          </a>
+        </Reveal>
+      ))
+    }
+  </div>
+</section>

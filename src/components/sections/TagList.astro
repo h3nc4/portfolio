@@ -1,0 +1,19 @@
+---
+import Badge from '@/components/ui/Badge.astro'
+
+interface Props {
+  readonly tags: readonly string[]
+}
+
+const { tags } = Astro.props
+---
+
+<div class="mt-5 flex flex-wrap gap-2">
+  {
+    tags.map((tag) => (
+      <Badge variant="secondary" class="bg-dawn-cream/10 text-dawn-sand font-mono text-xs font-normal">
+        {tag}
+      </Badge>
+    ))
+  }
+</div>

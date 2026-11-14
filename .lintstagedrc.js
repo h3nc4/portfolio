@@ -18,7 +18,7 @@
 
 export default {
   // UI: Lint & Format staged files
-  '*.{js,jsx,ts,tsx}': ['prettier --write', 'eslint --fix'],
+  '*.{js,ts,astro}': ['prettier --write', 'eslint --fix'],
 
   // Format config
   '*.{json,md,html,css}': ['prettier --write'],

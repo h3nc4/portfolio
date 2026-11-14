@@ -18,7 +18,7 @@
 
 import { describe, expect, it } from 'vitest'
 
-import { siblingUrl } from './entrance'
+import { CANONICAL, siblingUrl } from './entrance'
 
 describe('siblingUrl', () => {
   it('stays on the clearnet host', () => {
@@ -42,5 +42,9 @@ describe('siblingUrl', () => {
 
   it('defaults to the current location', () => {
     expect(siblingUrl('wasudoku')).toBe(`${location.protocol}//wasudoku.${location.host}`)
+  })
+
+  it('builds the canonical clearnet link a page made ahead of time ships with', () => {
+    expect(siblingUrl('wasudoku', CANONICAL)).toBe('https://wasudoku.h3nc4.com')
   })
 })

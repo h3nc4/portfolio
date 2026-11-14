@@ -1,0 +1,16 @@
+---
+// A section title between two rules, the short one in stone and the long one in `rule`
+interface Props {
+  readonly title: string
+  readonly rule: 'bg-dawn-line' | 'bg-dawn-cream/15'
+  readonly class?: string
+}
+
+const { title, rule, class: className = 'mb-3' } = Astro.props
+---
+
+<div class:list={[className, 'flex items-center gap-4']}>
+  <span class="bg-dawn-stone h-px w-12"></span>
+  <h2 class="text-dawn-cream text-2xl font-medium tracking-tight">{title}</h2>
+  <span class:list={[rule, 'h-px flex-1']}></span>
+</div>

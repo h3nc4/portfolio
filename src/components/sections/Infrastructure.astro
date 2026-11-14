@@ -1,0 +1,100 @@
+---
+// The homelab as an inventory rather than a graph. Above about twenty nodes a node-link diagram
+// loses to a list on every task but tracing a path, and nobody traces a path on a portfolio.
+import AlsoRunning from '@/components/infra/AlsoRunning.astro'
+import HostList from '@/components/infra/HostList.astro'
+import Reveal from '@/components/Reveal.astro'
+import SectionHeading from '@/components/sections/SectionHeading.astro'
+import { PUBLIC_WEB_COUNT, type SiteReach } from '@/data/sites'
+import { TOPOLOGY_EDGES } from '@/data/topology'
+import { SERVICE_COUNT } from '@/lib/inventory'
+
+const STATS = [
+  { value: SERVICE_COUNT, label: 'services running' },
+  { value: PUBLIC_WEB_COUNT, label: 'websites served' },
+  { value: TOPOLOGY_EDGES.length, label: 'links between services' },
+]
+
+const BANDS: { reach: SiteReach; title: string; about: string }[] = [
+  {
+    reach: 'onion',
+    title: 'Hidden services',
+    about: 'The portfolio and WASudoku again, as Tor onion services. They open in Tor Browser.',
+  },
+  {
+    reach: 'i2p',
+    title: 'I2P sites',
+    about:
+      'The portfolio and WASudoku again, as I2P sites. They open through the HTTP proxy of an I2P router.',
+  },
+  {
+    reach: 'lan',
+    title: 'Private services',
+    about: 'The same names on the LAN, and they resolve for nobody outside it.',
+  },
+  {
+    reach: 'ci',
+    title: 'CI runners',
+    about:
+      'Four virtual machines, two on each host, thrown away and rebuilt between jobs. Each has a name of its own so a failing build can say which one it was.',
+  },
+]
+---
+
+<section>
+  <Reveal delay={0.2} threshold={0.2}>
+    <SectionHeading title="Infrastructure" rule="bg-dawn-cream/15" />
+    <p class="text-dawn-taupe mb-8 max-w-prose font-light">
+      Two machines behind one router, running {SERVICE_COUNT} services across Docker, libvirt and the
+      host itself.
+    </p>
+  </Reveal>
+
+  <Reveal delay={0.3}>
+    <div class="border-dawn-cream/15 grid grid-cols-3 gap-6 border-y py-6">
+      {
+        STATS.map((stat) => (
+          <div>
+            <p class="text-dawn-accent-hi font-mono text-3xl leading-none tracking-tight">
+              {stat.value}
+            </p>
+            <p class="text-dawn-taupe mt-2 text-sm leading-snug font-light">{stat.label}</p>
+          </div>
+        ))
+      }
+    </div>
+    <p class="text-dawn-taupe mt-3 mb-10 max-w-prose text-sm font-light">
+      A link is one service that dials another.
+    </p>
+  </Reveal>
+
+  <Reveal delay={0.2}>
+    <h3 class="text-dawn-cream mb-1 text-lg font-medium tracking-tight">Public services</h3>
+    <p class="text-dawn-taupe mb-4 max-w-prose text-sm font-light">
+      Anyone can reach these. Each answers on its own name over HTTPS.
+    </p>
+    <HostList reach="public" />
+  </Reveal>
+
+  {
+    BANDS.map((band) => (
+      <Reveal delay={0.2}>
+        <div class="mt-12">
+          <h3 class="text-dawn-cream mb-1 text-lg font-medium tracking-tight">{band.title}</h3>
+          <p class="text-dawn-taupe mb-4 max-w-prose text-sm font-light">{band.about}</p>
+          <HostList reach={band.reach} />
+        </div>
+      </Reveal>
+    ))
+  }
+
+  <Reveal delay={0.2}>
+    <div class="mt-12">
+      <h3 class="text-dawn-cream mb-1 text-lg font-medium tracking-tight">Also running</h3>
+      <p class="text-dawn-taupe mb-4 max-w-prose text-sm font-light">
+        The rest of what each machine runs, answering no hostname of its own.
+      </p>
+      <AlsoRunning />
+    </div>
+  </Reveal>
+</section>

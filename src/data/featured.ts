@@ -16,17 +16,18 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Download, ExternalLink, GitBranch } from 'lucide-react'
-import type { ComponentType } from 'react'
-import { SiGithub } from 'react-icons/si'
+import { CANONICAL, siblingUrl } from '@/lib/entrance'
 
-import { siblingUrl } from '@/lib/entrance'
+/** The icons a featured link can carry, each drawn by `Icon.astro`. */
+export type FeaturedIcon = 'external-link' | 'download' | 'github' | 'git-branch'
 
 export interface FeaturedLink {
   readonly label: string
   readonly href: string
-  readonly icon: ComponentType<{ className?: string; 'aria-hidden'?: boolean | 'true' }>
+  readonly icon: FeaturedIcon
   readonly ariaLabel?: string
+  /** A sibling host, which the page points at its own host once it knows which one served it. */
+  readonly sibling?: string
   /** A download stays in the same tab, since a new one would only flash open and close. */
   readonly sameTab?: boolean
 }
@@ -47,17 +48,17 @@ export const HYPERGESTURE: FeaturedProjectData = {
   description:
     'Restores the full-screen gestures Xiaomi HyperOS drops once a third-party launcher is the default. Back, home and recents run through an accessibility service, with no root or ADB.',
   links: [
-    { label: 'Website', href: 'https://hypergesture.h3nc4.com', icon: ExternalLink },
+    { label: 'Website', href: 'https://hypergesture.h3nc4.com', icon: 'external-link' },
     {
       label: 'Download APK',
       href: 'https://github.com/h3nc4/HyperGesture/releases/latest/download/hypergesture.apk',
-      icon: Download,
+      icon: 'download',
       sameTab: true,
     },
     {
       label: 'GitHub',
       href: 'https://github.com/h3nc4/HyperGesture',
-      icon: SiGithub,
+      icon: 'github',
       ariaLabel: 'HyperGesture on GitHub',
     },
   ],
@@ -70,17 +71,22 @@ export const WASUDOKU: FeaturedProjectData = {
   description:
     'A Sudoku solver and generator written in Rust and compiled to WebAssembly, so it runs entirely in the browser. It solves by logic first and backtracking second, and shows each step.',
   links: [
-    { label: 'Open App', href: siblingUrl('wasudoku'), icon: ExternalLink },
+    {
+      label: 'Open App',
+      href: siblingUrl('wasudoku', CANONICAL),
+      icon: 'external-link',
+      sibling: 'wasudoku',
+    },
     {
       label: 'GitHub',
       href: 'https://github.com/h3nc4/WASudoku',
-      icon: SiGithub,
+      icon: 'github',
       ariaLabel: 'WASudoku on GitHub',
     },
     {
       label: 'cgit',
       href: 'https://cgit.h3nc4.com/WASudoku',
-      icon: GitBranch,
+      icon: 'git-branch',
       ariaLabel: 'WASudoku on cgit',
     },
   ],

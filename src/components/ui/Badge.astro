@@ -1,0 +1,13 @@
+---
+import { type BadgeVariant, badgeVariants } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
+
+interface Props {
+  readonly variant?: BadgeVariant
+  readonly class?: string
+}
+
+const { variant, class: className } = Astro.props
+---
+
+<span data-slot="badge" class={cn(badgeVariants({ variant }), className)}><slot /></span>

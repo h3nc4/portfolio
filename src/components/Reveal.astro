@@ -1,0 +1,16 @@
+---
+// Plays its content in once its top crosses `threshold` of the viewport, after `delay` seconds
+interface Props {
+  readonly delay?: number
+  readonly threshold?: number
+  readonly class?: string
+}
+
+const DEFAULT_THRESHOLD = 0.1
+
+const { delay = 0, threshold = DEFAULT_THRESHOLD, class: className } = Astro.props
+const wait = delay > 0 ? Number(delay.toFixed(3)) : undefined
+const line = threshold === DEFAULT_THRESHOLD ? undefined : threshold
+---
+
+<div class:list={['reveal', className]} data-delay={wait} data-threshold={line}><slot /></div>

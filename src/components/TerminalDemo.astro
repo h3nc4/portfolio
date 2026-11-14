@@ -1,0 +1,65 @@
+---
+// A terminal that types its script as live text, so no GIF is needed. `terminal.ts` plays it.
+import { Terminal } from 'lucide-react'
+
+import RickRoll from '@/components/RickRoll.astro'
+import type { TerminalStep } from '@/lib/terminal'
+import { cn } from '@/lib/utils'
+
+interface Props {
+  readonly script: TerminalStep[]
+  readonly class?: string
+}
+
+const { script, class: className } = Astro.props
+const rickRoll = script.some((step) => step.media === 'rick-roll')
+---
+
+<div
+  class={cn(
+    'border-dawn-line flex w-full flex-col overflow-hidden rounded-lg border bg-[#17120e]/90 font-mono text-xs shadow-xl',
+    className,
+  )}
+  data-testid="terminal-window"
+  data-terminal
+  data-script={JSON.stringify(script)}
+>
+  <div
+    class="border-dawn-line bg-dawn-surface/60 flex items-center justify-between border-b px-3 py-2"
+  >
+    <div class="flex gap-1.5">
+      <div class="h-2.5 w-2.5 rounded-full bg-red-500/20"></div>
+      <div class="h-2.5 w-2.5 rounded-full bg-yellow-500/20"></div>
+      <div class="h-2.5 w-2.5 rounded-full bg-green-500/20"></div>
+    </div>
+    <div class="text-dawn-stone flex items-center gap-1.5">
+      <Terminal className="h-3 w-3" />
+      <span>bash</span>
+    </div>
+    {/* Spacer for centering */}
+    <div class="w-12"></div>
+  </div>
+
+  <div
+    data-terminal-body
+    class="scrollbar-hide flex h-48 flex-col space-y-1 overflow-y-auto p-3 md:h-56"
+  >
+    <div class="flex gap-2" data-testid="active-prompt">
+      <span class="text-term-prompt shrink-0 font-medium">me@pc $</span><span
+        class="text-dawn-sand whitespace-pre-wrap"
+        ><span
+          data-testid="cursor"
+          class="bg-dawn-cream ml-1 inline-block h-3 w-1.5 animate-pulse align-middle"
+        ></span></span
+      >
+    </div>
+  </div>
+
+  {
+    rickRoll && (
+      <template data-media="rick-roll">
+        <RickRoll />
+      </template>
+    )
+  }
+</div>
