@@ -83,7 +83,8 @@ export function createTerminalView(body: HTMLElement, media: ParentNode): Termin
     }
     for (const line of lines.slice(drawn.length)) {
       const row = renderLine(line, media)
-      body.insertBefore(row, promptEl)
+      if (promptEl) promptEl.before(row)
+      else body.append(row)
       drawn.push(row)
     }
 
