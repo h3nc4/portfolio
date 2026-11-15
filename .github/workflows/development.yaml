@@ -82,38 +82,43 @@ jobs:
         with:
           name: github-pages
           path: artifact.tar
+      - name: Audit dependencies
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        run: |
+          $DEV_RUN -c 'npm run audit' >"${RUNNER_TEMP}/audit.log" 2>&1 || status=1
+          cat "${RUNNER_TEMP}/audit.log"
+          if [ "${status:-0}" -ne 0 ]; then
+            {
+              echo '## Advisories left for a human'
+              echo
+              echo '```'
+              cat "${RUNNER_TEMP}/audit.log"
+              echo '```'
+            } >>"${GITHUB_STEP_SUMMARY}"
+            echo "::error::npm audit fix cannot reach these without a major bump"
+          fi
+          exit "${status:-0}"
 
   browser-tests:
-    name: Browser Test (${{ matrix.project }})
+    name: Browser Test (${{ matrix.engine }})
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
         include:
-          # Desktop Browsers
-          - project: chromium
+          - engine: chromium
             install: chromium
-          - project: firefox
+            projects: --project chromium --project mobile-chrome --project pixel-7
+          - engine: firefox
             install: firefox
-          - project: webkit
+            projects: --project firefox
+          - engine: webkit
             install: webkit
-          # Mobile Viewports
-          - project: mobile-chrome
-            install: chromium
-          - project: mobile-safari
-            install: webkit
-          - project: pixel-7
-            install: chromium
-          - project: iphone-15
-            install: webkit
-          - project: ipad-pro
-            install: webkit
-          # Branded Desktop
-          - project: google-chrome
-            install: chrome
-          - project: msedge
-            install: msedge
+            projects: --project webkit --project mobile-safari --project iphone-15 --project ipad-pro
+          - engine: branded
+            install: chrome msedge
+            projects: --project google-chrome --project msedge
     steps:
       - name: Run actions/checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -140,7 +145,7 @@ jobs:
             set -e
             npm ci
             npx playwright install --with-deps ${{ matrix.install }}
-            npm run test:browser -- --project ${{ matrix.project }}
+            npm run test:browser -- ${{ matrix.projects }}
           '
 
   sonarqube:
