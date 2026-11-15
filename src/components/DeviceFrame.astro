@@ -1,0 +1,54 @@
+---
+/*
+ * Copyright (C) 2026  Henrique Almeida
+ * This file is part of Portfolio.
+ *
+ * Portfolio is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Portfolio is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// Interactive content in an iframe inside a handset mock. `siblings.ts` boots it once the page is idle.
+import PhoneShell from '@/components/PhoneShell.astro'
+
+interface Props {
+  /** The sibling host the frame shows, as in wasudoku for wasudoku.h3nc4.com. */
+  readonly sibling: string
+  readonly title: string
+  readonly class?: string
+  /** Scales the content, so 0.7 hands the app a viewport about 420px wide. */
+  readonly zoom?: number
+}
+
+const { sibling, title, class: className, zoom = 0.7 } = Astro.props
+---
+
+<PhoneShell screenClass="device-screen" class={className}>
+  <span slot="badge" class="flex items-center gap-2 px-2 py-1.5">
+    <span class="relative flex h-2 w-2" aria-hidden="true">
+      <span
+        data-testid="live-pulse"
+        class="bg-dawn-accent absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+      ></span>
+      <span class="bg-dawn-accent-hi relative inline-flex h-2 w-2 rounded-full"></span>
+    </span>
+    <span>Live Interactive Preview</span>
+  </span>
+  <iframe
+    title={title}
+    class="border-0 bg-black"
+    style={`--device-zoom: ${zoom}`}
+    loading="eager"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    data-sibling-src={sibling}
+  ></iframe>
+</PhoneShell>

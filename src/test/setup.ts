@@ -16,18 +16,4 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// A global setup file for Vitest
-
-import '@testing-library/jest-dom'
-
-import { vi } from 'vitest'
-
-// JSDOM does not implement ResizeObserver. Mock it for tests of components
-// that rely on it such as UI libraries.
-class ResizeObserverMock {
-  observe = vi.fn()
-  unobserve = vi.fn()
-  disconnect = vi.fn()
-}
-
-vi.stubGlobal('ResizeObserver', ResizeObserverMock)
+import '@testing-library/jest-dom/vitest'

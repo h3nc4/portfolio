@@ -1,0 +1,61 @@
+/*
+ * Copyright (C) 2026  Henrique Almeida
+ * This file is part of Portfolio.
+ *
+ * Portfolio is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Portfolio is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+export type Ease = (t: number) => number
+
+/** GSAP's power3.out, which despite the name is a quartic. */
+export const power3Out: Ease = (t) => 1 - (1 - t) ** 4
+
+/** GSAP's expo.out, which ScrollTrigger eased its scrub with. It lands on exactly 1. */
+export const expoOut: Ease = (t) => (t >= 1 ? 1 : 1 - 2 ** (-10 * t))
+
+/** One frame at 60Hz, in ms. */
+const TICK_MS = 1000 / 60
+
+// GSAP counted a tween from its last tick, a frame before the event that started it, so its
+// first frame drawn was already one frame in. Counting from there keeps that phase.
+export function frameTime(win: Window = window): number {
+  return Number(win.document.timeline?.currentTime ?? win.performance.now()) - TICK_MS
+}
+
+interface Tween {
+  /** Length in ms, after the delay. */
+  readonly duration: number
+  readonly delay?: number
+  readonly ease?: Ease
+  /** Called once a frame with the eased progress, from just above 0 up to exactly 1. */
+  readonly onUpdate: (progress: number) => void
+  readonly win?: Window
+}
+
+// Styles are written from the main thread each frame, as GSAP wrote them. A CSS transition
+// waited on its layer's raster and started up to 70ms late on the wide page.
+export function tween({ duration, delay = 0, ease = power3Out, onUpdate, win = window }: Tween) {
+  const start = frameTime(win) + delay
+  let frame = 0
+
+  const tick = (now: number) => {
+    const elapsed = now - start
+    if (elapsed >= 0) onUpdate(ease(Math.min(1, elapsed / duration)))
+    frame = elapsed < duration ? win.requestAnimationFrame(tick) : 0
+  }
+
+  frame = win.requestAnimationFrame(tick)
+
+  return () => win.cancelAnimationFrame(frame)
+}

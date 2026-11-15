@@ -1,0 +1,101 @@
+---
+/*
+ * Copyright (C) 2026  Henrique Almeida
+ * This file is part of Portfolio.
+ *
+ * Portfolio is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Portfolio is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// App screenshots in a handset, picked from the pill above it or by a tap or swipe. `screens.ts` drives it.
+import gestureSettingsSmall from '@/assets/hypergesture/gesture-settings-360.webp'
+import gestureSettingsLarge from '@/assets/hypergesture/gesture-settings-720.webp'
+import homeSmall from '@/assets/hypergesture/home-360.webp'
+import homeLarge from '@/assets/hypergesture/home-720.webp'
+import setupSmall from '@/assets/hypergesture/setup-360.webp'
+import setupLarge from '@/assets/hypergesture/setup-720.webp'
+import PhoneShell from '@/components/PhoneShell.astro'
+import { cn } from '@/lib/utils'
+import { PILL_ACTIVE, PILL_IDLE } from '@/scripts/screens'
+
+/** Pixel size of the narrower export, which the larger one doubles. */
+const SHOT_WIDTH = 360
+const SHOT_HEIGHT = 757
+const SHOT_SIZES = '(min-width: 416px) 294px, calc(100vw - 122px)'
+
+const SCREENS = [
+  {
+    name: 'Home',
+    alt: 'HyperGesture home screen in dark theme, showing gestures on, with toggles for app switching and Circle to Search.',
+    small: homeSmall.src,
+    large: homeLarge.src,
+  },
+  {
+    name: 'Gestures',
+    alt: 'Gesture settings in dark theme, listing back, home and recents gestures above sliders for edge width and swipe distance.',
+    small: gestureSettingsSmall.src,
+    large: gestureSettingsLarge.src,
+  },
+  {
+    name: 'Setup',
+    alt: 'HyperGesture setup checklist in dark theme, with restricted settings and accessibility marked done and battery restrictions left to check.',
+    small: setupSmall.src,
+    large: setupLarge.src,
+  },
+]
+
+const PILL =
+  'focus-visible:ring-dawn-accent/60 rounded-full px-2.5 py-1 transition-colors outline-none focus-visible:ring-2'
+---
+
+<PhoneShell data-screens>
+  <fieldset
+    slot="badge"
+    aria-label="HyperGesture app screens"
+    class="m-0 flex min-w-0 border-0 p-0.5"
+  >
+    {SCREENS.map((screen, index) => (
+      <button
+        type="button"
+        aria-pressed={index === 0 ? 'true' : 'false'}
+        class={cn(PILL, (index === 0 ? PILL_ACTIVE : PILL_IDLE).join(' '))}
+      >
+        {screen.name}
+      </button>
+    ))}
+  </fieldset>
+
+  {SCREENS.map((screen, index) => (
+    <img
+      src={screen.small}
+      srcset={`${screen.small} ${SHOT_WIDTH}w, ${screen.large} ${SHOT_WIDTH * 2}w`}
+      sizes={SHOT_SIZES}
+      width={SHOT_WIDTH}
+      height={SHOT_HEIGHT}
+      alt={screen.alt}
+      aria-hidden={index === 0 ? 'false' : 'true'}
+      loading={index === 0 ? 'eager' : 'lazy'}
+      decoding="async"
+      class={cn(
+        'absolute inset-0 h-full w-full bg-[#0f151c] object-contain object-top transition-opacity duration-300',
+        index === 0 ? 'opacity-100' : 'opacity-0',
+      )}
+    />
+  ))}
+
+  <button
+    type="button"
+    aria-label="Next app screen"
+    data-screen-next
+    class="focus-visible:ring-dawn-accent/60 absolute inset-0 cursor-pointer touch-pan-y outline-none select-none focus-visible:ring-2 focus-visible:ring-inset"
+  ></button>
+</PhoneShell>

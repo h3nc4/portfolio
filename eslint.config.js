@@ -16,56 +16,33 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { createRequire } from 'node:module'
-
 import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefreshPlugin from 'eslint-plugin-react-refresh'
-import { configs as tseslintConfigs } from 'typescript-eslint'
-import reactPlugin from 'eslint-plugin-react'
-import jsxA11y from 'eslint-plugin-jsx-a11y'
-import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import { configs as astroConfigs } from 'eslint-plugin-astro'
 import { flatConfigs as importXConfigs } from 'eslint-plugin-import-x'
-import testingLibrary from 'eslint-plugin-testing-library'
 import jestDom from 'eslint-plugin-jest-dom'
 import promise from 'eslint-plugin-promise'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import testingLibrary from 'eslint-plugin-testing-library'
 import unusedImports from 'eslint-plugin-unused-imports'
-
-const reactVersion = createRequire(import.meta.url)('react/package.json').version
+import globals from 'globals'
+import { configs as tseslintConfigs } from 'typescript-eslint'
 
 export default [
-  { ignores: ['dist', 'coverage'] },
+  { ignores: ['dist', 'coverage', '.astro'] },
   js.configs.recommended,
   ...tseslintConfigs.recommended,
-  {
-    settings: {
-      react: {
-        version: reactVersion,
-      },
-    },
-  },
-  reactPlugin.configs.flat.recommended,
-  reactPlugin.configs.flat['jsx-runtime'],
-  jsxA11y.flatConfigs.recommended,
+  ...astroConfigs.recommended,
+  ...astroConfigs['jsx-a11y-recommended'],
   importXConfigs.recommended,
   importXConfigs.typescript,
   promise.configs['flat/recommended'],
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{js,ts,astro}'],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2022,
       globals: globals.browser,
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
     },
     settings: {
-      react: {
-        version: reactVersion,
-      },
       'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
@@ -74,16 +51,10 @@ export default [
       },
     },
     plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefreshPlugin,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      'react/prop-types': 'off',
-      'react/no-unknown-property': ['error', { ignore: ['class'] }],
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'import-x/first': 'error',
@@ -106,13 +77,17 @@ export default [
     },
   },
   {
-    files: ['**/*.test.{ts,tsx}', 'src/test/**/*.{ts,tsx}'],
+    files: ['**/*.config.{js,ts}', 'vitest.config.browser.ts'],
+    languageOptions: { globals: globals.node },
+  },
+  {
+    files: ['**/*.test.ts', 'src/test/**/*.ts'],
     plugins: {
       'testing-library': testingLibrary,
       'jest-dom': jestDom,
     },
     rules: {
-      ...testingLibrary.configs['flat/react'].rules,
+      ...testingLibrary.configs['flat/dom'].rules,
       ...jestDom.configs['flat/recommended'].rules,
       'testing-library/no-node-access': 'off',
     },

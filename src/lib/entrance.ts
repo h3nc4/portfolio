@@ -18,6 +18,9 @@
 
 type Entrance = Pick<Location, 'protocol' | 'host'>
 
+/** The entrance a page built ahead of time links to, until it learns which one served it. */
+export const CANONICAL: Entrance = { protocol: 'https:', host: 'h3nc4.com' }
+
 /**
  * Builds the URL of a service one label under whatever host served this page, so
  * a link follows the entrance rather than sending an onion visitor to the clearnet.

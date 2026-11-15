@@ -1,0 +1,33 @@
+---
+/*
+ * Copyright (C) 2026  Henrique Almeida
+ * This file is part of Portfolio.
+ *
+ * Portfolio is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Portfolio is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
+ */
+// A section title between two rules, the short one in stone and the long one in `rule`
+interface Props {
+  readonly title: string
+  readonly rule: 'bg-dawn-line' | 'bg-dawn-cream/15'
+  readonly class?: string
+}
+
+const { title, rule, class: className = 'mb-3' } = Astro.props
+---
+
+<div class:list={[className, 'flex items-center gap-4']}>
+  <span class="bg-dawn-stone h-px w-12"></span>
+  <h2 class="text-dawn-cream text-2xl font-medium tracking-tight">{title}</h2>
+  <span class:list={[rule, 'h-px flex-1']}></span>
+</div>
