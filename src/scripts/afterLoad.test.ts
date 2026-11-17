@@ -133,11 +133,13 @@ describe('afterLoad', () => {
     expect(win.cancelIdleCallback).not.toHaveBeenCalled()
   })
 
-  it('defaults to the current window', async () => {
-    vi.useRealTimers()
+  // The fake clock replaces the current window's idle callback too, so a busy browser cannot delay it.
+  it('defaults to the current window', () => {
     const run = vi.fn()
     afterLoad(run)
 
-    await vi.waitFor(() => expect(run).toHaveBeenCalledOnce())
+    expect(run).not.toHaveBeenCalled()
+    vi.runAllTimers()
+    expect(run).toHaveBeenCalledOnce()
   })
 })
