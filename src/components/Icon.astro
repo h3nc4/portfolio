@@ -16,11 +16,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
-// Drawn to static SVG at build time, so the page ships the markup and none of the library
+// Drawn to static SVG at build time. The page gets the markup and none of the library.
 import { Download, ExternalLink, GitBranch } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
 
 import type { FeaturedIcon } from '@/data/featured'
+import { svg } from '@/lib/svg'
 
 interface Props {
   readonly name: FeaturedIcon
@@ -36,7 +37,6 @@ const ICONS = {
 }
 
 const { name, ...rest } = Astro.props
-const Component = ICONS[name]
 ---
 
-<Component {...rest} />
+<Fragment set:html={svg(ICONS[name], rest)} />

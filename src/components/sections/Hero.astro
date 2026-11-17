@@ -22,6 +22,7 @@ import { SiGithub } from 'react-icons/si'
 
 import Reveal from '@/components/Reveal.astro'
 import ButtonLink from '@/components/ui/ButtonLink.astro'
+import { svg } from '@/lib/svg'
 
 const OUTLINE =
   'border-dawn-cream/30 bg-dawn-ground/55 hover:border-dawn-accent hover:text-dawn-accent gap-2 backdrop-blur-sm'
@@ -47,7 +48,7 @@ const OUTLINE =
         rel="noopener noreferrer"
         aria-label="GitHub profile"
       >
-        <SiGithub className="h-4 w-4" aria-hidden="true" />
+        <Fragment set:html={svg(SiGithub, { className: 'h-4 w-4', 'aria-hidden': 'true' })} />
         GitHub
       </ButtonLink>
       <ButtonLink
@@ -57,14 +58,14 @@ const OUTLINE =
         target="_blank"
         rel="noopener noreferrer"
       >
-        <FaLinkedin className="h-4 w-4" aria-hidden="true" />
+        <Fragment set:html={svg(FaLinkedin, { className: 'h-4 w-4', 'aria-hidden': 'true' })} />
         LinkedIn
       </ButtonLink>
       <ButtonLink
         class="bg-dawn-accent text-dawn-ground hover:bg-dawn-accent-hi gap-2 font-medium"
         href="mailto:me@h3nc4.com"
       >
-        <Mail className="h-4 w-4" />
+        <Fragment set:html={svg(Mail, { className: 'h-4 w-4' })} />
         Contact Me
       </ButtonLink>
     </div>
