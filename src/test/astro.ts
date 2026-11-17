@@ -16,24 +16,18 @@
  * along with Portfolio.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { getContainerRenderer } from '@astrojs/react/container-renderer'
 import {
   type ContainerRenderOptions,
   experimental_AstroContainer as AstroContainer,
 } from 'astro/container'
-// eslint-disable-next-line import-x/no-unresolved -- a virtual module only Astro's Vite plugin resolves
-import { loadRenderers } from 'astro:container'
 import { JSDOM } from 'jsdom'
 
 type AstroComponent = Parameters<AstroContainer['renderToString']>[0]
 
 let shared: Promise<AstroContainer> | undefined
 
-// React draws the lucide and react-icons components to static SVG, as it does in the build
 function container(): Promise<AstroContainer> {
-  shared ??= loadRenderers([getContainerRenderer()]).then((renderers) =>
-    AstroContainer.create({ renderers }),
-  )
+  shared ??= AstroContainer.create()
   return shared
 }
 
