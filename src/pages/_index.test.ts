@@ -26,6 +26,7 @@ import { promisify } from 'node:util'
 import { within } from '@testing-library/dom'
 
 import Page from '@/pages/index.astro'
+import { CPU_PAINT_SCRIPT } from '@/scripts/cpuPaint'
 import { comments, parse, renderHtml } from '@/test/astro'
 
 const PANELS = [
@@ -159,11 +160,14 @@ describe('index page', () => {
       if (outDir) await rm(outDir, { recursive: true, force: true })
     })
 
-    it('ships exactly one script, a module', () => {
-      const scripts = built.querySelectorAll('script')
+    it('ships one module and the inline marker for CPU painting', () => {
+      const modules = built.querySelectorAll('script[type="module"]')
+      const inline = built.head.querySelectorAll('script:not([type]):not([src])')
 
-      expect(scripts).toHaveLength(1)
-      expect(scripts[0]).toHaveAttribute('type', 'module')
+      expect(built.querySelectorAll('script')).toHaveLength(2)
+      expect(modules).toHaveLength(1)
+      expect(inline).toHaveLength(1)
+      expect(inline[0]).toHaveTextContent(CPU_PAINT_SCRIPT, { normalizeWhitespace: false })
     })
 
     it('inlines the stylesheet and links none', () => {
