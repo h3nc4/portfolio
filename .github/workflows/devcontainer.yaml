@@ -12,7 +12,6 @@ on:
     paths:
       - 'docker/dev.Dockerfile'
       - '.devcontainer.json'
-  workflow_dispatch:
 
 jobs:
   bump:
@@ -48,7 +47,7 @@ jobs:
 
   release:
     name: Publish the pinned dev container
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-release
