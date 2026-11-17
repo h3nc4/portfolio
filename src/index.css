@@ -203,3 +203,45 @@
     transform-origin: 0 0;
   }
 }
+
+/* A CPU painter redraws the blur and the three fixed layers on every scroll frame,
+   so under `cpu-paint` they scroll with the page and the panel is opaque. */
+html.cpu-paint::before,
+html.cpu-paint body::before {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 100vh;
+  height: 100lvh;
+}
+
+/* The painting ends a viewport down, and the scrim fades it into the ground below. */
+html.cpu-paint body::before {
+  background: linear-gradient(
+    to bottom,
+    rgb(27 22 17 / 0.18) 0%,
+    rgb(27 22 17 / 0.42) 38%,
+    rgb(27 22 17 / 0.6) 80%,
+    rgb(27 22 17 / 1) 100%
+  );
+}
+
+/* The foot shade then sits at the foot of the page rather than of the viewport. */
+html.cpu-paint body {
+  position: relative;
+}
+
+html.cpu-paint body::after {
+  position: absolute;
+}
+
+/* Without the blur any translucency lets the sticky hero heading show through the panel. */
+html.cpu-paint .panel {
+  background: #17120e;
+  backdrop-filter: none;
+}
+
+/* An endless pulse keeps a CPU painter busy while nothing else on the page moves. */
+html.cpu-paint .animate-ping,
+html.cpu-paint .animate-pulse {
+  animation-iteration-count: 3;
+}
