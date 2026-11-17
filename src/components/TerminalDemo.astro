@@ -20,6 +20,7 @@
 import { Terminal } from 'lucide-react'
 
 import RickRoll from '@/components/RickRoll.astro'
+import { svg } from '@/lib/svg'
 import type { TerminalStep } from '@/lib/terminal'
 import { cn } from '@/lib/utils'
 
@@ -48,7 +49,7 @@ const rickRoll = script.some((step) => step.media === 'rick-roll')
       <div class="h-2.5 w-2.5 rounded-full bg-green-500/20"></div>
     </div>
     <div class="text-dawn-stone flex items-center gap-1.5">
-      <Terminal className="h-3 w-3" />
+      <Fragment set:html={svg(Terminal, { className: 'h-3 w-3' })} />
       <span>bash</span>
     </div>
     {/* Spacer for centering */}
