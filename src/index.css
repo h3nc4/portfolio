@@ -204,10 +204,8 @@
   }
 }
 
-/*
- * A CPU painter redraws the blur and the three fixed layers on every scroll frame,
- * so under `cpu-paint` they scroll with the page and the panel is opaque.
- */
+/* A CPU painter redraws the blur and the three fixed layers on every scroll frame,
+   so under `cpu-paint` they scroll with the page and the panel is opaque. */
 html.cpu-paint::before,
 html.cpu-paint body::before {
   position: absolute;
