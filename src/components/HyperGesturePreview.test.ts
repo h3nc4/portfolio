@@ -37,7 +37,7 @@ describe('HyperGesturePreview', () => {
       expect(image).toHaveAttribute('alt', expect.stringMatching(/\w{4,}/))
       expect(image).toHaveAttribute('width', '360')
       expect(image).toHaveAttribute('height', '757')
-      expect(image).toHaveAttribute('srcset', expect.stringMatching(/ 360w, .+ 720w$/))
+      expect(image).toHaveAttribute('srcset', expect.stringMatching(/ 360w, .+ 540w, .+ 720w$/))
     })
   })
 
