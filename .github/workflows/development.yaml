@@ -253,9 +253,6 @@ jobs:
           image="$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')"
           version="$(echo "${GITHUB_SHA}" | cut -c1-7)"
           tags="${image}:latest"
-          if [ "${GITHUB_EVENT_NAME}" = "push" ] && [ "${GITHUB_REF}" = "refs/heads/main" ]; then
-            tags="${tags},${image}:${version}"
-          fi
           # The dev container pins the image the builder stage runs, and it is the only copy.
           dev_image="$(scripts/devcontainer-image.sh)"
           {
