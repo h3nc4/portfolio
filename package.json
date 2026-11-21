@@ -35,7 +35,7 @@
     "@types/react-dom": "19.3.0",
     "@vitest/browser-playwright": "5.1.1",
     "@vitest/coverage-v8": "5.1.1",
-    "astro": "7.4.12",
+    "astro": "7.4.13",
     "astro-eslint-parser": "3.2.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
