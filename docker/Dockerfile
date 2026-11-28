@@ -19,7 +19,7 @@
 
 ################################################################################
 # Build stage
-ARG DEV_IMAGE="h3nc4/portfolio-dev:latest@sha256:dd22d3e9f9ea83d5dd3102549ca8a1ebd85a78927cfabb897852e33ee7ed902a"
+ARG DEV_IMAGE="h3nc4/portfolio-dev:latest@sha256:7e393c2ea3a30b26b2141bf21a265d7ffe51d3c341086dc5026a1e55e2478ddb"
 
 FROM ${DEV_IMAGE} AS portfolio-builder
 
